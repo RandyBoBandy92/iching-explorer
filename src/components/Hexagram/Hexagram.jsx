@@ -3,17 +3,25 @@ import Line from "../Line/Line";
 import "./Hexagram.css";
 
 function Hexagram({ hexagramData, type }) {
+  function renderLines() {
+    const lines = [];
+    for (let lineNum in hexagramData.lines) {
+      const lineData = hexagramData.lines[lineNum];
+      lines.push(
+        <Line
+          lineData={lineData}
+          lineNumber={lineNum}
+          key={lineNum}
+          type={type}
+        />
+      );
+    }
+    return lines;
+  }
   return (
     <div className={`hexagram ${type}`}>
       {/* Your component content goes here */}
-      {hexagramData.lines.map((line, index) => (
-        <Line
-          lineData={line}
-          key={`${type}=${index}-${line}`}
-          index={index}
-          type={type}
-        />
-      ))}
+      {renderLines()}
     </div>
   );
 }

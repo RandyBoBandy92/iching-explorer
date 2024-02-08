@@ -5,12 +5,26 @@ const initialState = {
   primaryHexagram: {
     hexagram: 0,
     trigrams: ["", ""],
-    lines: [6, 7, 8, 9, 0, 0],
+    lines: {
+      line6: 9,
+      line5: 8,
+      line4: 7,
+      line3: 6,
+      line2: 0,
+      line1: 0,
+    },
   },
   transformedHexagram: {
     hexagram: 0,
     trigrams: ["", ""],
-    lines: [0, 0, 0, 0, 0, 0],
+    lines: {
+      line6: 0,
+      line5: 0,
+      line4: 0,
+      line3: 0,
+      line2: 0,
+      line1: 0,
+    },
   },
 };
 

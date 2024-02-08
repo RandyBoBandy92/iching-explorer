@@ -47,25 +47,6 @@ function getTransformationSymbol(lineNumber) {
   }
 }
 
-function getLineNumber(index) {
-  // index will be a number between 0 and 5
-
-  switch (index) {
-    case 0:
-      return 6;
-    case 1:
-      return 5;
-    case 2:
-      return 4;
-    case 3:
-      return 3;
-    case 4:
-      return 2;
-    case 5:
-      return 1;
-  }
-}
-
 function getCorrectLineEnergy(lineType, lineNumber) {
   // lineNumber 1, 3, 5 are supposed to be old-yang or young-yang
   // lineNumber 2, 4, 6 are supposed to be old-yin or young-yin
@@ -85,6 +66,5 @@ export {
   getLineType,
   getYinYang,
   getTransformationSymbol,
-  getLineNumber,
   getCorrectLineEnergy,
 };
