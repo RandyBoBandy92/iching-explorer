@@ -1,0 +1,32 @@
+.line {
+  width: 6rem;
+  height: 1rem;
+  border: 1px solid black;
+  display: flex;
+}
+
+.line-left,
+.line-middle,
+.line-right {
+  height: 100%;
+  width: 100%;
+}
+
+.line-middle {
+  display: grid;
+  place-items: center;
+  font-weight: bolder;
+  color: transparent;
+  text-shadow: 0 0 0 black;
+}
+
+.line.yang .line-left,
+.line.yang .line-middle,
+.line.yang .line-right {
+  background-color: black;
+}
+
+.line.yin .line-left,
+.line.yin .line-right {
+  background-color: black;
+}
