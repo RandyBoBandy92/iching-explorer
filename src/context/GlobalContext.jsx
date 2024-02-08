@@ -35,9 +35,30 @@ const GlobalContext = createContext();
 const GlobalProvider = ({ children }) => {
   const [iChingReading, setIChingReading] = useState(initialState);
 
+  function cycleLine(line, type) {
+    const newReading = { ...iChingReading };
+    const hexagram = newReading[type];
+    const newHexagram = { ...hexagram };
+    const newLines = { ...newHexagram.lines };
+    if (newLines[line] === 0) {
+      newLines[line] = 6;
+    } else if (newLines[line] === 6) {
+      newLines[line] = 7;
+    } else if (newLines[line] === 7) {
+      newLines[line] = 8;
+    } else if (newLines[line] === 8) {
+      newLines[line] = 9;
+    } else if (newLines[line] === 9) {
+      newLines[line] = 6;
+    }
+    newHexagram.lines = newLines;
+    newReading[type] = newHexagram;
+    setIChingReading(newReading);
+  }
+
   // Provide the context value to the consumer components
   return (
-    <GlobalContext.Provider value={{ iChingReading }}>
+    <GlobalContext.Provider value={{ iChingReading, cycleLine }}>
       {children}
     </GlobalContext.Provider>
   );

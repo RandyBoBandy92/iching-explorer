@@ -11,7 +11,7 @@ function App() {
   console.log(primaryHexagram, transformedHexagram);
   return (
     <div className="i-ching-container">
-      <Hexagram hexagramData={primaryHexagram} type="primary" />
+      <Hexagram hexagramData={primaryHexagram} type="primaryHexagram" />
       {/* <Hexagram hexagramData={transformedHexagram} type="transformed" /> */}
     </div>
   );

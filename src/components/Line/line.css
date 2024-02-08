@@ -17,7 +17,14 @@
   place-items: center;
   font-weight: bolder;
   color: transparent;
+}
+
+.old-yin .line-middle {
   text-shadow: 0 0 0 black;
+}
+
+.old-yang .line-middle {
+  text-shadow: 0 0 0 white;
 }
 
 .line.yang .line-left,

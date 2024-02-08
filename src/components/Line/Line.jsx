@@ -7,6 +7,8 @@ import {
   getTransformationSymbol,
   getYinYang,
 } from "../../utilities/toolbelt";
+import { useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
 
 function Line({ lineData, lineNumber, type }) {
   const lineType = getLineType(lineData);
@@ -15,12 +17,14 @@ function Line({ lineData, lineNumber, type }) {
   const lineEnergy = getCorrectLineEnergy(lineType, lineNumber);
 
   const activeLine = lineType !== "none";
+  const { cycleLine } = useContext(GlobalContext);
 
   return (
     <div
       className={`line ${lineValue} ${lineNumber} ${lineType} ${
         activeLine ? lineEnergy : ""
       }`}
+      onClick={() => cycleLine(lineNumber, type)}
     >
       <div className="line-left"></div>
       <div className="line-middle">
