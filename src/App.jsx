@@ -13,6 +13,7 @@ function App() {
     random,
     setRandom,
     findDesiredHexagram,
+    changingLinesExist,
   } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
@@ -100,9 +101,11 @@ function App() {
     };
   }, []);
 
+  const showTransformClass = changingLinesExist ? "show-transform" : "";
+
   return (
     <>
-      <div className="i-ching-container">
+      <div className={`i-ching-container ${showTransformClass}`}>
         <Hexagram type="primary" />
         {/* {changingLinesExist && } */}
         <Hexagram type="transformed" />
