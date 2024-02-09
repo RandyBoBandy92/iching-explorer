@@ -80,7 +80,7 @@ const hexagramStates = [
   { number: 58, trigrams: ["Lake", "Lake"] },
   { number: 59, trigrams: ["Wind", "Lake"] },
   { number: 60, trigrams: ["Lake", "Wind"] },
-  { number: 61, trigrams: ["Wind", "Heaven"] },
+  { number: 61, trigrams: ["Wind", "Lake"] },
   { number: 62, trigrams: ["Heaven", "Wind"] },
   { number: 63, trigrams: ["Water", "Fire"] },
   { number: 64, trigrams: ["Fire", "Water"] },

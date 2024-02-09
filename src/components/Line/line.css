@@ -49,5 +49,9 @@
 .line.correlate .line-left,
 .line.correlate .line-right,
 .line.correlate .line-middle {
-  background-color: red;
+  background-color: purple;
+}
+
+.line.correlate.yin .line-middle {
+  background: transparent;
 }
