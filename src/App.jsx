@@ -3,11 +3,15 @@ import "./App.css";
 import { useContext } from "react";
 import { GlobalContext } from "./context/GlobalContext";
 import Hexagram from "./components/Hexagram/Hexagram";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 function App() {
   const { changingLinesExist, hexagram, forceChangeHexagram } =
     useContext(GlobalContext);
-  const [newHexagramNumber, setNewHexagramNumber] = useState(0);
+  const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
+  // add a use ref here
+  const inputRef = useRef();
 
   function handleIncrementOrDecrement(increment) {
     // if new value is going to be less than 0, set it to 0
@@ -19,6 +23,29 @@ function App() {
     forceChangeHexagram(newHexNum);
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    forceChangeHexagram(+newHexagramNumber);
+    // blur the input
+    inputRef.current.blur();
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // if key down is '/' focus on the input
+      if (e.key === "/") {
+        inputRef.current.focus();
+        // highlight the value inside the input
+        // inputRef.current.select();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <>
       <div className="i-ching-container">
@@ -28,19 +55,21 @@ function App() {
         {/* <Hexagram hexagramData={transformedHexagram} type="transformed" /> */}
       </div>
       <div className="debug">
+        <hr />
         <h2>debug menu</h2>
-        <input
-          type="number"
-          min={0}
-          max={64}
-          value={newHexagramNumber}
-          onChange={(e) => {
-            setNewHexagramNumber(e.target.value);
-          }}
-        />
-        <button onClick={() => forceChangeHexagram(+newHexagramNumber)}>
-          Change Hexagram
-        </button>
+        <form onSubmit={handleSubmit}>
+          <input
+            ref={inputRef}
+            type="number"
+            min={0}
+            max={64}
+            value={newHexagramNumber}
+            onChange={(e) => {
+              setNewHexagramNumber(e.target.value);
+            }}
+          />
+          <button type="submit">Change Hexagram</button>
+        </form>
 
         <button onClick={() => handleIncrementOrDecrement(1)}>Increase</button>
         <button onClick={() => handleIncrementOrDecrement(-1)}>
