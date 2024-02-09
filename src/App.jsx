@@ -78,6 +78,12 @@ function App() {
     }
   };
 
+  function handleReset() {
+    setNewHexagramNumber(0);
+    forceChangeHexagram(0);
+    setDesiredHexagramNumber(0);
+  }
+
   useEffect(() => {
     if (loadingReading) {
       findDesiredHexagram(loadingReading);
@@ -115,6 +121,7 @@ function App() {
         <button onClick={() => handleIncrementOrDecrement(-1)}>
           Decrement
         </button>
+        <button onClick={handleReset}>Reset</button>
         <form onSubmit={handleDesiredHexSubmit}>
           <input
             type="number"
