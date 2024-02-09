@@ -7,15 +7,15 @@ const lineStates = [
 ];
 
 const trigramStates = [
-  { name: "None", trigram: ["none", "none", "none"] },
-  { name: "Heaven", trigram: ["yang", "yang", "yang"] },
-  { name: "Earth", trigram: ["yin", "yin", "yin"] },
-  { name: "Thunder", trigram: ["yin", "yin", "yang"] },
-  { name: "Wind", trigram: ["yang", "yang", "yin"] },
-  { name: "Water", trigram: ["yin", "yang", "yin"] },
-  { name: "Mountain", trigram: ["yang", "yin", "yin"] },
-  { name: "Fire", trigram: ["yang", "yin", "yang"] },
-  { name: "Lake", trigram: ["yin", "yang", "yang"] },
+  { name: "None", trigramLines: ["none", "none", "none"] },
+  { name: "Heaven", trigramLines: ["yang", "yang", "yang"] },
+  { name: "Earth", trigramLines: ["yin", "yin", "yin"] },
+  { name: "Thunder", trigramLines: ["yin", "yin", "yang"] },
+  { name: "Wind", trigramLines: ["yang", "yang", "yin"] },
+  { name: "Water", trigramLines: ["yin", "yang", "yin"] },
+  { name: "Mountain", trigramLines: ["yang", "yin", "yin"] },
+  { name: "Fire", trigramLines: ["yang", "yin", "yang"] },
+  { name: "Lake", trigramLines: ["yin", "yang", "yang"] },
 ];
 
 const hexagramStates = [

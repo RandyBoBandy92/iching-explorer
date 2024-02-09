@@ -40,12 +40,12 @@ const GlobalProvider = ({ children }) => {
     );
     // get the corresponding lines
     const newLines = {
-      line6: { value: newUpperTrigram.trigram[0], changing: false },
-      line5: { value: newUpperTrigram.trigram[1], changing: false },
-      line4: { value: newUpperTrigram.trigram[2], changing: false },
-      line3: { value: newLowerTrigram.trigram[0], changing: false },
-      line2: { value: newLowerTrigram.trigram[1], changing: false },
-      line1: { value: newLowerTrigram.trigram[2], changing: false },
+      line6: { value: newUpperTrigram.trigramLines[0], changing: false },
+      line5: { value: newUpperTrigram.trigramLines[1], changing: false },
+      line4: { value: newUpperTrigram.trigramLines[2], changing: false },
+      line3: { value: newLowerTrigram.trigramLines[0], changing: false },
+      line2: { value: newLowerTrigram.trigramLines[1], changing: false },
+      line1: { value: newLowerTrigram.trigramLines[2], changing: false },
     };
     // set all the new line values
     setLines(newLines);
@@ -74,15 +74,15 @@ const GlobalProvider = ({ children }) => {
     // find the trigram names
     let upperTrigram = trigramStates.find(
       (trigram) =>
-        trigram.trigram[0] === line6.value &&
-        trigram.trigram[1] === line5.value &&
-        trigram.trigram[2] === line4.value
+        trigram.trigramLines[0] === line6.value &&
+        trigram.trigramLines[1] === line5.value &&
+        trigram.trigramLines[2] === line4.value
     );
     let lowerTrigram = trigramStates.find(
       (trigram) =>
-        trigram.trigram[0] === line3.value &&
-        trigram.trigram[1] === line2.value &&
-        trigram.trigram[2] === line1.value
+        trigram.trigramLines[0] === line3.value &&
+        trigram.trigramLines[1] === line2.value &&
+        trigram.trigramLines[2] === line1.value
     );
 
     if (!upperTrigram) {
