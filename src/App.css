@@ -1,0 +1,4 @@
+.i-ching-container {
+  display: flex;
+  justify-content: space-around;
+}

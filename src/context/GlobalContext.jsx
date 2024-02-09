@@ -42,9 +42,9 @@ const GlobalProvider = ({ children }) => {
     });
   };
 
-  const checkTrigrams = () => {
+  const checkTrigrams = (linesToCheck) => {
     // grab lines 6,5,4 and 3,2,1
-    const { line6, line5, line4, line3, line2, line1 } = lines;
+    const { line6, line5, line4, line3, line2, line1 } = linesToCheck;
     // use lines 6,5,4 to find the upper trigram
     // use lines 3,2,1 to find the lower trigram
     // find the trigram names
@@ -73,12 +73,12 @@ const GlobalProvider = ({ children }) => {
     setTrigrams([upperTrigram, lowerTrigram]);
   };
 
-  const checkHexagram = () => {
+  const checkHexagram = (trigramsToCheck) => {
     // find the hexagram number
     let newHexagram = hexagramStates.find(
       (hexagram) =>
-        hexagram.trigrams[0] === trigrams[0].name &&
-        hexagram.trigrams[1] === trigrams[1].name
+        hexagram.trigrams[0] === trigramsToCheck[0].name &&
+        hexagram.trigrams[1] === trigramsToCheck[1].name
     );
     if (!newHexagram) {
       newHexagram = hexagramStates[0];
@@ -88,21 +88,41 @@ const GlobalProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkTrigrams();
+    checkTrigrams(lines);
   }, [lines]);
 
   useEffect(() => {
-    // if both trigrams are not "None" then check the hexagram
-    if (trigrams[0].name !== "None" && trigrams[1].name !== "None") {
-      checkHexagram();
-    } else {
-      setHexagram(0);
-    }
+    checkHexagram(trigrams);
   }, [trigrams]);
+
+  const getTransformedLines = (primaryLines) => {
+    const transformedLines = {};
+    for (const lineNumber in primaryLines) {
+      const line = primaryLines[lineNumber];
+      const transformedLine = { ...line };
+      if (transformedLine.changing) {
+        transformedLine.value =
+          transformedLine.value === "yin" ? "yang" : "yin";
+        transformedLine.changing = false;
+      }
+      transformedLines[lineNumber] = transformedLine;
+    }
+    return transformedLines;
+  };
+
+  const transformedLines = getTransformedLines(lines);
 
   // Provide the context value to the consumer components
   return (
-    <GlobalContext.Provider value={{ hexagram, trigrams, lines, cycleLine }}>
+    <GlobalContext.Provider
+      value={{
+        hexagram,
+        trigrams,
+        lines,
+        cycleLine,
+        transformedLines,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

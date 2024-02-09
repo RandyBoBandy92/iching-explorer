@@ -5,11 +5,11 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 
 function Hexagram({ type }) {
-  const { lines } = useContext(GlobalContext);
-  function renderLines() {
+  const { lines, transformedLines } = useContext(GlobalContext);
+  function renderLines(linesToRender) {
     const lineComponents = [];
-    for (let lineNum in lines) {
-      const lineData = lines[lineNum];
+    for (let lineNum in linesToRender) {
+      const lineData = linesToRender[lineNum];
       lineComponents.push(
         <Line
           lineData={lineData}
@@ -24,7 +24,7 @@ function Hexagram({ type }) {
   return (
     <div className={`hexagram ${type}`}>
       {/* Your component content goes here */}
-      {renderLines()}
+      {renderLines(type === "primary" ? lines : transformedLines)}
     </div>
   );
 }
