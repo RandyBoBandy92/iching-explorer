@@ -16,7 +16,7 @@ function App() {
   } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
-  // add a use ref here
+
   const inputRef = useRef();
 
   function handleIncrementOrDecrement(increment) {
