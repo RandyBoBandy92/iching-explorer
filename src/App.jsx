@@ -8,13 +8,14 @@ import { useRef } from "react";
 
 function App() {
   const {
-    changingLinesExist,
     hexagram,
     forceChangeHexagram,
     random,
     setRandom,
+    findDesiredHexagram,
   } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
+  const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
   // add a use ref here
   const inputRef = useRef();
 
@@ -28,11 +29,16 @@ function App() {
     forceChangeHexagram(newHexNum);
   }
 
-  const handleSubmit = (e) => {
+  const handleHexSubmit = (e) => {
     e.preventDefault();
     forceChangeHexagram(+newHexagramNumber);
     // blur the input
     inputRef.current.blur();
+  };
+
+  const handleDesiredHexSubmit = (e) => {
+    e.preventDefault();
+    findDesiredHexagram(+desiredHexagramNumber);
   };
 
   useEffect(() => {
@@ -62,7 +68,7 @@ function App() {
       <div className="debug">
         <hr />
         <h2>debug menu</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleHexSubmit}>
           <input
             ref={inputRef}
             type="number"
@@ -73,13 +79,22 @@ function App() {
               setNewHexagramNumber(e.target.value);
             }}
           />
-          <button type="submit">Change Hexagram</button>
+          <button type="submit">Change Hex</button>
         </form>
 
         <button onClick={() => handleIncrementOrDecrement(1)}>Increase</button>
         <button onClick={() => handleIncrementOrDecrement(-1)}>
           Decrement
         </button>
+        <form onSubmit={handleDesiredHexSubmit}>
+          <input
+            type="number"
+            disabled={hexagram.number === 0}
+            value={desiredHexagramNumber}
+            onChange={(e) => setDesiredHexagramNumber(e.target.value)}
+          />
+          <button type="submit">Set Desired Hex</button>
+        </form>
         <div className="modifiers">
           <h3>Modifiers</h3>
           <label htmlFor="random">Random?</label>
