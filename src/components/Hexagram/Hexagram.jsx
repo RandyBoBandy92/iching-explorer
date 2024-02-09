@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
 import Line from "../Line/Line";
 import "./Hexagram.css";
+import { useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
 
-function Hexagram({ hexagramData, type }) {
+function Hexagram({ type }) {
+  const { lines } = useContext(GlobalContext);
   function renderLines() {
-    const lines = [];
-    for (let lineNum in hexagramData.lines) {
-      const lineData = hexagramData.lines[lineNum];
-      lines.push(
+    const lineComponents = [];
+    for (let lineNum in lines) {
+      const lineData = lines[lineNum];
+      lineComponents.push(
         <Line
           lineData={lineData}
           lineNumber={lineNum}
@@ -16,7 +19,7 @@ function Hexagram({ hexagramData, type }) {
         />
       );
     }
-    return lines;
+    return lineComponents;
   }
   return (
     <div className={`hexagram ${type}`}>
@@ -27,7 +30,6 @@ function Hexagram({ hexagramData, type }) {
 }
 
 Hexagram.propTypes = {
-  hexagramData: PropTypes.object.isRequired,
   type: PropTypes.oneOf(["primary", "transformed"]).isRequired,
 };
 

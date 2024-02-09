@@ -1,31 +1,13 @@
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
-const initialState = {
-  primaryHexagram: {
-    hexagram: 0,
-    trigrams: ["", ""],
-    lines: {
-      line6: 9,
-      line5: 8,
-      line4: 7,
-      line3: 6,
-      line2: 0,
-      line1: 0,
-    },
-  },
-  transformedHexagram: {
-    hexagram: 0,
-    trigrams: ["", ""],
-    lines: {
-      line6: 0,
-      line5: 0,
-      line4: 0,
-      line3: 0,
-      line2: 0,
-      line1: 0,
-    },
-  },
+const initialLines = {
+  line6: 0,
+  line5: 0,
+  line4: 0,
+  line3: 0,
+  line2: 0,
+  line1: 0,
 };
 
 // Create a new context
@@ -33,32 +15,36 @@ const GlobalContext = createContext();
 
 // Create a provider component
 const GlobalProvider = ({ children }) => {
-  const [iChingReading, setIChingReading] = useState(initialState);
+  const [hexagram, setHexagram] = useState(0);
+  const [trigrams, setTrigrams] = useState(["", ""]);
+  const [lines, setLines] = useState(initialLines);
 
-  function cycleLine(line, type) {
-    const newReading = { ...iChingReading };
-    const hexagram = newReading[type];
-    const newHexagram = { ...hexagram };
-    const newLines = { ...newHexagram.lines };
-    if (newLines[line] === 0) {
-      newLines[line] = 6;
-    } else if (newLines[line] === 6) {
-      newLines[line] = 7;
-    } else if (newLines[line] === 7) {
-      newLines[line] = 8;
-    } else if (newLines[line] === 8) {
-      newLines[line] = 9;
-    } else if (newLines[line] === 9) {
-      newLines[line] = 6;
+  const cycleLine = (lineNumber) => {
+    const newLines = { ...lines };
+    const currentLine = newLines[lineNumber];
+    switch (currentLine) {
+      case 0:
+        newLines[lineNumber] = 6;
+        break;
+      case 6:
+        newLines[lineNumber] = 7;
+        break;
+      case 7:
+        newLines[lineNumber] = 8;
+        break;
+      case 8:
+        newLines[lineNumber] = 9;
+        break;
+      case 9:
+        newLines[lineNumber] = 0;
+        break;
     }
-    newHexagram.lines = newLines;
-    newReading[type] = newHexagram;
-    setIChingReading(newReading);
-  }
+    setLines(newLines);
+  };
 
   // Provide the context value to the consumer components
   return (
-    <GlobalContext.Provider value={{ iChingReading, cycleLine }}>
+    <GlobalContext.Provider value={{ hexagram, trigrams, lines, cycleLine }}>
       {children}
     </GlobalContext.Provider>
   );
