@@ -86,4 +86,13 @@ const hexagramStates = [
   { number: 64, trigrams: ["Fire", "Water"] },
 ];
 
-export { lineStates, trigramStates, hexagramStates };
+const emptyTrigram = trigramStates[0];
+const emptyHexagram = hexagramStates[0];
+
+export {
+  lineStates,
+  trigramStates,
+  hexagramStates,
+  emptyTrigram,
+  emptyHexagram,
+};

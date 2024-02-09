@@ -2,6 +2,8 @@ import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import {
+  emptyHexagram,
+  emptyTrigram,
   hexagramStates,
   lineStates,
   trigramStates,
@@ -21,11 +23,8 @@ const GlobalContext = createContext();
 
 // Create a provider component
 const GlobalProvider = ({ children }) => {
-  const [hexagram, setHexagram] = useState(hexagramStates[0]);
-  const [trigrams, setTrigrams] = useState([
-    trigramStates[0],
-    trigramStates[0],
-  ]);
+  const [hexagram, setHexagram] = useState(emptyHexagram);
+  const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
 
   const cycleLine = (lineNumber, lineData) => {
