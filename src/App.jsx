@@ -16,6 +16,7 @@ function App() {
   } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
+  const [loadingReading, setLoadingReading] = useState();
 
   const inputRef = useRef();
 
@@ -55,6 +56,26 @@ function App() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  const handleClickLink = (e) => {
+    e.preventDefault();
+    // get the search query
+    const searchParams = decodeURIComponent(e.target.href.split("?search=")[1]);
+    if (!searchParams) return;
+    // split the search query into start and end
+    const [start, end] = searchParams.split("=>");
+    setLoadingReading(+end);
+    forceChangeHexagram(+start);
+    setNewHexagramNumber(+start);
+  };
+
+  useEffect(() => {
+    if (loadingReading) {
+      findDesiredHexagram(loadingReading);
+      setDesiredHexagramNumber(loadingReading);
+      setLoadingReading();
+    }
+  }, [loadingReading]);
 
   return (
     <>
@@ -106,6 +127,13 @@ function App() {
             onChange={() => setRandom(!random)}
           />
         </div>
+        <a onClick={handleClickLink} href="?search=11=>16">
+          Peace to Enthusiasm
+        </a>
+        <hr />
+        <a onClick={handleClickLink} href="?search=3=>63">
+          Difficulty to After Completion
+        </a>
       </div>
     </>
   );
