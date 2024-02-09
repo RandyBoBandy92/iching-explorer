@@ -1,4 +1,5 @@
 .hexagram {
   display: grid;
   gap: 0.4rem;
+  place-items: center;
 }
