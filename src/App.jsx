@@ -38,6 +38,7 @@ function App() {
 
   const handleDesiredHexSubmit = (e) => {
     e.preventDefault();
+    if (hexagram.number === 0) return;
     findDesiredHexagram(+desiredHexagramNumber);
   };
 
@@ -46,8 +47,6 @@ function App() {
       // if key down is '/' focus on the input
       if (e.key === "/") {
         inputRef.current.focus();
-        // highlight the value inside the input
-        // inputRef.current.select();
       }
     };
 
@@ -93,7 +92,9 @@ function App() {
             value={desiredHexagramNumber}
             onChange={(e) => setDesiredHexagramNumber(e.target.value)}
           />
-          <button type="submit">Set Desired Hex</button>
+          <button disabled={hexagram.number === 0} type="submit">
+            Set Desired Hex
+          </button>
         </form>
         <div className="modifiers">
           <h3>Modifiers</h3>
