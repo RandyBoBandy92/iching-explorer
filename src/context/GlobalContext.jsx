@@ -94,7 +94,7 @@ const GlobalProvider = ({ children }) => {
     }
 
     // set the trigram names
-    setTrigrams([upperTrigram, lowerTrigram]);
+    return [upperTrigram, lowerTrigram];
   };
 
   const checkHexagram = (trigramsToCheck) => {
@@ -108,7 +108,7 @@ const GlobalProvider = ({ children }) => {
       newHexagram = hexagramStates[0];
     }
     // set the hexagram number
-    setHexagram(newHexagram);
+    return newHexagram;
   };
 
   const getTransformedLines = (primaryLines) => {
@@ -127,16 +127,20 @@ const GlobalProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkTrigrams(lines);
+    const [upperTrigram, lowerTrigram] = checkTrigrams(lines);
+    setTrigrams([upperTrigram, lowerTrigram]);
   }, [lines]);
 
   useEffect(() => {
-    checkHexagram(trigrams);
+    const newHexagram = checkHexagram(trigrams);
+    setHexagram(newHexagram);
   }, [trigrams]);
 
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
   const transformedLines = getTransformedLines(lines);
+  const transformedTrigrams = checkTrigrams(transformedLines);
+  const transformedHexagram = checkHexagram(transformedTrigrams);
 
   // Provide the context value to the consumer components
   return (
@@ -147,8 +151,10 @@ const GlobalProvider = ({ children }) => {
         lines,
         cycleLine,
         changingLinesExist,
-        transformedLines,
         forceChangeHexagram,
+        transformedLines,
+        transformedTrigrams,
+        transformedHexagram,
       }}
     >
       {children}
