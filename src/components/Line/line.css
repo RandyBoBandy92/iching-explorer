@@ -55,3 +55,8 @@
 .line.correlate.yin .line-middle {
   background: transparent;
 }
+
+/* if correct AND correlated, make border purple also */
+.line.correct.correlate {
+  border: 3px solid purple;
+}
