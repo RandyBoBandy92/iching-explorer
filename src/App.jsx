@@ -62,11 +62,20 @@ function App() {
     // get the search query
     const searchParams = decodeURIComponent(e.target.href.split("?search=")[1]);
     if (!searchParams) return;
-    // split the search query into start and end
-    const [start, end] = searchParams.split("=>");
-    setLoadingReading(+end);
-    forceChangeHexagram(+start);
-    setNewHexagramNumber(+start);
+    const type = searchParams.includes("=>") ? "multi" : "single";
+    if (type === "single") {
+      // if it's a single hexagram
+      // change the hexagram
+      forceChangeHexagram(+searchParams);
+      setNewHexagramNumber(+searchParams);
+    } else {
+      // if it's a multi hexagram
+      // split the search query into start and end
+      const [start, end] = searchParams.split("=>");
+      setLoadingReading(+end);
+      forceChangeHexagram(+start);
+      setNewHexagramNumber(+start);
+    }
   };
 
   useEffect(() => {
@@ -133,6 +142,10 @@ function App() {
         <hr />
         <a onClick={handleClickLink} href="?search=3=>63">
           Difficulty to After Completion
+        </a>
+        <hr />
+        <a onClick={handleClickLink} href="?search=56">
+          The Wanderer
         </a>
       </div>
     </>
