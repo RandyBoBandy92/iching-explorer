@@ -7,8 +7,13 @@ import { useEffect } from "react";
 import { useRef } from "react";
 
 function App() {
-  const { changingLinesExist, hexagram, forceChangeHexagram } =
-    useContext(GlobalContext);
+  const {
+    changingLinesExist,
+    hexagram,
+    forceChangeHexagram,
+    random,
+    setRandom,
+  } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   // add a use ref here
   const inputRef = useRef();
@@ -75,6 +80,15 @@ function App() {
         <button onClick={() => handleIncrementOrDecrement(-1)}>
           Decrement
         </button>
+        <div className="modifiers">
+          <label htmlFor="random">Random?</label>
+          <input
+            type="checkbox"
+            name="random"
+            value={random}
+            onChange={() => setRandom(!random)}
+          />
+        </div>
       </div>
     </>
   );

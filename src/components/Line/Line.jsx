@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 
 function Line({ lineData, lineNumber, type, lines }) {
-  const { cycleLine } = useContext(GlobalContext);
+  const { cycleLine, random, randomLine } = useContext(GlobalContext);
   const activeLine = lineData.value !== "none";
   const changingClass = lineData.changing ? `old-${lineData.value}` : "";
   const lineEnergy = getCorrectLineEnergy(lineData.value, lineNumber);
@@ -18,7 +18,7 @@ function Line({ lineData, lineNumber, type, lines }) {
 
   const handleClick = () => {
     if (type === "primary") {
-      cycleLine(lineNumber, lineData);
+      random ? randomLine(lineNumber) : cycleLine(lineNumber, lineData);
     }
   };
 

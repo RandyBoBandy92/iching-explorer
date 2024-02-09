@@ -26,6 +26,7 @@ const GlobalProvider = ({ children }) => {
   const [hexagram, setHexagram] = useState(emptyHexagram);
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
+  const [random, setRandom] = useState(false);
 
   const forceChangeHexagram = (newHexagramNumber) => {
     const newHexagram = hexagramStates.find(
@@ -63,6 +64,18 @@ const GlobalProvider = ({ children }) => {
     setLines({
       ...lines,
       [lineNumber]: lineStates[nextIndex],
+    });
+  };
+
+  const randomLine = (lineNumber) => {
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * lineStates.length);
+    } while (randomIndex === 0);
+
+    setLines({
+      ...lines,
+      [lineNumber]: lineStates[randomIndex],
     });
   };
 
@@ -150,11 +163,14 @@ const GlobalProvider = ({ children }) => {
         trigrams,
         lines,
         cycleLine,
+        randomLine,
         changingLinesExist,
         forceChangeHexagram,
         transformedLines,
         transformedTrigrams,
         transformedHexagram,
+        random,
+        setRandom,
       }}
     >
       {children}
