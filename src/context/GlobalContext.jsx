@@ -27,6 +27,30 @@ const GlobalProvider = ({ children }) => {
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
 
+  const forceChangeHexagram = (newHexagramNumber) => {
+    const newHexagram = hexagramStates.find(
+      (hexagram) => hexagram.number === newHexagramNumber
+    );
+    // get the corresponding trigrams
+    const newUpperTrigram = trigramStates.find(
+      (trigram) => trigram.name === newHexagram.trigrams[0]
+    );
+    const newLowerTrigram = trigramStates.find(
+      (trigram) => trigram.name === newHexagram.trigrams[1]
+    );
+    // get the corresponding lines
+    const newLines = {
+      line6: { value: newUpperTrigram.trigram[0], changing: false },
+      line5: { value: newUpperTrigram.trigram[1], changing: false },
+      line4: { value: newUpperTrigram.trigram[2], changing: false },
+      line3: { value: newLowerTrigram.trigram[0], changing: false },
+      line2: { value: newLowerTrigram.trigram[1], changing: false },
+      line1: { value: newLowerTrigram.trigram[2], changing: false },
+    };
+    // set all the new line values
+    setLines(newLines);
+  };
+
   const cycleLine = (lineNumber, lineData) => {
     // find the index of the current line value from the lineStates array
     const currentIndex = lineStates.findIndex(
@@ -84,16 +108,8 @@ const GlobalProvider = ({ children }) => {
       newHexagram = hexagramStates[0];
     }
     // set the hexagram number
-    setHexagram(newHexagram.number);
+    setHexagram(newHexagram);
   };
-
-  useEffect(() => {
-    checkTrigrams(lines);
-  }, [lines]);
-
-  useEffect(() => {
-    checkHexagram(trigrams);
-  }, [trigrams]);
 
   const getTransformedLines = (primaryLines) => {
     const transformedLines = {};
@@ -110,6 +126,16 @@ const GlobalProvider = ({ children }) => {
     return transformedLines;
   };
 
+  useEffect(() => {
+    checkTrigrams(lines);
+  }, [lines]);
+
+  useEffect(() => {
+    checkHexagram(trigrams);
+  }, [trigrams]);
+
+  const changingLinesExist = Object.values(lines).some((line) => line.changing);
+
   const transformedLines = getTransformedLines(lines);
 
   // Provide the context value to the consumer components
@@ -120,7 +146,9 @@ const GlobalProvider = ({ children }) => {
         trigrams,
         lines,
         cycleLine,
+        changingLinesExist,
         transformedLines,
+        forceChangeHexagram,
       }}
     >
       {children}

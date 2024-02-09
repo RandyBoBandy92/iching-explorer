@@ -14,6 +14,7 @@ function Hexagram({ type }) {
         <Line
           lineData={lineData}
           lineNumber={lineNum}
+          lines={linesToRender}
           key={lineNum}
           type={type}
         />

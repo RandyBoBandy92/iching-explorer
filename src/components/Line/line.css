@@ -1,8 +1,16 @@
 .line {
   width: 6rem;
   height: 1rem;
-  border: 1px solid black;
+  border: 3px solid black;
   display: flex;
+}
+
+.line.correct {
+  border: 3px solid green;
+}
+
+.line.incorrect {
+  border: 3px solid red;
 }
 
 .line-left,
@@ -36,4 +44,10 @@
 .line.yin .line-left,
 .line.yin .line-right {
   background-color: black;
+}
+
+.line.correlate .line-left,
+.line.correlate .line-right,
+.line.correlate .line-middle {
+  background-color: red;
 }
