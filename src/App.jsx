@@ -81,6 +81,7 @@ function App() {
           Decrement
         </button>
         <div className="modifiers">
+          <h3>Modifiers</h3>
           <label htmlFor="random">Random?</label>
           <input
             type="checkbox"

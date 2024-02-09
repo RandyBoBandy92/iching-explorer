@@ -18,7 +18,9 @@ function Line({ lineData, lineNumber, type, lines }) {
 
   const handleClick = () => {
     if (type === "primary") {
-      random ? randomLine(lineNumber) : cycleLine(lineNumber, lineData);
+      random
+        ? randomLine(lineNumber, lineData)
+        : cycleLine(lineNumber, lineData);
     }
   };
 

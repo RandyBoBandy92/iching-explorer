@@ -2,3 +2,11 @@
   display: flex;
   justify-content: space-around;
 }
+
+label {
+  margin-right: 0.5rem;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.5);
+}

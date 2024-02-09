@@ -67,11 +67,15 @@ const GlobalProvider = ({ children }) => {
     });
   };
 
-  const randomLine = (lineNumber) => {
+  const randomLine = (lineNumber, lineData) => {
+    const currentIndex = lineStates.findIndex(
+      (state) =>
+        state.value === lineData.value && state.changing === lineData.changing
+    );
     let randomIndex;
     do {
       randomIndex = Math.floor(Math.random() * lineStates.length);
-    } while (randomIndex === 0);
+    } while (randomIndex === 0 || randomIndex === currentIndex);
 
     setLines({
       ...lines,

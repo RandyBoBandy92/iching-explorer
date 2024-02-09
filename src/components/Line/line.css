@@ -3,6 +3,7 @@
   height: 1rem;
   border: 3px solid black;
   display: flex;
+  user-select: none;
 }
 
 .line.correct {
