@@ -18,7 +18,8 @@ function App() {
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
   const [loadingReading, setLoadingReading] = useState();
 
-  const inputRef = useRef();
+  const changeHexRef = useRef();
+  const desiredHexRef = useRef();
 
   function handleIncrementOrDecrement(increment) {
     // if new value is going to be less than 0, set it to 0
@@ -34,13 +35,15 @@ function App() {
     e.preventDefault();
     forceChangeHexagram(+newHexagramNumber);
     // blur the input
-    inputRef.current.blur();
+    changeHexRef.current.blur();
   }
 
   function handleDesiredHexSubmit(e) {
     e.preventDefault();
     if (hexagram.number === 0) return;
     findDesiredHexagram(+desiredHexagramNumber);
+    // blur the input
+    desiredHexRef.current.blur();
   }
 
   function handleClickLink(e) {
@@ -80,9 +83,14 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // if key combo is shift + /, focus on the desired hex input
+      if (e.key === "?" && e.shiftKey) {
+        desiredHexRef.current.focus();
+      }
+
       // if key down is '/' focus on the input
       if (e.key === "/") {
-        inputRef.current.focus();
+        changeHexRef.current.focus();
       }
     };
 
@@ -105,7 +113,7 @@ function App() {
         <h2>debug menu</h2>
         <form onSubmit={handleHexSubmit}>
           <input
-            ref={inputRef}
+            ref={changeHexRef}
             type="number"
             min={0}
             max={64}
@@ -124,6 +132,7 @@ function App() {
         <button onClick={handleReset}>Reset</button>
         <form onSubmit={handleDesiredHexSubmit}>
           <input
+            ref={desiredHexRef}
             type="number"
             disabled={hexagram.number === 0}
             value={desiredHexagramNumber}
