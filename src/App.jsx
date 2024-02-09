@@ -166,6 +166,46 @@ function App() {
         <a onClick={handleClickLink} href="?search=56">
           The Wanderer
         </a>
+        <hr />
+        <h3>Months</h3>
+        <div className="months">
+          <a onClick={handleClickLink} href="?search=19=>11">
+            January
+          </a>
+          <a onClick={handleClickLink} href="?search=11=>34">
+            February
+          </a>
+          <a onClick={handleClickLink} href="?search=34=>43">
+            March
+          </a>
+          <a onClick={handleClickLink} href="?search=43=>1">
+            April
+          </a>
+          <a onClick={handleClickLink} href="?search=1=>44">
+            May
+          </a>
+          <a onClick={handleClickLink} href="?search=44=>33">
+            June
+          </a>
+          <a onClick={handleClickLink} href="?search=33=>12">
+            July
+          </a>
+          <a onClick={handleClickLink} href="?search=12=>20">
+            August
+          </a>
+          <a onClick={handleClickLink} href="?search=20=>23">
+            September
+          </a>
+          <a onClick={handleClickLink} href="?search=23=>2">
+            October
+          </a>
+          <a onClick={handleClickLink} href="?search=2=>24">
+            November
+          </a>
+          <a onClick={handleClickLink} href="?search=24=>19">
+            December
+          </a>
+        </div>
       </div>
     </>
   );
