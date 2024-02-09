@@ -30,34 +30,20 @@ function App() {
     forceChangeHexagram(newHexNum);
   }
 
-  const handleHexSubmit = (e) => {
+  function handleHexSubmit(e) {
     e.preventDefault();
     forceChangeHexagram(+newHexagramNumber);
     // blur the input
     inputRef.current.blur();
-  };
+  }
 
-  const handleDesiredHexSubmit = (e) => {
+  function handleDesiredHexSubmit(e) {
     e.preventDefault();
     if (hexagram.number === 0) return;
     findDesiredHexagram(+desiredHexagramNumber);
-  };
+  }
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      // if key down is '/' focus on the input
-      if (e.key === "/") {
-        inputRef.current.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  const handleClickLink = (e) => {
+  function handleClickLink(e) {
     e.preventDefault();
     // get the search query
     const searchParams = decodeURIComponent(e.target.href.split("?search=")[1]);
@@ -76,7 +62,7 @@ function App() {
       forceChangeHexagram(+start);
       setNewHexagramNumber(+start);
     }
-  };
+  }
 
   function handleReset() {
     setNewHexagramNumber(0);
@@ -91,6 +77,20 @@ function App() {
       setLoadingReading();
     }
   }, [loadingReading]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // if key down is '/' focus on the input
+      if (e.key === "/") {
+        inputRef.current.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <>
