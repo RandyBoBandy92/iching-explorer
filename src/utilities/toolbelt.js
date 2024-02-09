@@ -1,70 +1,33 @@
-function getYinYang(lineNumber) {
-  // 6 or 8 => "yin"
-  // 7 or 9 => "yang"
-
-  switch (lineNumber) {
-    case 6:
-    case 8:
-      return "yin";
-    case 7:
-    case 9:
-      return "yang";
-    default:
-      return "";
-  }
-}
-
-function getLineType(lineNumber) {
-  // 0 => "none"
-  // 6 => "old-yin"
-  // 7 => "young-yang"
-  // 8 => "young-yin"
-  // 9 => "old-yang"
-  switch (lineNumber) {
-    case 6:
-      return "old-yin";
-    case 7:
-      return "young-yang";
-    case 8:
-      return "young-yin";
-    case 9:
-      return "old-yang";
-    default:
-      return "none";
-  }
-}
-
-function getTransformationSymbol(lineNumber) {
+function getTransformationSymbol(lineDataValue) {
   // 6 => X
   // 9 => O
-  switch (lineNumber) {
-    case 6:
+  switch (lineDataValue) {
+    case "yin":
       return "❌";
-    case 9:
+    case "yang":
       return "⭕";
     default:
       return "";
   }
 }
 
-function getCorrectLineEnergy(lineType, lineNumber) {
-  // lineNumber 1, 3, 5 are supposed to be old-yang or young-yang
-  // lineNumber 2, 4, 6 are supposed to be old-yin or young-yin
+function getCorrectLineEnergy(lineValue, lineNumber) {
+  // lineNumber 1, 3, 5 are supposed to be yang
+  // lineNumber 2, 4, 6 are supposed to be yin
 
-  if (lineType === "none") return "";
+  // lineNumber is a string like "line1", so first we need to extract the number
+  // from the string
+  const lineNumberInt = parseInt(lineNumber.slice(-1));
+
+  if (lineValue === "none") return "";
   let isCorrect = false;
 
-  if (lineNumber % 2 === 0) {
-    isCorrect = lineType === "old-yin" || lineType === "young-yin";
+  if (lineNumberInt % 2 === 0) {
+    isCorrect = lineValue === "yin";
   } else {
-    isCorrect = lineType === "old-yang" || lineType === "young-yang";
+    isCorrect = lineValue === "yang";
   }
   return isCorrect ? "correct" : "incorrect";
 }
 
-export {
-  getLineType,
-  getYinYang,
-  getTransformationSymbol,
-  getCorrectLineEnergy,
-};
+export { getTransformationSymbol, getCorrectLineEnergy };
