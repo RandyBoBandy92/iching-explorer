@@ -34,6 +34,6 @@
   margin-left: 2rem;
 }
 
-.other-notes {
-  text-align: left;
+.changing-line-contents h4 {
+  display: block;
 }
