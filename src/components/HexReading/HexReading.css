@@ -11,6 +11,11 @@
   cursor: pointer;
 }
 
+.hex-reading > summary button {
+  display: block;
+  margin: 0 auto;
+}
+
 .hex-reading h1,
 .hex-reading h2,
 .hex-reading h3,

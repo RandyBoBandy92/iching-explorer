@@ -22,6 +22,7 @@ function App() {
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
   const [loadingReading, setLoadingReading] = useState();
+  const [readingToShow, setReadingToShow] = useState("primary");
 
   const changeHexRef = useRef();
   const desiredHexRef = useRef();
@@ -151,7 +152,7 @@ function App() {
             Set Desired Hex
           </button>
         </form>
-        <div className="modifiers hide">
+        <div className="modifiers ">
           <h3>Modifiers</h3>
           <label htmlFor="random">Random?</label>
           <input
@@ -172,6 +173,10 @@ function App() {
           <hr />
           <a onClick={specialHyperLink} href="?search=56">
             The Wanderer
+          </a>
+          <hr />
+          <a onClick={specialHyperLink} href="?search=50=>33">
+            Cauldron to Retreat
           </a>
           <hr />
         </div>
@@ -218,8 +223,24 @@ function App() {
         </div>
       </div>
       {/* END DEBUG Menu */}
+      {primaryHexText && transformedHexText && (
+        <>
+          <div className="reading-select">
+            <button onClick={() => setReadingToShow("primary")}>Primary</button>
+            <button onClick={() => setReadingToShow("transformed")}>
+              Transformed
+            </button>
+          </div>
+        </>
+      )}
       {primaryHexText && (
-        <HexReading hexText={primaryHexText} show={true} type={"primary"} />
+        <HexReading
+          hexText={
+            readingToShow === "primary" ? primaryHexText : transformedHexText
+          }
+          show={true}
+          type={readingToShow}
+        />
       )}
     </>
   );

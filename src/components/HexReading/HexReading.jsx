@@ -35,22 +35,25 @@ function HexReading({ hexText, show, type }) {
       tempLineData.lineEnergy = getCorrectLineEnergy(
         tempLineData.data.value,
         tempLineData.lineNum,
-        lines
+        type === "primary" ? lines : transformedLines
       );
       tempLineData.lineCorrelateMatch = getLineCorrelate(
         tempLineData.data,
         tempLineData.lineNum,
-        lines
+        type === "primary" ? lines : transformedLines
       );
       tempLineText.push(tempLineData);
     }
+
     return tempLineText;
   }
 
   useEffect(() => {
-    const allDetails = document.querySelectorAll(
+    const allDetailsBtns = document.querySelectorAll(
       "details h2, details h3, details h4"
     );
+
+    const allDetails = document.querySelectorAll("details");
 
     const allNavButtons = document.querySelectorAll(".reading-nav button");
     allNavButtons.forEach((navBtn) => {
@@ -58,7 +61,7 @@ function HexReading({ hexText, show, type }) {
     });
 
     function handleNav(e) {
-      const primaryDetails = (document.querySelector("details").open = true);
+      document.querySelector("details").open = true;
       const idToScroll = this.dataset.id;
       const scrollToElem = document.getElementById(idToScroll);
       let scrollDetailsElem;
@@ -88,7 +91,7 @@ function HexReading({ hexText, show, type }) {
       });
     }
     return () => {
-      allDetails.forEach((detailElem) => {
+      allDetailsBtns.forEach((detailElem) => {
         detailElem.removeEventListener("click", handleDetailClick);
       });
     };
@@ -186,7 +189,10 @@ function HexReading({ hexText, show, type }) {
 
       for (const author in translations) {
         if (Object.hasOwnProperty.call(translations, author)) {
-          const translationText = translations[author];
+          let translationText = translations[author];
+          if (author === "Notes") {
+            translationText = translationText.split(":");
+          }
           translationLineText.push({ author, translationText });
         }
       }
@@ -216,7 +222,17 @@ function HexReading({ hexText, show, type }) {
                       <summary>
                         <h4>{translationLineText.author}</h4>
                       </summary>
-                      <p>{translationLineText.translationText}</p>
+                      {!["Notes"].includes(translationLineText.author) ? (
+                        <p>{translationLineText.translationText}</p>
+                      ) : (
+                        <>
+                          {translationLineText.translationText.map(
+                            (textChunk) => (
+                              <p key={textChunk}>{textChunk}</p>
+                            )
+                          )}
+                        </>
+                      )}
                     </details>
                   </>
                 ))}
@@ -275,19 +291,19 @@ function HexReading({ hexText, show, type }) {
           <button ref={showAllRef} onClick={handleToggleShowAll}>
             Show/Hide All
           </button>
+          <div className="options">
+            <label htmlFor="options-lines">Only show changing</label>
+            <input
+              type="checkbox"
+              name="options-lines"
+              id="options-lines"
+              onChange={() => {
+                setOptions({ ...options, onlyChanging: !options.onlyChanging });
+              }}
+              checked={options.onlyChanging}
+            />
+          </div>
         </summary>
-        <div className="options">
-          <label htmlFor="options-lines">Only show changing</label>
-          <input
-            type="checkbox"
-            name="options-lines"
-            id="options-lines"
-            onChange={() => {
-              setOptions({ ...options, onlyChanging: !options.onlyChanging });
-            }}
-            checked={options.onlyChanging}
-          />
-        </div>
         <div className="other-titles">
           <p>{hexText.other_titles}</p>
         </div>
