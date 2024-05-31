@@ -4,6 +4,7 @@
   color: white;
   text-align: center;
   min-height: 80vh;
+  margin-bottom: 3rem;
 }
 
 .hex-reading summary {
@@ -34,6 +35,35 @@
   margin-left: 2rem;
 }
 
-.changing-line-contents h4 {
+.changing-line-contents .outcome h4 {
   display: block;
+  margin: unset;
+  margin-bottom: 10px;
+}
+
+.reading-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.reading-nav ul {
+  all: unset;
+  display: flex;
+  width: 100%;
+}
+
+.reading-nav li {
+  all: unset;
+  width: 100%;
+}
+
+.reading-nav button {
+  width: 100%;
+  padding: 1rem;
+}
+
+.changing-line-option {
+  margin-bottom: 1rem;
 }

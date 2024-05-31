@@ -51,6 +51,26 @@ function HexReading({ hexText, show, type }) {
     const allDetails = document.querySelectorAll(
       "details h2, details h3, details h4"
     );
+
+    const allNavButtons = document.querySelectorAll(".reading-nav button");
+    allNavButtons.forEach((navBtn) => {
+      navBtn.addEventListener("click", handleNav);
+    });
+
+    function handleNav(e) {
+      const primaryDetails = (document.querySelector("details").open = true);
+      const idToScroll = this.dataset.id;
+      const scrollToElem = document.getElementById(idToScroll);
+      let scrollDetailsElem;
+      if (scrollToElem.localName !== "details") {
+        scrollDetailsElem = scrollToElem.querySelector("details");
+        scrollDetailsElem.open = true;
+      } else {
+        scrollToElem.open = true;
+      }
+      scrollToElem.scrollIntoView();
+    }
+
     function handleDetailClick(event) {
       if (["h2", "h3", "h4"].includes(event.target.localName)) {
         event.stopPropagation();
@@ -84,7 +104,7 @@ function HexReading({ hexText, show, type }) {
     }
     return (
       <>
-        <details className={`sub-reading ${heading}`}>
+        <details id={heading} className={`sub-reading ${heading}`}>
           <summary>
             <h3>{heading}</h3>
           </summary>
@@ -110,7 +130,7 @@ function HexReading({ hexText, show, type }) {
     const notesArray = notes.split("\n");
     return (
       <>
-        <div className="sub-reading other-notes">
+        <div id="Notes" className="sub-reading other-notes">
           <details className="sub-reading notes">
             <summary>
               <h3>Notes</h3>
@@ -180,18 +200,22 @@ function HexReading({ hexText, show, type }) {
               <h4>Line {lineNumInt}</h4>
             </summary>
             <div className="changing-line-contents">
-              <h4>Line Energy: {lineEnergy}</h4>
-              <h4>
-                Line Correlate Match{" "}
-                {lineCorrelateMatch ? "Correlated" : "Uncorrelated"}
-              </h4>
-              <h4>Expected Outcome: {auspiciousness}</h4>
+              <div className="outcome">
+                <h4>Line Energy: {lineEnergy}</h4>
+                <h4>
+                  Line Correlate Match{" "}
+                  {lineCorrelateMatch ? "Correlated" : "Uncorrelated"}
+                </h4>
+                <h4>Expected Outcome: {auspiciousness}</h4>
+              </div>
 
               <div className="line-translations">
                 {translationLineText.map((translationLineText) => (
                   <>
                     <details open className="changing-line-option ">
-                      <summary>{translationLineText.author}</summary>
+                      <summary>
+                        <h4>{translationLineText.author}</h4>
+                      </summary>
                       <p>{translationLineText.translationText}</p>
                     </details>
                   </>
@@ -204,7 +228,7 @@ function HexReading({ hexText, show, type }) {
     });
     return (
       <>
-        <div className="sub-reading changing-lines">
+        <div id="Lines" className="sub-reading changing-lines">
           <details>
             <summary>
               <h3>Changing Lines</h3>
@@ -239,40 +263,62 @@ function HexReading({ hexText, show, type }) {
     setOptions({ ...options, showHideAll: !options.showHideAll });
   }
 
-  console.log(options);
+  console.log(hexText);
 
   return (
-    <details className={`hex-reading ${show ? "show" : "hide"}`}>
-      <summary>
-        <h2>
-          Hexgram {hexText.number} | {hexText.title}
-        </h2>
-        <button ref={showAllRef} onClick={handleToggleShowAll}>
-          Show/Hide All
-        </button>
-      </summary>
-      <div className="options">
-        <label htmlFor="options-lines">Only show changing</label>
-        <input
-          type="checkbox"
-          name="options-lines"
-          id="options-lines"
-          onChange={() => {
-            setOptions({ ...options, onlyChanging: !options.onlyChanging });
-          }}
-          checked={options.onlyChanging}
-        />
-      </div>
-      <div className="other-titles">
-        <p>{hexText.other_titles}</p>
-      </div>
-      <div className="reading-content">
-        {renderCategory("Judgement", hexText.Judgment)}
-        {renderCategory("Image", hexText.Image)}
-        {renderNotes(hexText.Notes)}
-        {renderLines()}
-      </div>
-    </details>
+    <>
+      <details className={`hex-reading ${show ? "show" : "hide"}`}>
+        <summary>
+          <h2>
+            Hexgram {hexText.number} | {hexText.title}
+          </h2>
+          <button ref={showAllRef} onClick={handleToggleShowAll}>
+            Show/Hide All
+          </button>
+        </summary>
+        <div className="options">
+          <label htmlFor="options-lines">Only show changing</label>
+          <input
+            type="checkbox"
+            name="options-lines"
+            id="options-lines"
+            onChange={() => {
+              setOptions({ ...options, onlyChanging: !options.onlyChanging });
+            }}
+            checked={options.onlyChanging}
+          />
+        </div>
+        <div className="other-titles">
+          <p>{hexText.other_titles}</p>
+        </div>
+        <div className="reading-content">
+          {renderCategory("Judgement", hexText.Judgment)}
+          {renderCategory("Image", hexText.Image)}
+          {renderCategory("Commentary", hexText.Commentary)}
+          {renderNotes(hexText.Notes)}
+          {renderLines()}
+        </div>
+      </details>
+      <nav className="reading-nav">
+        <ul>
+          <li>
+            <button data-id="Judgement">Judgment</button>
+          </li>
+          <li>
+            <button data-id="Image">Image</button>
+          </li>
+          <li>
+            <button data-id="Commentary">Commentary</button>
+          </li>
+          <li>
+            <button data-id="Notes">Notes</button>
+          </li>
+          <li>
+            <button data-id="Lines">Lines</button>
+          </li>
+        </ul>
+      </nav>
+    </>
   );
 }
 
