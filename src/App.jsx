@@ -5,6 +5,8 @@ import { GlobalContext } from "./context/GlobalContext";
 import Hexagram from "./components/Hexagram/Hexagram";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { getAllHexagramText } from "./utilities/ichingDataLoader";
+import HexReading from "./components/HexReading/HexReading";
 
 function App() {
   const {
@@ -14,6 +16,8 @@ function App() {
     setRandom,
     findDesiredHexagram,
     changingLinesExist,
+    primaryHexText,
+    transformedHexText,
   } = useContext(GlobalContext);
   const [newHexagramNumber, setNewHexagramNumber] = useState(hexagram.number);
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
@@ -47,7 +51,7 @@ function App() {
     desiredHexRef.current.blur();
   }
 
-  function handleClickLink(e) {
+  function specialHyperLink(e) {
     e.preventDefault();
     // get the search query
     const searchParams = decodeURIComponent(e.target.href.split("?search=")[1]);
@@ -111,6 +115,8 @@ function App() {
         <Hexagram type="transformed" />
         {/* <Hexagram hexagramData={transformedHexagram} type="transformed" /> */}
       </div>
+
+      {/* Begin DEBUG Menu */}
       <div className="debug">
         <hr />
         <h2>debug menu</h2>
@@ -145,7 +151,7 @@ function App() {
             Set Desired Hex
           </button>
         </form>
-        <div className="modifiers">
+        <div className="modifiers hide">
           <h3>Modifiers</h3>
           <label htmlFor="random">Random?</label>
           <input
@@ -155,58 +161,66 @@ function App() {
             onChange={() => setRandom(!random)}
           />
         </div>
-        <a onClick={handleClickLink} href="?search=11=>16">
-          Peace to Enthusiasm
-        </a>
-        <hr />
-        <a onClick={handleClickLink} href="?search=3=>63">
-          Difficulty to After Completion
-        </a>
-        <hr />
-        <a onClick={handleClickLink} href="?search=56">
-          The Wanderer
-        </a>
-        <hr />
-        <h3>Months</h3>
-        <div className="months">
-          <a onClick={handleClickLink} href="?search=19=>11">
-            January
+        <div className="special-links show">
+          <a onClick={specialHyperLink} href="?search=11=>16">
+            Peace to Enthusiasm
           </a>
-          <a onClick={handleClickLink} href="?search=11=>34">
-            February
+          <hr />
+          <a onClick={specialHyperLink} href="?search=3=>63">
+            Difficulty to After Completion
           </a>
-          <a onClick={handleClickLink} href="?search=34=>43">
-            March
+          <hr />
+          <a onClick={specialHyperLink} href="?search=56">
+            The Wanderer
           </a>
-          <a onClick={handleClickLink} href="?search=43=>1">
-            April
-          </a>
-          <a onClick={handleClickLink} href="?search=1=>44">
-            May
-          </a>
-          <a onClick={handleClickLink} href="?search=44=>33">
-            June
-          </a>
-          <a onClick={handleClickLink} href="?search=33=>12">
-            July
-          </a>
-          <a onClick={handleClickLink} href="?search=12=>20">
-            August
-          </a>
-          <a onClick={handleClickLink} href="?search=20=>23">
-            September
-          </a>
-          <a onClick={handleClickLink} href="?search=23=>2">
-            October
-          </a>
-          <a onClick={handleClickLink} href="?search=2=>24">
-            November
-          </a>
-          <a onClick={handleClickLink} href="?search=24=>19">
-            December
-          </a>
+          <hr />
+        </div>
+        <div className="months-debug hide">
+          <h3>Months</h3>
+          <div className="months">
+            <a onClick={specialHyperLink} href="?search=19=>11">
+              January
+            </a>
+            <a onClick={specialHyperLink} href="?search=11=>34">
+              February
+            </a>
+            <a onClick={specialHyperLink} href="?search=34=>43">
+              March
+            </a>
+            <a onClick={specialHyperLink} href="?search=43=>1">
+              April
+            </a>
+            <a onClick={specialHyperLink} href="?search=1=>44">
+              May
+            </a>
+            <a onClick={specialHyperLink} href="?search=44=>33">
+              June
+            </a>
+            <a onClick={specialHyperLink} href="?search=33=>12">
+              July
+            </a>
+            <a onClick={specialHyperLink} href="?search=12=>20">
+              August
+            </a>
+            <a onClick={specialHyperLink} href="?search=20=>23">
+              September
+            </a>
+            <a onClick={specialHyperLink} href="?search=23=>2">
+              October
+            </a>
+            <a onClick={specialHyperLink} href="?search=2=>24">
+              November
+            </a>
+            <a onClick={specialHyperLink} href="?search=24=>19">
+              December
+            </a>
+          </div>
         </div>
       </div>
+      {/* END DEBUG Menu */}
+      {primaryHexText && (
+        <HexReading hexText={primaryHexText} show={true} type={"primary"} />
+      )}
     </>
   );
 }

@@ -1,0 +1,39 @@
+.hex-reading {
+  padding: 2rem;
+  background-color: gray;
+  color: white;
+  text-align: center;
+  min-height: 80vh;
+}
+
+.hex-reading summary {
+  cursor: pointer;
+}
+
+.hex-reading h1,
+.hex-reading h2,
+.hex-reading h3,
+.hex-reading h4,
+.hex-reading h5 {
+  display: inline;
+}
+.hex-reading h2 {
+  font-size: 2.5rem;
+}
+
+.hex-reading h3 {
+  font-size: 2rem;
+}
+
+.sub-reading {
+  text-align: left;
+}
+
+.translation-option {
+  margin: 0.5rem 2rem;
+  margin-left: 2rem;
+}
+
+.other-notes {
+  text-align: left;
+}

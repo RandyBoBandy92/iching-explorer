@@ -1,3 +1,9 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 30vh;
+  scroll-snap-align: center;
+}
+
 .i-ching-container {
   /* display: flex;
   justify-content: space-around; */

@@ -8,6 +8,7 @@ import {
   lineStates,
   trigramStates,
 } from "../utilities/constants";
+import { getAllHexagramText } from "../utilities/ichingDataLoader";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -27,6 +28,7 @@ const GlobalProvider = ({ children }) => {
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
   const [random, setRandom] = useState(false);
+  const [dekorneText, setDekorneText] = useState([]);
 
   const forceChangeHexagram = (newHexagramNumber) => {
     const newHexagram = hexagramStates.find(
@@ -205,11 +207,27 @@ const GlobalProvider = ({ children }) => {
     setHexagram(newHexagram);
   }, [trigrams]);
 
+  useEffect(() => {
+    async function fetchDekorne() {
+      const data = await getAllHexagramText();
+      setDekorneText(data);
+    }
+    fetchDekorne();
+    forceChangeHexagram(2);
+  }, []);
+
+  console.log(hexagram);
+
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
+
+  const primaryHexText = dekorneText[hexagram.number - 1];
+  const transformedHexText = dekorneText[transformedHexagram.number - 1];
+
+  console.log(primaryHexText, transformedHexText);
 
   // Provide the context value to the consumer components
   return (
@@ -225,6 +243,8 @@ const GlobalProvider = ({ children }) => {
         transformedLines,
         transformedTrigrams,
         transformedHexagram,
+        primaryHexText,
+        transformedHexText,
         random,
         setRandom,
         findDesiredHexagram,
