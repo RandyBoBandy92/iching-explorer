@@ -12,6 +12,7 @@ function App() {
   const {
     hexagram,
     forceChangeHexagram,
+    flipHexagram,
     random,
     setRandom,
     findDesiredHexagram,
@@ -52,11 +53,9 @@ function App() {
     desiredHexRef.current.blur();
   }
 
-  function specialHyperLink(e) {
-    e.preventDefault();
-    // get the search query
-    const searchParams = decodeURIComponent(e.target.href.split("?search=")[1]);
-    if (!searchParams) return;
+  function handleSearch(href) {
+    const searchParams = decodeURIComponent(href.split("?search=")[1]);
+    if (!searchParams || searchParams === "undefined") return;
     const type = searchParams.includes("=>") ? "multi" : "single";
     if (type === "single") {
       // if it's a single hexagram
@@ -73,10 +72,16 @@ function App() {
     }
   }
 
+  function specialHyperLink(e) {
+    e.preventDefault();
+
+    const href = e.target.href;
+    // get the search query
+    handleSearch(href);
+  }
+
   function handleReset() {
-    setNewHexagramNumber(0);
-    forceChangeHexagram(0);
-    setDesiredHexagramNumber(0);
+    location.href = location.href.split("?")[0];
   }
 
   useEffect(() => {
@@ -88,6 +93,11 @@ function App() {
   }, [loadingReading]);
 
   useEffect(() => {
+    const currentHref = window.location.href;
+    const searchParams = decodeURIComponent(currentHref.split("?search=")[1]);
+    if (searchParams) {
+      handleSearch(currentHref);
+    }
     const handleKeyDown = (e) => {
       // if key combo is shift + /, focus on the desired hex input
       if (e.key === "?" && e.shiftKey) {
@@ -152,6 +162,12 @@ function App() {
             Set Desired Hex
           </button>
         </form>
+        <button onClick={() => flipHexagram("primary")}>
+          Flip Primary Hexagram
+        </button>
+        <button onClick={() => flipHexagram("transformed")}>
+          Flip Transformed Hexagram
+        </button>
         <div className="modifiers ">
           <h3>Modifiers</h3>
           <label htmlFor="random">Random?</label>
@@ -177,6 +193,10 @@ function App() {
           <hr />
           <a onClick={specialHyperLink} href="?search=50=>33">
             Cauldron to Retreat
+          </a>
+          <hr />
+          <a onClick={specialHyperLink} href="?search=64=>43">
+            unfinished business to resoluteness
           </a>
           <hr />
         </div>

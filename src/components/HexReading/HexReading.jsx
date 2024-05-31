@@ -140,8 +140,8 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
           <div className="translations">
             {text.map((textObj, index) => (
               <details
-                className="translation-option"
-                key={`${index} ${textObj.translationText}`}
+                className={`translation-option`}
+                key={`${textObj.translationText}-${index}-${textObj.author}`}
               >
                 <summary>
                   <h4>{textObj.author}</h4>
@@ -165,8 +165,8 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
               <h3>Notes</h3>
             </summary>
             <div className="notes">
-              {notesArray.map((note) => (
-                <p key={note}>{note}</p>
+              {notesArray.map((note, index) => (
+                <p key={`${note}-${index}`}>{note}</p>
               ))}
             </div>
           </details>
@@ -364,11 +364,13 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
           translationLineText.push({ author, translationText });
         }
       }
-
+      const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}`;
+      console.log(lineKey);
       return (
         <>
           <details
             className={`changing-line ${lineNum} ${showLine ? "show" : "hide"}`}
+            key={lineKey}
           >
             <summary>
               <h4>Line {lineNumInt}</h4>
@@ -384,25 +386,27 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
               </div>
 
               <div className="line-translations">
-                {translationLineText.map((translationLineText) => (
-                  <>
-                    <details open className="changing-line-option ">
-                      <summary>
-                        <h4>{translationLineText.author}</h4>
-                      </summary>
-                      {!["Notes"].includes(translationLineText.author) ? (
-                        <p>{translationLineText.translationText}</p>
-                      ) : (
-                        <>
-                          {translationLineText.translationText.map(
-                            (textChunk) => (
-                              <p key={textChunk}>{textChunk}</p>
-                            )
-                          )}
-                        </>
-                      )}
-                    </details>
-                  </>
+                {translationLineText.map((translationLineText, index) => (
+                  <details
+                    key={`${lineNum}-${type}-${translationLineText.author}-${index}`}
+                    open
+                    className="changing-line-option "
+                  >
+                    <summary>
+                      <h4>{translationLineText.author}</h4>
+                    </summary>
+                    {!["Notes"].includes(translationLineText.author) ? (
+                      <p>{translationLineText.translationText}</p>
+                    ) : (
+                      <>
+                        {translationLineText.translationText.map(
+                          (textChunk) => (
+                            <p key={textChunk}>{textChunk}</p>
+                          )
+                        )}
+                      </>
+                    )}
+                  </details>
                 ))}
               </div>
             </div>
