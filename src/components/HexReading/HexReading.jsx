@@ -10,8 +10,10 @@ import {
 } from "../../utilities/toolbelt";
 import { useRef } from "react";
 
-function HexReading({ hexText, show, type }) {
+function HexReading({ primaryHexText, transformedHexText, show, type }) {
   // putting a comment here because two functions side by side makes me autism
+
+  const hexText = type === "primary" ? primaryHexText : transformedHexText;
 
   const { lines, transformedLines } = useContext(GlobalContext);
 
@@ -448,7 +450,11 @@ function HexReading({ hexText, show, type }) {
   console.log(hexText);
 
   return (
-    <>
+    <div className="reading-container">
+      <h1>
+        {primaryHexText.title}({primaryHexText.number}) =>{" "}
+        {transformedHexText.title}({transformedHexText.number})
+      </h1>
       <details className={`hex-reading ${show ? "show" : "hide"}`}>
         <summary>
           <h2>
@@ -500,7 +506,7 @@ function HexReading({ hexText, show, type }) {
           </li>
         </ul>
       </nav>
-    </>
+    </div>
   );
 }
 

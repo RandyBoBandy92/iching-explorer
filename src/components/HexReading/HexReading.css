@@ -1,5 +1,16 @@
-.hex-reading {
+.reading-container {
+  background-color: gray;
+  color: white;
   padding: 2rem;
+}
+
+.reading-container h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin: 1rem;
+}
+
+.hex-reading {
   background-color: gray;
   color: white;
   text-align: center;

@@ -236,9 +236,8 @@ function App() {
       {(primaryHexText && !transformedHexText) ||
         (primaryHexText && transformedHexText && (
           <HexReading
-            hexText={
-              readingToShow === "primary" ? primaryHexText : transformedHexText
-            }
+            primaryHexText={primaryHexText}
+            transformedHexText={transformedHexText}
             show={true}
             type={readingToShow}
           />
