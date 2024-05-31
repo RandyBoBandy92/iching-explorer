@@ -233,15 +233,16 @@ function App() {
           </div>
         </>
       )}
-      {primaryHexText && (
-        <HexReading
-          hexText={
-            readingToShow === "primary" ? primaryHexText : transformedHexText
-          }
-          show={true}
-          type={readingToShow}
-        />
-      )}
+      {(primaryHexText && !transformedHexText) ||
+        (primaryHexText && transformedHexText && (
+          <HexReading
+            hexText={
+              readingToShow === "primary" ? primaryHexText : transformedHexText
+            }
+            show={true}
+            type={readingToShow}
+          />
+        ))}
     </>
   );
 }

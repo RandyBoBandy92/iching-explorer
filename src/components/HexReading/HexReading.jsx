@@ -26,22 +26,46 @@ function HexReading({ hexText, show, type }) {
     const tempLineText = [];
     for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
       const tempLineData = {};
+
+      // Associate translation writings
       tempLineData.translations = hexText[`line_${lineNumber}`];
-      tempLineData.data =
-        type === "primary"
-          ? lines[`line${lineNumber}`]
-          : transformedLines[`line${lineNumber}`];
+
+      // add type
+      tempLineData.type = type;
+
+      // associate line data
+      tempLineData.data = lines[`line${lineNumber}`];
+      tempLineData.transformedData = transformedLines[`line${lineNumber}`];
       tempLineData.lineNum = `line${lineNumber}`;
+
+      // Get energy reading
       tempLineData.lineEnergy = getCorrectLineEnergy(
         tempLineData.data.value,
         tempLineData.lineNum,
-        type === "primary" ? lines : transformedLines
+        lines
       );
+      tempLineData.transformedlineEnergy = transformedLines
+        ? getCorrectLineEnergy(
+            tempLineData.transformedData.value,
+            tempLineData.lineNum,
+            transformedLines
+          )
+        : undefined;
+
+      // Get line correlation
       tempLineData.lineCorrelateMatch = getLineCorrelate(
         tempLineData.data,
         tempLineData.lineNum,
-        type === "primary" ? lines : transformedLines
+        transformedLines
       );
+      tempLineData.transformedCorrelateMatch = transformedLines
+        ? getLineCorrelate(
+            tempLineData.transformedData,
+            tempLineData.lineNum,
+            transformedLines
+          )
+        : undefined;
+
       tempLineText.push(tempLineData);
     }
 
@@ -152,10 +176,23 @@ function HexReading({ hexText, show, type }) {
   function renderLines() {
     const linesDataCombined = getCombinedLineData();
 
+    const atLeastOneChangingLine = linesDataCombined.some(
+      (lineData) => lineData.data.changing
+    );
+
     const lineHtml = linesDataCombined.map((lineDataCombined) => {
       // pull data from line data combined
-      const { lineNum, data, translations, lineEnergy, lineCorrelateMatch } =
-        lineDataCombined;
+      const {
+        lineNum,
+        data,
+        transformedData,
+        translations,
+        lineEnergy,
+        lineCorrelateMatch,
+        transformedlineEnergy,
+        transformedCorrelateMatch,
+        type,
+      } = lineDataCombined;
 
       // determine auspiciousness of reading
       // say that if the energy is good.. that's moderate
@@ -163,26 +200,155 @@ function HexReading({ hexText, show, type }) {
       // if both, very auspicious
 
       let auspiciousness;
-      if (lineEnergy === "correct") {
-        auspiciousness = "Moderately Auspicious or Perhaps Bad idk";
+
+      const goodPrimaryEnergy = lineEnergy === "correct";
+      const badEnergy = lineEnergy === "incorrect";
+
+      const goodPrimaryCorrelation = lineCorrelateMatch;
+      const badPrimaryCorrelation = !lineCorrelateMatch;
+
+      const goodTransformedEnergy = transformedlineEnergy === "correct";
+      const badTransformedEnergy = transformedlineEnergy === "incorrect";
+
+      const goodTransformedCorrelation = transformedCorrelateMatch;
+      const badTransformedCorrelation = !transformedCorrelateMatch;
+
+      const possibilities = {
+        primary: {
+          best: goodPrimaryEnergy && goodPrimaryCorrelation,
+          better: goodPrimaryCorrelation,
+          okay: goodPrimaryEnergy && badPrimaryCorrelation,
+          bad: badEnergy && badPrimaryCorrelation,
+        },
+        transformed: {
+          best: goodTransformedEnergy && goodTransformedCorrelation,
+          better: goodPrimaryCorrelation && goodTransformedCorrelation,
+          okay: goodTransformedEnergy && badTransformedCorrelation,
+          bad: badTransformedEnergy && badTransformedCorrelation,
+        },
+      };
+      if (type === "primary") {
+        if (possibilities.primary.best) {
+          auspiciousness = "Very Highly Auspicious";
+        }
+        if (possibilities.primary.better) {
+          auspiciousness = "Highly Auspicious";
+        }
+        if (possibilities.primary.okay) {
+          auspiciousness = "Moderately Auspicious or Perhaps Bad idk";
+        }
+        if (possibilities.primary.bad) {
+          auspiciousness = "Not good lol";
+        }
+      } else {
+        // transformed
+        if (possibilities.transformed.best) {
+          auspiciousness = "Very Highly Auspicious";
+        }
+        if (possibilities.transformed.better) {
+          auspiciousness = "Highly Auspicious";
+        }
+        if (possibilities.transformed.okay) {
+          auspiciousness = "Moderately Auspicious or Perhaps Bad idk";
+        }
+        if (possibilities.transformed.bad) {
+          auspiciousness = "Not good lol";
+        }
       }
 
-      if (lineCorrelateMatch) {
-        auspiciousness = "Highly Auspicious";
-      }
+      let possibilityMatrix;
 
-      if (lineEnergy === "correct" && lineCorrelateMatch) {
-        auspiciousness = "Very Highly Auspicious";
-      }
-
-      if (lineEnergy !== "correct" && !lineCorrelateMatch) {
-        auspiciousness = "Not good lol";
+      if (type === "primary" && atLeastOneChangingLine) {
+        for (const key in possibilities.primary) {
+          if (Object.hasOwnProperty.call(possibilities.primary, key)) {
+            const outcome = possibilities.primary[key];
+            if (outcome) {
+              possibilityMatrix = key;
+            }
+          }
+        }
+        for (const key in possibilities.transformed) {
+          if (Object.hasOwnProperty.call(possibilities.transformed, key)) {
+            const outcome = possibilities.transformed[key];
+            if (outcome) {
+              possibilityMatrix += `-${key}`;
+            }
+          }
+        }
+        switch (possibilityMatrix) {
+          case "best-best":
+            auspiciousness =
+              "Things are in best possible scenario, and staying that way.";
+            break;
+          case "best-better":
+            auspiciousness =
+              "Things are in best possible scenario, and are moving to a lower level which is still better than most.";
+            break;
+          case "best-okay":
+            auspiciousness =
+              "Things are in best possible scenario, and moving to a lower level, which is okay.";
+            break;
+          case "best-bad":
+            auspiciousness =
+              "Things are in best possible scenario, and getting real bad RIP lmao.";
+            break;
+          case "better-best":
+            auspiciousness =
+              "Things are in a state of being better than most, and moving to best possible scenario.";
+            break;
+          case "better-better":
+            auspiciousness =
+              "Things are in a state of being better than most, and staying that way.";
+            break;
+          case "better-okay":
+            auspiciousness =
+              "Things are in a state of being better than most, and moving to a lower level, which is okay.";
+            break;
+          case "better-bad":
+            auspiciousness =
+              "Things are in a state of being better than most, and getting real bad RIP lmao.";
+            break;
+          case "okay-best":
+            auspiciousness =
+              "Things are in a state of being okay, and moving to best possible scenario.";
+            break;
+          case "okay-better":
+            auspiciousness =
+              "Things are in a state of being okay, and moving to being better than most.";
+            break;
+          case "okay-okay":
+            auspiciousness =
+              "Things are in a state of being okay, and staying that way.";
+            break;
+          case "okay-bad":
+            auspiciousness =
+              "Things are in a state of being okay, and getting real bad RIP lmao.";
+            break;
+          case "bad-best":
+            auspiciousness =
+              "Things are in a state of being real bad, but are about to become as best as they can be!.";
+            break;
+          case "bad-better":
+            auspiciousness =
+              "Things are in a state of being real bad, but are about to become better than most!.";
+            break;
+          case "bad-okay":
+            auspiciousness =
+              "Things are in a state of being real bad, but are about to become okay (meh).";
+            break;
+          case "bad-bad":
+            auspiciousness = "My brother in Christ you are down bad LMAO.";
+            break;
+          default:
+            break;
+        }
       }
 
       const lineNumInt = Number(lineNum.slice(-1));
 
       const showLineCondition =
-        (options.onlyChanging && data.changing) || !options.onlyChanging;
+        (options.onlyChanging && (data.changing || transformedData.changing)) ||
+        !options.onlyChanging;
       const showLine = showLineCondition ? true : false;
 
       const translationLineText = [];
