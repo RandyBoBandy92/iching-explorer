@@ -448,12 +448,22 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
   }
 
   console.log(hexText);
+  const isChanging =
+    primaryHexText &&
+    transformedHexText &&
+    primaryHexText.number !== transformedHexText.number;
 
   return (
     <div className="reading-container">
       <h1>
-        {primaryHexText.title}({primaryHexText.number}) =>{" "}
-        {transformedHexText.title}({transformedHexText.number})
+        {!isChanging ? (
+          `Unchanging Hexagram ${primaryHexText.number}`
+        ) : (
+          <>
+            {primaryHexText.title}({primaryHexText.number}) =>{" "}
+            {transformedHexText.title}({transformedHexText.number})
+          </>
+        )}
       </h1>
       <details className={`hex-reading ${show ? "show" : "hide"}`}>
         <summary>
