@@ -15,7 +15,7 @@ function App() {
     flipHexagram,
     random,
     setRandom,
-    findDesiredHexagram,
+    setDesiredHexagram,
     changingLinesExist,
     primaryHexText,
     transformedHexText,
@@ -48,7 +48,7 @@ function App() {
   function handleDesiredHexSubmit(e) {
     e.preventDefault();
     if (hexagram.number === 0) return;
-    findDesiredHexagram(+desiredHexagramNumber);
+    setDesiredHexagram(+desiredHexagramNumber);
     // blur the input
     desiredHexRef.current.blur();
   }
@@ -86,7 +86,7 @@ function App() {
 
   useEffect(() => {
     if (loadingReading) {
-      findDesiredHexagram(loadingReading);
+      setDesiredHexagram(loadingReading);
       setDesiredHexagramNumber(loadingReading);
       setLoadingReading();
     }
