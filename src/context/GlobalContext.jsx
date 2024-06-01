@@ -12,6 +12,7 @@ import { getAllHexagramText } from "../utilities/ichingDataLoader";
 import { useFlipHexagram } from "../hooks/useFlipHexagram";
 import { useForceChangeHexagram } from "../hooks/useForceChangeHexagram";
 import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
+import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -46,40 +47,11 @@ const GlobalProvider = ({ children }) => {
   );
   const forceChangeHexagram = useForceChangeHexagram(setLines);
   const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
+  const cycleLine = useCycleLine(lines, setLines);
+  const randomLine = useRandomLine(lines, setLines);
 
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
-
-  const cycleLine = (lineNumber, lineData) => {
-    // find the index of the current line value from the lineStates array
-    const currentIndex = lineStates.findIndex(
-      (state) =>
-        state.value === lineData.value && state.changing === lineData.changing
-    );
-    // find the next index
-    const nextIndex = (currentIndex + 1) % lineStates.length;
-    // set the new line value
-    setLines({
-      ...lines,
-      [lineNumber]: lineStates[nextIndex],
-    });
-  };
-
-  const randomLine = (lineNumber, lineData) => {
-    const currentIndex = lineStates.findIndex(
-      (state) =>
-        state.value === lineData.value && state.changing === lineData.changing
-    );
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * lineStates.length);
-    } while (randomIndex === 0 || randomIndex === currentIndex);
-
-    setLines({
-      ...lines,
-      [lineNumber]: lineStates[randomIndex],
-    });
-  };
 
   function checkTrigrams(linesToCheck) {
     // grab lines 6,5,4 and 3,2,1
