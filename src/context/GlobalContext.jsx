@@ -14,6 +14,7 @@ import { useForceChangeHexagram } from "../hooks/useForceChangeHexagram";
 import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
 import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
 import { useCheckTrigram } from "../hooks/useCheckTrigram";
+import { useCheckHexagram } from "../hooks/useCheckHexagram";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -32,42 +33,29 @@ const GlobalProvider = ({ children }) => {
   const [hexagram, setHexagram] = useState(emptyHexagram);
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
+  const [random, setRandom] = useState(false);
+  const [dekorneText, setDekorneText] = useState([]);
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
-  const checkTrigrams = useCheckTrigram(lines);
 
+  const checkTrigrams = useCheckTrigram(lines);
+  const checkHexagram = useCheckHexagram();
+  const forceChangeHexagram = useForceChangeHexagram(setLines);
+  const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
+  const cycleLine = useCycleLine(lines, setLines);
+  const randomLine = useRandomLine(lines, setLines);
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
 
-  const [random, setRandom] = useState(false);
-  const [dekorneText, setDekorneText] = useState([]);
   const { flipHexagram, flipping, setFlipping } = useFlipHexagram(
     hexagram,
     transformedHexagram,
     trigrams,
     setLines
   );
-  const forceChangeHexagram = useForceChangeHexagram(setLines);
-  const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
-  const cycleLine = useCycleLine(lines, setLines);
-  const randomLine = useRandomLine(lines, setLines);
 
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
-
-  function checkHexagram(trigramsToCheck) {
-    // find the hexagram number
-    let newHexagram = hexagramStates.find(
-      (hexagram) =>
-        hexagram.trigrams[0] === trigramsToCheck[0].name &&
-        hexagram.trigrams[1] === trigramsToCheck[1].name
-    );
-    if (!newHexagram) {
-      newHexagram = hexagramStates[0];
-    }
-    // set the hexagram number
-    return newHexagram;
-  }
 
   function getTransformedLines(primaryLines) {
     const transformedLines = {};
