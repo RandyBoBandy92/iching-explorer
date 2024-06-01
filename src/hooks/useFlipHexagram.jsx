@@ -1,17 +1,29 @@
 import { useState } from "react";
 import { trigramStates } from "../utilities/constants";
+import { useEffect } from "react";
+import { useSetDesiredHexagram } from "./useSetDesiredHexagram";
 
 // useGlobalHooks.js
 export function useFlipHexagram(
   hexagram,
   transformedHexagram,
-  trigrams,
+  lines,
   setLines
 ) {
   const [flipping, setFlipping] = useState({
     oldHex: undefined,
     flippingStatus: false,
   });
+
+  const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
+
+  useEffect(() => {
+    if (flipping.flippingStatus) {
+      setDesiredHexagram(flipping.oldHex);
+      setFlipping({ oldHex: undefined, flippingStatus: false });
+    }
+  }, [flipping]);
+
   const flipHexagram = (type = "primary") => {
     const flippingHexagram =
       type === "primary" ? hexagram : transformedHexagram;

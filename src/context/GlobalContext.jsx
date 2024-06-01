@@ -16,6 +16,7 @@ import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
 import { useCheckTrigram } from "../hooks/useCheckTrigram";
 import { useCheckHexagram } from "../hooks/useCheckHexagram";
 import { useGetTransformedLines } from "../hooks/useGetTransformedLines";
+import { useDekorneText } from "../hooks/useDekorneText";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -35,11 +36,11 @@ const GlobalProvider = ({ children }) => {
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
   const [random, setRandom] = useState(false);
-  const [dekorneText, setDekorneText] = useState([]);
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
-  const checkTrigrams = useCheckTrigram(lines);
-  const checkHexagram = useCheckHexagram();
+  const dekorneText = useDekorneText();
+  const checkTrigrams = useCheckTrigram(lines, setTrigrams);
+  const checkHexagram = useCheckHexagram(trigrams, setHexagram);
   const forceChangeHexagram = useForceChangeHexagram(setLines);
   const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
   const cycleLine = useCycleLine(lines, setLines);
@@ -49,40 +50,15 @@ const GlobalProvider = ({ children }) => {
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
 
-  const { flipHexagram, flipping, setFlipping } = useFlipHexagram(
+  const { flipHexagram } = useFlipHexagram(
     hexagram,
     transformedHexagram,
-    trigrams,
+    lines,
     setLines
   );
 
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
-
-  useEffect(() => {
-    const [upperTrigram, lowerTrigram] = checkTrigrams(lines);
-    setTrigrams([upperTrigram, lowerTrigram]);
-  }, [lines]);
-
-  useEffect(() => {
-    const newHexagram = checkHexagram(trigrams);
-    setHexagram(newHexagram);
-  }, [trigrams]);
-
-  useEffect(() => {
-    async function fetchDekorne() {
-      const data = await getAllHexagramText();
-      setDekorneText(data);
-    }
-    fetchDekorne();
-  }, []);
-
-  useEffect(() => {
-    if (flipping.flippingStatus) {
-      setDesiredHexagram(flipping.oldHex);
-      setFlipping({ oldHex: undefined, flippingStatus: false });
-    }
-  }, [flipping]);
 
   console.log(hexagram);
 

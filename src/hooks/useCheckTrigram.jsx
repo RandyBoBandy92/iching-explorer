@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { trigramStates } from "../utilities/constants";
 
-export function useCheckTrigram() {
+export function useCheckTrigram(lines, setTrigrams) {
+  useEffect(() => {
+    const [upperTrigram, lowerTrigram] = checkTrigrams(lines);
+    setTrigrams([upperTrigram, lowerTrigram]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lines]);
+
   const checkTrigrams = (linesToCheck) => {
     // grab lines 6,5,4 and 3,2,1
     const { line6, line5, line4, line3, line2, line1 } = linesToCheck;

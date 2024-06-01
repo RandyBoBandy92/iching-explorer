@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import { hexagramStates } from "../utilities/constants";
 
-export function useCheckHexagram() {
+export function useCheckHexagram(trigrams, setHexagram) {
+  useEffect(() => {
+    const newHexagram = checkHexagram(trigrams);
+    setHexagram(newHexagram);
+  }, [trigrams]);
+
   function checkHexagram(trigramsToCheck) {
     // find the hexagram number
     let newHexagram = hexagramStates.find(

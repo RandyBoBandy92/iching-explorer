@@ -5,7 +5,6 @@ import { GlobalContext } from "./context/GlobalContext";
 import Hexagram from "./components/Hexagram/Hexagram";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { getAllHexagramText } from "./utilities/ichingDataLoader";
 import HexReading from "./components/HexReading/HexReading";
 
 function App() {
