@@ -15,6 +15,7 @@ import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
 import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
 import { useCheckTrigram } from "../hooks/useCheckTrigram";
 import { useCheckHexagram } from "../hooks/useCheckHexagram";
+import { useGetTransformedLines } from "../hooks/useGetTransformedLines";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -43,6 +44,7 @@ const GlobalProvider = ({ children }) => {
   const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
   const cycleLine = useCycleLine(lines, setLines);
   const randomLine = useRandomLine(lines, setLines);
+  const getTransformedLines = useGetTransformedLines();
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
@@ -56,21 +58,6 @@ const GlobalProvider = ({ children }) => {
 
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
-
-  function getTransformedLines(primaryLines) {
-    const transformedLines = {};
-    for (const lineNumber in primaryLines) {
-      const line = primaryLines[lineNumber];
-      const transformedLine = { ...line };
-      if (transformedLine.changing) {
-        transformedLine.value =
-          transformedLine.value === "yin" ? "yang" : "yin";
-        transformedLine.changing = false;
-      }
-      transformedLines[lineNumber] = transformedLine;
-    }
-    return transformedLines;
-  }
 
   useEffect(() => {
     const [upperTrigram, lowerTrigram] = checkTrigrams(lines);
