@@ -13,6 +13,7 @@ import { useFlipHexagram } from "../hooks/useFlipHexagram";
 import { useForceChangeHexagram } from "../hooks/useForceChangeHexagram";
 import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
 import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
+import { useCheckTrigram } from "../hooks/useCheckTrigram";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -32,6 +33,7 @@ const GlobalProvider = ({ children }) => {
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
+  const checkTrigrams = useCheckTrigram(lines);
 
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
@@ -52,37 +54,6 @@ const GlobalProvider = ({ children }) => {
 
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
-
-  function checkTrigrams(linesToCheck) {
-    // grab lines 6,5,4 and 3,2,1
-    const { line6, line5, line4, line3, line2, line1 } = linesToCheck;
-    // use lines 6,5,4 to find the upper trigram
-    // use lines 3,2,1 to find the lower trigram
-    // find the trigram names
-    let upperTrigram = trigramStates.find(
-      (trigram) =>
-        trigram.trigramLines[0] === line6.value &&
-        trigram.trigramLines[1] === line5.value &&
-        trigram.trigramLines[2] === line4.value
-    );
-    let lowerTrigram = trigramStates.find(
-      (trigram) =>
-        trigram.trigramLines[0] === line3.value &&
-        trigram.trigramLines[1] === line2.value &&
-        trigram.trigramLines[2] === line1.value
-    );
-
-    if (!upperTrigram) {
-      upperTrigram = trigramStates[0];
-    }
-
-    if (!lowerTrigram) {
-      lowerTrigram = trigramStates[0];
-    }
-
-    // set the trigram names
-    return [upperTrigram, lowerTrigram];
-  }
 
   function checkHexagram(trigramsToCheck) {
     // find the hexagram number
