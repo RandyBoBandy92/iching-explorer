@@ -464,7 +464,7 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
           `Unchanging Hexagram ${primaryHexText.number}`
         ) : (
           <>
-            {primaryHexText.title}({primaryHexText.number}) =>{" "}
+            {primaryHexText.title}({primaryHexText.number}) ➡ ️
             {transformedHexText.title}({transformedHexText.number})
           </>
         )}
@@ -525,7 +525,8 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
 }
 
 HexReading.propTypes = {
-  hexText: PropTypes.object.isRequired,
+  primaryHexText: PropTypes.object.isRequired,
+  transformedHexText: PropTypes.object.isRequired,
   show: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(["primary", "transformed"]).isRequired,
 };
