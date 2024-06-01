@@ -62,6 +62,17 @@
   bottom: 0;
   left: 0;
   right: 0;
+  transform: translate(0, 200px);
+  animation: slide-up 0.5s forwards;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translate(0, 200px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 .reading-nav ul {
@@ -77,7 +88,7 @@
 
 .reading-nav button {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .changing-line-option {
