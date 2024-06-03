@@ -64,8 +64,6 @@ function DebugMenu({
     <>
       {/* Begin DEBUG Menu */}
 
-      <ModeSelect mode={readingMode} setMode={setReadingMode} />
-
       <div className="debug">
         <hr />
         <h2>debug menu</h2>

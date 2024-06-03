@@ -5,6 +5,7 @@ import HexReading from "../../components/HexReading/HexReading";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { useAppHooks } from "../../hooks/useAppHooks";
+import ModeSelect from "../../components/ModeSelect/ModeSelect";
 
 const Home = () => {
   const {
@@ -13,6 +14,8 @@ const Home = () => {
     changingLinesExist,
     primaryHexText,
     transformedHexText,
+    readingMode,
+    setReadingMode,
   } = useContext(GlobalContext);
 
   const {
@@ -37,7 +40,8 @@ const Home = () => {
         <Hexagram type="primary" />
         <Hexagram type="transformed" />
       </div>
-      <DebugMenu
+      <ModeSelect mode={readingMode} setMode={setReadingMode} />
+      {/* <DebugMenu
         newHexagramNumber={newHexagramNumber}
         setNewHexagramNumber={setNewHexagramNumber}
         desiredHexagramNumber={desiredHexagramNumber}
@@ -45,7 +49,7 @@ const Home = () => {
         handleSearch={handleSearch}
         changeHexRef={changeHexRef}
         desiredHexRef={desiredHexRef}
-      />
+      /> */}
 
       {primaryHexText && transformedHexText && (
         <>
