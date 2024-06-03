@@ -4,6 +4,8 @@ import { useRef } from "react";
 import PropTypes from "prop-types";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import ModeSelect from "../ModeSelect/ModeSelect";
+import { useState } from "react";
 
 function DebugMenu({
   newHexagramNumber,
@@ -21,6 +23,8 @@ function DebugMenu({
     random,
     setRandom,
     setDesiredHexagram,
+    readingMode,
+    setReadingMode,
   } = useContext(GlobalContext);
 
   function handleReset() {
@@ -59,6 +63,9 @@ function DebugMenu({
   return (
     <>
       {/* Begin DEBUG Menu */}
+
+      <ModeSelect mode={readingMode} setMode={setReadingMode} />
+
       <div className="debug">
         <hr />
         <h2>debug menu</h2>

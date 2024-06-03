@@ -49,6 +49,10 @@ const GlobalProvider = ({ children }) => {
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
+  const [readingMode, setReadingMode] = useState({
+    mode: "reading",
+    modes: ["reading", "explore"],
+  });
 
   const { flipHexagram } = useFlipHexagram(
     hexagram,
@@ -63,6 +67,19 @@ const GlobalProvider = ({ children }) => {
   console.log(hexagram);
 
   console.log(primaryHexText, transformedHexText);
+
+  useEffect(() => {
+    switch (readingMode.mode) {
+      case "reading":
+        setRandom(false);
+        break;
+      case "explore":
+        setRandom(true);
+        break;
+      default:
+        break;
+    }
+  }, [readingMode]);
 
   // Provide the context value to the consumer components
   return (
@@ -83,6 +100,8 @@ const GlobalProvider = ({ children }) => {
         flipHexagram,
         random,
         setRandom,
+        readingMode,
+        setReadingMode,
         setDesiredHexagram,
       }}
     >

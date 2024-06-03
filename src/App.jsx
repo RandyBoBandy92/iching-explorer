@@ -12,9 +12,6 @@ function App() {
   const {
     hexagram,
     forceChangeHexagram,
-    flipHexagram,
-    random,
-    setRandom,
     setDesiredHexagram,
     changingLinesExist,
     primaryHexText,
