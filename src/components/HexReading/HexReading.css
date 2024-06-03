@@ -59,11 +59,14 @@
 
 .reading-nav {
   position: fixed;
-  bottom: 0;
+  bottom: 69px;
   left: 0;
   right: 0;
   transform: translate(0, 200px);
   animation: slide-up 0.5s forwards;
+  background-color: var(--background-color);
+  padding: 0.5rem;
+  border-top: 2px solid white;
 }
 
 @keyframes slide-up {
@@ -78,6 +81,7 @@
 .reading-nav ul {
   all: unset;
   display: flex;
+  gap: 5px;
   width: 100%;
 }
 

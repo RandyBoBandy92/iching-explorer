@@ -18,7 +18,17 @@ const Home = () => {
     setReadingMode,
   } = useContext(GlobalContext);
 
-  const { readingToShow, setReadingToShow } = useAppHooks({
+  const {
+    handleSearch,
+    changeHexRef,
+    desiredHexRef,
+    newHexagramNumber,
+    setNewHexagramNumber,
+    desiredHexagramNumber,
+    setDesiredHexagramNumber,
+    readingToShow,
+    setReadingToShow,
+  } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
   });
@@ -31,7 +41,7 @@ const Home = () => {
         <Hexagram type="transformed" />
       </div>
       <ModeSelect mode={readingMode} setMode={setReadingMode} />
-      {/* <DebugMenu
+      <DebugMenu
         newHexagramNumber={newHexagramNumber}
         setNewHexagramNumber={setNewHexagramNumber}
         desiredHexagramNumber={desiredHexagramNumber}
@@ -39,7 +49,7 @@ const Home = () => {
         handleSearch={handleSearch}
         changeHexRef={changeHexRef}
         desiredHexRef={desiredHexRef}
-      /> */}
+      />
 
       {primaryHexText && transformedHexText && (
         <>

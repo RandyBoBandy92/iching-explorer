@@ -4,7 +4,7 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: var(--background-color)
+  background-color: var(--background-color);
   border-top: 2px solid white;
   padding: 10px 0;
 }
