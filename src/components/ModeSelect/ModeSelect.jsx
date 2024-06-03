@@ -24,7 +24,6 @@ const ModeSelect = ({ mode, setMode }) => {
 
   return (
     <div className="mode-select-container">
-      <div className="mode-select-label">Mode</div>
       <div className="mode-select-options">
         <div
           className="selected-background"

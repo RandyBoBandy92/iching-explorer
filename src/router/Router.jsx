@@ -1,11 +1,19 @@
-import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
+// src/App.js
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import BottomNav from "../components/Nav/Nav";
+import Home from "../pages/Home";
 
-const browserRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-]);
+const BrowserRouter = () => {
+  return (
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+        <BottomNav />
+      </div>
+    </Router>
+  );
+};
 
-export { browserRouter };
+export default BrowserRouter;

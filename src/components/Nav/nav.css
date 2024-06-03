@@ -1,0 +1,33 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #1e1e1e;
+  border-top: 2px solid white;
+  padding: 10px 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  flex: 1;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-label {
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.active {
+  color: var(--button-background-color); /* Adjust to your active color */
+}
