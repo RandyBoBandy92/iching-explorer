@@ -28,7 +28,7 @@ function DebugMenu({
   } = useContext(GlobalContext);
 
   function handleReset() {
-    location.href = location.href.split("?")[0];
+    forceChangeHexagram(0);
   }
 
   function specialHyperLink(e) {

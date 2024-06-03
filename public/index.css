@@ -79,6 +79,11 @@ input::placeholder {
   color: var(--input-placeholder-color);
 }
 
+a,
+a:visited {
+  color: var(--text-color);
+}
+
 .navbar {
   background-color: var(--surface-color);
   color: var(--text-color);

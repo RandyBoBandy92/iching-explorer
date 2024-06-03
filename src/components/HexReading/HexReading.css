@@ -1,7 +1,10 @@
 .reading-container {
   background-color: gray;
   color: white;
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 5rem;
 }
 
 .reading-container h1 {
@@ -63,19 +66,19 @@
   left: 0;
   right: 0;
   transform: translate(0, 200px);
-  animation: slide-up 0.5s forwards;
   background-color: var(--background-color);
   padding: 0.5rem;
   border-top: 2px solid white;
+  transition: transform 0.5s;
+  transition-delay: 0.2s;
 }
 
-@keyframes slide-up {
-  0% {
-    transform: translate(0, 200px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+.hide-reading-nav {
+  transform: translate(0, 100px);
+}
+
+.show-reading-nav {
+  transform: translate(0, 0px);
 }
 
 .reading-nav ul {

@@ -16,6 +16,7 @@ const Home = () => {
     transformedHexText,
     readingMode,
     setReadingMode,
+    hexagram,
   } = useContext(GlobalContext);
 
   const {
@@ -33,7 +34,8 @@ const Home = () => {
     setDesiredHexagram,
   });
 
-  const showTransformClass = changingLinesExist ? "show-transform" : "";
+  const showTransformClass =
+    hexagram.number && changingLinesExist ? "show-transform" : "";
   return (
     <div id="home" className="page">
       <div className={`i-ching-container ${showTransformClass}`}>
@@ -61,15 +63,12 @@ const Home = () => {
           </div>
         </>
       )}
-      {(primaryHexText && !transformedHexText) ||
-        (primaryHexText && transformedHexText && (
-          <HexReading
-            primaryHexText={primaryHexText}
-            transformedHexText={transformedHexText}
-            show={true}
-            type={readingToShow}
-          />
-        ))}
+      <HexReading
+        primaryHexText={primaryHexText}
+        transformedHexText={transformedHexText}
+        show={primaryHexText || transformedHexText}
+        type={readingToShow}
+      />
     </div>
   );
 };

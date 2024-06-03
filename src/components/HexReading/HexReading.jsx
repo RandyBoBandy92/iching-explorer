@@ -11,8 +11,6 @@ import {
 import { useRef } from "react";
 
 function HexReading({ primaryHexText, transformedHexText, show, type }) {
-  // putting a comment here because two functions side by side makes me autism
-
   const hexText = type === "primary" ? primaryHexText : transformedHexText;
 
   const { lines, transformedLines } = useContext(GlobalContext);
@@ -450,56 +448,73 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     setOptions({ ...options, showHideAll: !options.showHideAll });
   }
 
+  function renderNav() {
+    return <></>;
+  }
+
   const isChanging =
     primaryHexText &&
     transformedHexText &&
-    primaryHexText.number !== transformedHexText.number;
+    primaryHexText?.number !== transformedHexText?.number;
 
   return (
-    <div className="reading-container">
-      <h1>
-        {!isChanging ? (
-          `Unchanging Hexagram ${primaryHexText.number}`
-        ) : (
-          <>
-            {primaryHexText.title}({primaryHexText.number}) ➡ ️
-            {transformedHexText.title}({transformedHexText.number})
-          </>
-        )}
-      </h1>
-      <details className={`hex-reading ${show ? "show" : "hide"}`}>
-        <summary>
-          <h2>
-            Hexgram {hexText.number} | {hexText.title}
-          </h2>
-          <button ref={showAllRef} onClick={handleToggleShowAll}>
-            Show/Hide All
-          </button>
-          <div className="options">
-            <label htmlFor="options-lines">Only show changing</label>
-            <input
-              type="checkbox"
-              name="options-lines"
-              id="options-lines"
-              onChange={() => {
-                setOptions({ ...options, onlyChanging: !options.onlyChanging });
-              }}
-              checked={options.onlyChanging}
-            />
+    <>
+      {show && (
+        <>
+          <div className={`reading-container ${show ? "show" : "hide"}`}>
+            <h1>
+              {!isChanging ? (
+                `Unchanging Hexagram ${primaryHexText.number}`
+              ) : (
+                <>
+                  {primaryHexText.title}({primaryHexText.number}) ➡ ️
+                  {transformedHexText.title}({transformedHexText.number})
+                </>
+              )}
+            </h1>
+            <details className={`hex-reading ${show ? "show" : "hide"}`}>
+              <summary>
+                <h2>
+                  Hexgram {hexText.number} | {hexText.title}
+                </h2>
+                <button ref={showAllRef} onClick={handleToggleShowAll}>
+                  Show/Hide All
+                </button>
+                <div className="options">
+                  <label htmlFor="options-lines">Only show changing</label>
+                  <input
+                    type="checkbox"
+                    name="options-lines"
+                    id="options-lines"
+                    onChange={() => {
+                      setOptions({
+                        ...options,
+                        onlyChanging: !options.onlyChanging,
+                      });
+                    }}
+                    checked={options.onlyChanging}
+                  />
+                </div>
+              </summary>
+              <div className="other-titles">
+                <p>{hexText.other_titles}</p>
+              </div>
+              <div className="reading-content">
+                {renderCategory("Judgement", hexText.Judgment)}
+                {renderCategory("Image", hexText.Image)}
+                {renderCategory("Commentary", hexText.Commentary)}
+                {renderNotes(hexText.Notes)}
+                {renderLines()}
+              </div>
+            </details>
           </div>
-        </summary>
-        <div className="other-titles">
-          <p>{hexText.other_titles}</p>
-        </div>
-        <div className="reading-content">
-          {renderCategory("Judgement", hexText.Judgment)}
-          {renderCategory("Image", hexText.Image)}
-          {renderCategory("Commentary", hexText.Commentary)}
-          {renderNotes(hexText.Notes)}
-          {renderLines()}
-        </div>
-      </details>
-      <nav className="reading-nav">
+        </>
+      )}
+      <nav
+        className={`reading-nav ${
+          show ? "show-reading-nav" : "hide-reading-nav"
+        } `}
+      >
         <ul>
           <li>
             <button data-id="Judgement">Judgment</button>
@@ -518,13 +533,13 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
           </li>
         </ul>
       </nav>
-    </div>
+    </>
   );
 }
 
 HexReading.propTypes = {
-  primaryHexText: PropTypes.object.isRequired,
-  transformedHexText: PropTypes.object.isRequired,
+  primaryHexText: PropTypes.object,
+  transformedHexText: PropTypes.object,
   show: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(["primary", "transformed"]).isRequired,
 };
