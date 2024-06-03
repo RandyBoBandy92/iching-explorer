@@ -40,9 +40,7 @@ function App() {
     <>
       <div className={`i-ching-container ${showTransformClass}`}>
         <Hexagram type="primary" />
-        {/* {changingLinesExist && } */}
         <Hexagram type="transformed" />
-        {/* <Hexagram hexagramData={transformedHexagram} type="transformed" /> */}
       </div>
       <DebugMenu
         newHexagramNumber={newHexagramNumber}
