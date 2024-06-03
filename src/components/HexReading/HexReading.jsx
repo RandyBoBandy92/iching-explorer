@@ -365,7 +365,6 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
         }
       }
       const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}`;
-      console.log(lineKey);
       return (
         <>
           <details
@@ -451,7 +450,6 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     setOptions({ ...options, showHideAll: !options.showHideAll });
   }
 
-  console.log(hexText);
   const isChanging =
     primaryHexText &&
     transformedHexText &&

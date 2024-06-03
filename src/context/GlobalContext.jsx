@@ -64,10 +64,6 @@ const GlobalProvider = ({ children }) => {
   const primaryHexText = dekorneText[hexagram.number - 1];
   const transformedHexText = dekorneText[transformedHexagram.number - 1];
 
-  console.log(hexagram);
-
-  console.log(primaryHexText, transformedHexText);
-
   useEffect(() => {
     switch (readingMode.mode) {
       case "reading":
