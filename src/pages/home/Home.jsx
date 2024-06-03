@@ -1,10 +1,10 @@
 import React from "react";
-import Hexagram from "../components/Hexagram/Hexagram";
-import DebugMenu from "../components/DebugMenu/DebugMenu";
-import HexReading from "../components/HexReading/HexReading";
+import Hexagram from "../../components/Hexagram/Hexagram";
+import DebugMenu from "../../components/DebugMenu/DebugMenu";
+import HexReading from "../../components/HexReading/HexReading";
 import { useContext } from "react";
-import { GlobalContext } from "../context/GlobalContext";
-import { useAppHooks } from "../hooks/useAppHooks";
+import { GlobalContext } from "../../context/GlobalContext";
+import { useAppHooks } from "../../hooks/useAppHooks";
 
 const Home = () => {
   const {
@@ -32,7 +32,7 @@ const Home = () => {
 
   const showTransformClass = changingLinesExist ? "show-transform" : "";
   return (
-    <>
+    <div id="home" className="page">
       <div className={`i-ching-container ${showTransformClass}`}>
         <Hexagram type="primary" />
         <Hexagram type="transformed" />
@@ -66,7 +66,7 @@ const Home = () => {
             type={readingToShow}
           />
         ))}
-    </>
+    </div>
   );
 };
 

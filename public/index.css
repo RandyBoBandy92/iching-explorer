@@ -4,6 +4,18 @@ html {
   scroll-snap-align: center;
 }
 
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page {
+  padding: 1rem;
+}
+
 .i-ching-container {
   /* display: flex;
   justify-content: space-around; */
@@ -24,15 +36,6 @@ input[type="checkbox"] {
   gap: 0.2rem;
   flex-wrap: wrap;
 }
-
-body {
-  max-width: 900px;
-  margin: 0 auto;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
-}
-
 button {
   background-color: var(--button-background-color);
   color: var(--button-text-color);

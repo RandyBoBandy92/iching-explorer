@@ -1,0 +1,7 @@
+.theme {
+  display: grid;
+  grid-template-columns: auto auto;
+  place-items: center;
+  gap: 1rem;
+  width: fit-content;
+}

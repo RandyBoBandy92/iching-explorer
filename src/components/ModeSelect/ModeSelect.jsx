@@ -3,7 +3,7 @@ import "./ModeSelect.css";
 import PropTypes from "prop-types";
 
 const ModeSelect = ({ mode, setMode }) => {
-  const [selectedOption, setSelectedOption] = useState(mode[0]);
+  const [selectedOption, setSelectedOption] = useState(mode.modes[0]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const optionRefs = useRef([]);
 
