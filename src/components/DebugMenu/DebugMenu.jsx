@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { useRef } from "react";
+import PropTypes from "prop-types";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 function DebugMenu({
   newHexagramNumber,
@@ -59,6 +62,8 @@ function DebugMenu({
       <div className="debug">
         <hr />
         <h2>debug menu</h2>
+
+        <ThemeToggle />
         <form onSubmit={handleHexSubmit}>
           <input
             ref={changeHexRef}
@@ -98,12 +103,10 @@ function DebugMenu({
         </button>
         <div className="modifiers ">
           <h3>Modifiers</h3>
-          <label htmlFor="random">Random?</label>
-          <input
-            type="checkbox"
-            name="random"
-            value={random}
-            onChange={() => setRandom(!random)}
+          <ToggleSwitch
+            label={"Random"}
+            option={random}
+            setOption={setRandom}
           />
         </div>
         <div className="special-links show">
@@ -176,8 +179,6 @@ function DebugMenu({
 }
 
 export default DebugMenu;
-
-import PropTypes from "prop-types";
 
 DebugMenu.propTypes = {
   newHexagramNumber: PropTypes.number.isRequired,

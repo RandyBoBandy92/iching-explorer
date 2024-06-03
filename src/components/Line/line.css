@@ -1,3 +1,21 @@
+:root {
+  --line-background-color: black;
+  --line-unset-background-color: rgba(78, 77, 77, 0.199);
+  --line-unset-border-color: rgba(78, 77, 77, 0.247);
+  --line-transform-old-yang: black;
+  --line-correlate-color: rgb(188, 6, 188);
+}
+
+/* // dark mode will be white */
+
+[data-theme="dark"] {
+  --line-background-color: white;
+  --line-unset-background-color: rgb(95, 95, 95);
+  --line-unset-border-color: rgba(251, 251, 251, 0.543);
+  --line-transform-old-yang: black;
+  --line-correlate-color: purple;
+}
+
 .line {
   width: 6rem;
   height: 1rem;
@@ -7,11 +25,47 @@
 }
 
 .line.correct {
-  border: 3px solid green;
+  position: relative;
+}
+
+.line.correct::before {
+  content: "\2714"; /* Checkbox emoji */
+  position: absolute;
+  left: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: green;
+  font-size: 1rem;
 }
 
 .line.incorrect {
-  border: 3px solid red;
+  position: relative;
+}
+
+.line.incorrect::before {
+  content: "\2718"; /* Checkbox emoji */
+  position: absolute;
+  left: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: red;
+  font-size: 1rem;
+}
+
+.line-middle {
+  display: grid;
+  place-items: center;
+  font-weight: bolder;
+}
+
+.none.line {
+  border-color: var(--line-unset-border-color);
+}
+
+.none .line-left,
+.none .line-middle,
+.none .line-right {
+  background-color: var(--line-unset-background-color);
 }
 
 .line-left,
@@ -19,38 +73,33 @@
 .line-right {
   height: 100%;
   width: 100%;
-}
-
-.line-middle {
-  display: grid;
-  place-items: center;
-  font-weight: bolder;
-  color: transparent;
+  background-color: transparent;
 }
 
 .old-yin .line-middle {
-  text-shadow: 0 0 0 black;
+  text-shadow: 0 0 0 var(--line-background-color);
 }
 
 .old-yang .line-middle {
-  text-shadow: 0 0 0 white;
+  text-shadow: 0 0 0 var(--line-transform-old-yang);
+  font-size: 1rem;
 }
 
 .line.yang .line-left,
 .line.yang .line-middle,
 .line.yang .line-right {
-  background-color: black;
+  background-color: var(--line-background-color);
 }
 
 .line.yin .line-left,
 .line.yin .line-right {
-  background-color: black;
+  background-color: var(--line-background-color);
 }
 
 .line.correlate .line-left,
 .line.correlate .line-right,
 .line.correlate .line-middle {
-  background-color: purple;
+  background-color: var(--line-background-color);
 }
 
 .line.correlate.yin .line-middle {
@@ -59,5 +108,15 @@
 
 /* if correct AND correlated, make border purple also */
 .line.correct.correlate {
-  border: 3px solid purple;
+  position: relative;
+}
+
+.line.correct.correlate::before {
+  content: "\2605"; /* Checkbox emoji */
+  position: absolute;
+  left: -1.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--line-correlate-color);
+  font-size: 1rem;
 }
