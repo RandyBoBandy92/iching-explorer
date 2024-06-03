@@ -18,17 +18,7 @@ const Home = () => {
     setReadingMode,
   } = useContext(GlobalContext);
 
-  const {
-    handleSearch,
-    changeHexRef,
-    desiredHexRef,
-    newHexagramNumber,
-    setNewHexagramNumber,
-    desiredHexagramNumber,
-    setDesiredHexagramNumber,
-    readingToShow,
-    setReadingToShow,
-  } = useAppHooks({
+  const { readingToShow, setReadingToShow } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
   });
