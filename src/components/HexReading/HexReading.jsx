@@ -105,7 +105,9 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
       const isOpen = this.open;
       if (!isOpen) {
         // opening
-        this.scrollIntoView();
+        setTimeout(() => {
+          this.scrollIntoView();
+        }, 10);
       }
     }
     if (hexText) {
