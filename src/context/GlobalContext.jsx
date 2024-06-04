@@ -33,11 +33,9 @@ const GlobalContext = createContext();
 // Create a provider component
 const GlobalProvider = ({ children }) => {
   const [hexagram, setHexagram] = useState(emptyHexagram);
-  const [primaryHexText, setPrimaryHexText] = useState(undefined);
-  const [transformedHexText, setTransformedHexText] = useState(undefined);
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
-  const [random, setRandom] = useState(true);
+  const [random, setRandom] = useState(false);
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
   const dekorneText = useDekorneText();
@@ -63,20 +61,16 @@ const GlobalProvider = ({ children }) => {
     setLines
   );
 
-  useEffect(() => {
-    const primaryHexText = dekorneText[hexagram.number - 1];
-    const transformedHexText = dekorneText[transformedHexagram.number - 1];
-    setPrimaryHexText(primaryHexText);
-    setTransformedHexText(transformedHexText);
-  }, [hexagram]);
+  const primaryHexText = dekorneText[hexagram.number - 1];
+  const transformedHexText = dekorneText[transformedHexagram.number - 1];
 
   useEffect(() => {
     switch (readingMode.mode) {
       case "reading":
-        setRandom(true);
+        setRandom(false);
         break;
       case "explore":
-        setRandom(false);
+        setRandom(true);
         break;
       default:
         break;
