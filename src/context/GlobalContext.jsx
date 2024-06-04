@@ -76,10 +76,10 @@ const GlobalProvider = ({ children }) => {
   useEffect(() => {
     switch (readingMode.mode) {
       case "reading":
-        setRandom(false);
+        setRandom(true);
         break;
       case "explore":
-        setRandom(true);
+        setRandom(false);
         break;
       default:
         break;
