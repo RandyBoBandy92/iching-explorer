@@ -5,6 +5,11 @@
   padding-left: 2rem;
   padding-right: 2rem;
   padding-bottom: 5rem;
+  transition: padding-bottom 0.5s;
+}
+
+.reading-container.modal-showing {
+  padding-bottom: 21rem;
 }
 
 .reading-container h1 {

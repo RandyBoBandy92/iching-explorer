@@ -58,6 +58,8 @@ const GlobalProvider = ({ children }) => {
     modes: ["reading", "explore"],
   });
 
+  const [showJournalModal, setShowJournalModal] = useState(false);
+
   const { flipHexagram } = useFlipHexagram(
     hexagram,
     transformedHexagram,
@@ -108,6 +110,8 @@ const GlobalProvider = ({ children }) => {
         readingMode,
         setReadingMode,
         setDesiredHexagram,
+        showJournalModal,
+        setShowJournalModal,
       }}
     >
       {children}

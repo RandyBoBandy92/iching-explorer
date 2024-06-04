@@ -7,9 +7,8 @@ import { GlobalContext } from "../../context/GlobalContext";
 const JournalBtn = () => {
   // state to toggle journal modal
 
-  const { hexagram } = useContext(GlobalContext);
-
-  const [showJournalModal, setShowJournalModal] = useState(false);
+  const { hexagram, showJournalModal, setShowJournalModal } =
+    useContext(GlobalContext);
 
   return (
     <>

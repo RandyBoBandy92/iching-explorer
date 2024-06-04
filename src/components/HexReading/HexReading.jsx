@@ -13,7 +13,8 @@ import { useRef } from "react";
 function HexReading({ primaryHexText, transformedHexText, show, type }) {
   const hexText = type === "primary" ? primaryHexText : transformedHexText;
 
-  const { lines, transformedLines } = useContext(GlobalContext);
+  const { lines, transformedLines, showJournalModal } =
+    useContext(GlobalContext);
 
   const [options, setOptions] = useState({
     onlyChanging: false,
@@ -133,7 +134,7 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     }
     return (
       <>
-        <details id={heading} className={`sub-reading ${heading}`}>
+        <details id={heading} className={`sub-reading ${heading} `}>
           <summary>
             <h3>{heading}</h3>
           </summary>
@@ -463,7 +464,11 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     <>
       {show && (
         <>
-          <div className={`reading-container ${show ? "show" : "hide"}`}>
+          <div
+            className={`reading-container ${show ? "show" : "hide"} ${
+              showJournalModal ? "modal-showing" : ""
+            }`}
+          >
             <h1>
               {!isChanging ? (
                 `Unchanging Hexagram ${primaryHexText.number}`

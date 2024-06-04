@@ -10,7 +10,7 @@
   height: 60px;
   display: grid;
   place-items: center;
-  transition: opacity 0.3s;
+  transition: all 0.3s;
   opacity: 0;
 }
 

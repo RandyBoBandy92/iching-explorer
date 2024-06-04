@@ -7,6 +7,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { useAppHooks } from "../../hooks/useAppHooks";
 import ModeSelect from "../../components/ModeSelect/ModeSelect";
 import JournalBtn from "../../components/JournalBtn/JournalBtn";
+import JournalModal from "../../components/Journal/Journal";
 
 const Home = () => {
   const {
@@ -39,6 +40,7 @@ const Home = () => {
     hexagram.number && changingLinesExist ? "show-transform" : "";
   return (
     <>
+      <JournalModal />
       <JournalBtn />
       <div id="home" className="page">
         <div className={`i-ching-container ${showTransformClass}`}>
