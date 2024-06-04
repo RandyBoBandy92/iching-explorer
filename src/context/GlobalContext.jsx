@@ -71,7 +71,7 @@ const GlobalProvider = ({ children }) => {
     const transformedHexagram = checkHexagram(transformedTrigrams);
     setPrimaryHexText(dekorneText[hexagram.number - 1]);
     setTransformedHexText(dekorneText[transformedHexagram.number - 1]);
-  }, [lines]);
+  }, [lines, hexagram]);
 
   useEffect(() => {
     switch (readingMode.mode) {

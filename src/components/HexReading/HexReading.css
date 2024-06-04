@@ -23,6 +23,21 @@
 
 .hex-reading summary {
   cursor: pointer;
+  list-style-position: inside;
+}
+
+/* make the default down arrow from summary larger, and positioned in the center */
+
+.hex-reading summary::marker {
+  font-size: 2rem;
+}
+
+.hex-reading details[open] summary::marker {
+  transform: rotate(90deg);
+}
+
+.hex-reading details details summary::marker {
+  font-size: 1.5rem;
 }
 
 .hex-reading > summary button {
@@ -49,7 +64,8 @@
   text-align: left;
 }
 
-.translation-option {
+.translation-option,
+.changing-line {
   margin: 0.5rem 2rem;
   margin-left: 2rem;
 }
@@ -100,4 +116,5 @@
 
 .changing-line-option {
   margin-bottom: 1rem;
+  margin-left: 1rem;
 }

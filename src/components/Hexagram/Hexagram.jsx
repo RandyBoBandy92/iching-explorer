@@ -23,6 +23,7 @@ function Hexagram({ type }) {
     }
     return lineComponents;
   }
+
   return (
     <>
       <div className={`hexagram ${type}`}>
