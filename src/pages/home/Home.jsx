@@ -66,7 +66,10 @@ const Home = () => {
       <HexReading
         primaryHexText={primaryHexText}
         transformedHexText={transformedHexText}
-        show={primaryHexText || transformedHexText}
+        show={
+          (primaryHexText && readingToShow === "primary") ||
+          (transformedHexText && readingToShow === "transformed")
+        }
         type={readingToShow}
       />
     </div>

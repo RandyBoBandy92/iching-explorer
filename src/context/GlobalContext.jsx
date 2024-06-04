@@ -49,6 +49,10 @@ const GlobalProvider = ({ children }) => {
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
+
+  const [primaryHexText, setPrimaryHexText] = useState(undefined);
+  const [transformedHexText, setTransformedHexText] = useState(undefined);
+
   const [readingMode, setReadingMode] = useState({
     mode: "reading",
     modes: ["reading", "explore"],
@@ -61,8 +65,13 @@ const GlobalProvider = ({ children }) => {
     setLines
   );
 
-  const primaryHexText = dekorneText[hexagram.number - 1];
-  const transformedHexText = dekorneText[transformedHexagram.number - 1];
+  useEffect(() => {
+    const transformedLines = getTransformedLines(lines);
+    const transformedTrigrams = checkTrigrams(transformedLines);
+    const transformedHexagram = checkHexagram(transformedTrigrams);
+    setPrimaryHexText(dekorneText[hexagram.number - 1]);
+    setTransformedHexText(dekorneText[transformedHexagram.number - 1]);
+  }, [lines]);
 
   useEffect(() => {
     switch (readingMode.mode) {
