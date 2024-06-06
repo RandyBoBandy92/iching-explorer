@@ -54,7 +54,7 @@ const GlobalProvider = ({ children }) => {
   const [transformedHexText, setTransformedHexText] = useState(undefined);
 
   const [readingMode, setReadingMode] = useState({
-    mode: "reading",
+    mode: "explore",
     modes: ["reading", "explore"],
   });
 

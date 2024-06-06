@@ -3,9 +3,19 @@ import "./ModeSelect.css";
 import PropTypes from "prop-types";
 
 const ModeSelect = ({ mode, setMode }) => {
-  const [selectedOption, setSelectedOption] = useState(mode.modes[0]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(
+    getCurrentModeAndIndex().currentMode
+  );
+  const [selectedIndex, setSelectedIndex] = useState(
+    getCurrentModeAndIndex().currentIndex
+  );
   const optionRefs = useRef([]);
+
+  function getCurrentModeAndIndex() {
+    const currentMode = mode.modes.find((modeOpt) => modeOpt === mode.mode);
+    const currentIndex = mode.modes.indexOf(currentMode);
+    return { currentMode, currentIndex };
+  }
 
   const handleSelect = (option, index) => {
     setSelectedOption(option);
@@ -21,6 +31,7 @@ const ModeSelect = ({ mode, setMode }) => {
       });
     }
   }, [selectedIndex]);
+  debugger;
 
   return (
     <div className="mode-select-container">
