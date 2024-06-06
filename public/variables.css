@@ -72,7 +72,7 @@
   /* Card Colors */
   --card-background-color: var(--surface-color);
   --card-text-color: var(--text-color);
-  --card-subtitle-color: var(--text-secondary-color);
+  --card-subtitle-color: var(--text-color);
 
   /* Input Colors */
   --input-background-color: var(--surface-color);

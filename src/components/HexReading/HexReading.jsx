@@ -13,7 +13,7 @@ import { useRef } from "react";
 function HexReading({ primaryHexText, transformedHexText, show, type }) {
   const hexText = type === "primary" ? primaryHexText : transformedHexText;
 
-  const { lines, transformedLines, showJournalModal } =
+  const { lines, transformedLines, showJournalModal, setReadingToShow } =
     useContext(GlobalContext);
 
   const [options, setOptions] = useState({
@@ -451,10 +451,6 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     setOptions({ ...options, showHideAll: !options.showHideAll });
   }
 
-  function renderNav() {
-    return <></>;
-  }
-
   const isChanging =
     primaryHexText &&
     transformedHexText &&
@@ -479,6 +475,18 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
                 </>
               )}
             </h1>
+            {primaryHexText && transformedHexText && (
+              <>
+                <div className="reading-select">
+                  <button onClick={() => setReadingToShow("primary")}>
+                    Primary
+                  </button>
+                  <button onClick={() => setReadingToShow("transformed")}>
+                    Transformed
+                  </button>
+                </div>
+              </>
+            )}
             <details className={`hex-reading ${show ? "show" : "hide"}`}>
               <summary>
                 <h2>

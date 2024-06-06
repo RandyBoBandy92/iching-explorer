@@ -8,6 +8,7 @@ import { useAppHooks } from "../../hooks/useAppHooks";
 import ModeSelect from "../../components/ModeSelect/ModeSelect";
 import JournalBtn from "../../components/JournalBtn/JournalBtn";
 import JournalModal from "../../components/Journal/Journal";
+import { useLocation } from "react-router-dom";
 
 const Home = () => {
   const {
@@ -20,6 +21,9 @@ const Home = () => {
     setReadingMode,
     hexagram,
   } = useContext(GlobalContext);
+
+  const location = useLocation();
+  console.log(location.search);
 
   const {
     handleSearch,
@@ -48,7 +52,7 @@ const Home = () => {
           <Hexagram type="transformed" />
         </div>
         <ModeSelect mode={readingMode} setMode={setReadingMode} />
-        <DebugMenu
+        {/* <DebugMenu
           newHexagramNumber={newHexagramNumber}
           setNewHexagramNumber={setNewHexagramNumber}
           desiredHexagramNumber={desiredHexagramNumber}
@@ -56,20 +60,8 @@ const Home = () => {
           handleSearch={handleSearch}
           changeHexRef={changeHexRef}
           desiredHexRef={desiredHexRef}
-        />
+       /> */}
 
-        {primaryHexText && transformedHexText && (
-          <>
-            <div className="reading-select">
-              <button onClick={() => setReadingToShow("primary")}>
-                Primary
-              </button>
-              <button onClick={() => setReadingToShow("transformed")}>
-                Transformed
-              </button>
-            </div>
-          </>
-        )}
         <HexReading
           primaryHexText={primaryHexText}
           transformedHexText={transformedHexText}
