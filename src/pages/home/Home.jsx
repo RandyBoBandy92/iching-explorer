@@ -9,6 +9,7 @@ import ModeSelect from "../../components/ModeSelect/ModeSelect";
 import JournalBtn from "../../components/JournalBtn/JournalBtn";
 import JournalModal from "../../components/Journal/Journal";
 import { useLocation } from "react-router-dom";
+import OptionsMenu from "../../components/OptionsMenu/OptionsMenu";
 
 const Home = () => {
   const {
@@ -52,6 +53,7 @@ const Home = () => {
           <Hexagram type="transformed" />
         </div>
         <ModeSelect mode={readingMode} setMode={setReadingMode} />
+        <OptionsMenu />
         {/* <DebugMenu
           newHexagramNumber={newHexagramNumber}
           setNewHexagramNumber={setNewHexagramNumber}

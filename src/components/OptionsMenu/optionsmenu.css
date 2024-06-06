@@ -1,0 +1,36 @@
+.options-menu {
+  margin: 1rem;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.options-menu button {
+  margin-bottom: 2rem;
+}
+
+.options-menu-content {
+  position: absolute;
+  top: 2rem;
+  z-index: 10;
+  opacity: 0;
+  height: 0%;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 15px;
+  color: var(--button-text-color);
+  background-color: var(--primary-color);
+  border: 1px solid var(--input-border-color);
+
+  margin: 1rem;
+  display: block;
+  place-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  transition: height 0.6s, opacity 0.3s;
+}
+
+.options-menu-content.options-enabled {
+  opacity: 1;
+  height: 100%;
+}
