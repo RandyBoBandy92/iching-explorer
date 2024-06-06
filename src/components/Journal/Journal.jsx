@@ -1,20 +1,18 @@
-import { useContext } from "react";
 import "./journal.css";
-import { GlobalContext } from "../../context/GlobalContext";
-import { useState } from "react";
+import { useJournalHooks } from "../../hooks/useJournalHooks";
 
 const JournalModal = () => {
   // Your component code here
-  const [maximize, setMaximize] = useState(false);
-  const { showJournalModal, setShowJournalModal } = useContext(GlobalContext);
 
-  function handleCloseJournal() {
-    setShowJournalModal(!showJournalModal);
-  }
-
-  function handleMaximize() {
-    setMaximize(!maximize);
-  }
+  const {
+    maximize,
+    showJournalModal,
+    handleCloseJournal,
+    handleMaximize,
+    saveEntryToLocalStorage,
+    journalNotes,
+    setJournalNotes,
+  } = useJournalHooks();
 
   return (
     <div
@@ -30,8 +28,18 @@ const JournalModal = () => {
         <button onClick={handleMaximize} id="maximize-toggle">
           O
         </button>
-        <button id="save-journal">💾</button>
-        <textarea name="" id="" placeholder="notes"></textarea>
+        <button onClick={saveEntryToLocalStorage} id="save-journal">
+          💾
+        </button>
+        <textarea
+          value={journalNotes}
+          onChange={(event) => {
+            setJournalNotes(event.target.value);
+          }}
+          name=""
+          id=""
+          placeholder="notes"
+        ></textarea>
       </div>
     </div>
   );
