@@ -4,14 +4,15 @@ import { useState } from "react";
 
 export function useJournalHooks() {
   const { lines, hexagram, transformedHexagram } = useContext(GlobalContext);
-  const [journalNotes, setJournalNotes] = useState("");
+  const [journalNotes, setJournalNotes] = useState({ title: "", note: "" });
   const [maximize, setMaximize] = useState(false);
 
   const [journalEntries, setJournalEntries] = useState(loadJournalEntries());
 
   function loadJournalEntries() {
     const entries = JSON.parse(localStorage.getItem("journalEntries")) || [];
-    return entries;
+    const reversedEntries = entries.reverse();
+    return reversedEntries;
   }
 
   const { showJournalModal, setShowJournalModal } = useContext(GlobalContext);
@@ -51,7 +52,7 @@ export function useJournalHooks() {
 
     const entry = {
       time: dateTimeAsUnix,
-      notes: journalNotes,
+      journalNotes: journalNotes,
       lines,
       link: buildSearchString(),
       hexagram,
@@ -61,8 +62,9 @@ export function useJournalHooks() {
   }
 
   return {
-    saveEntryToLocalStorage: saveJournalEntry,
+    saveJournalEntry,
     handleMaximize,
+    maximize,
     handleCloseJournal,
     journalNotes,
     setJournalNotes,

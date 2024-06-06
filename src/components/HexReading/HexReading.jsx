@@ -524,13 +524,13 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
       >
         <ul>
           <li>
-            <button data-id="Judgement">Judgment</button>
+            <button data-id="Judgement">Judgm.</button>
           </li>
           <li>
             <button data-id="Image">Image</button>
           </li>
           <li>
-            <button data-id="Commentary">Commentary</button>
+            <button data-id="Commentary">Comm.</button>
           </li>
           <li>
             <button data-id="Notes">Notes</button>

@@ -1,6 +1,70 @@
+#journal-page h1 {
+  text-align: center;
+}
+
+.journal-entries {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 400px));
+  justify-content: center;
+
+  margin: 2rem;
+  gap: 1rem;
+}
+
+/* media query min width 500px two column */
+
+@media (min-width: 500px) {
+  .journal-entries {
+    /* grid-template-columns: 1fr 1fr; */
+  }
+}
+
+/* media query min width 800px three column */
+
+@media (min-width: 800px) {
+  .journal-entries {
+    /* grid-template-columns: 1fr 1fr 1fr; */
+  }
+}
+
+.journal-entry {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  background-color: var(--card-background-color);
+}
+
+.journal-entry h2 {
+  /* font-size: 2rem; */
+  margin: 0 auto;
+  width: 90%;
+  padding: 10px;
+}
+
+.journal-entry h2,
+.journal-entry p {
+  /* font-size: 2rem; */
+  margin: unset;
+}
+
+.journal-entry p {
+  overflow-wrap: break-word;
+}
+
+.journal-entry h4 {
+  font-size: 2rem;
+  margin: unset;
+}
+
 .unicode-hex {
   font-family: "Noto Sans JP", sans-serif;
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 400;
   color: var(--color-text);
   margin: 0;
@@ -8,6 +72,37 @@
   line-height: 1.5;
 }
 
+.unicode-primary,
+.unicode-transformed {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.unicode-primary p,
+.unicode-transformed p {
+  margin: unset;
+  margin-top: -25px;
+  margin-bottom: -15px;
+}
+
+.unicode-hex.transformed {
+  display: flex;
+  align-items: center;
+}
+
 .arrow {
+  margin-bottom: 3rem;
   font-size: 1.5rem;
+}
+
+.journal-entry details {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.journal-entry summary {
+  cursor: pointer;
+  user-select: none;
 }

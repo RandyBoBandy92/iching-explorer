@@ -9,10 +9,29 @@ const JournalModal = () => {
     showJournalModal,
     handleCloseJournal,
     handleMaximize,
-    saveEntryToLocalStorage,
+    saveJournalEntry,
     journalNotes,
     setJournalNotes,
   } = useJournalHooks();
+
+  function handleSaveJournalEntry() {
+    // check if at least title is filled out
+    if (journalNotes.title.length > 0) {
+      saveJournalEntry();
+    } else {
+      // we will put a class on the input to show it's invalid
+      const journalInput = document.getElementById("journal-title");
+      journalInput.classList.add("invalid");
+    }
+  }
+
+  function handleChangeTitle(event) {
+    if (event.target.value.length > 0) {
+      const journalInput = document.getElementById("journal-title");
+      journalInput.classList.remove("invalid");
+    }
+    setJournalNotes({ ...journalNotes, title: event.target.value });
+  }
 
   return (
     <div
@@ -28,17 +47,28 @@ const JournalModal = () => {
         <button onClick={handleMaximize} id="maximize-toggle">
           O
         </button>
-        <button onClick={saveEntryToLocalStorage} id="save-journal">
+        <button onClick={handleSaveJournalEntry} id="save-journal">
           💾
         </button>
-        <textarea
-          value={journalNotes}
+        <input
+          id="journal-title"
+          value={journalNotes.title}
+          maxLength={120}
           onChange={(event) => {
-            setJournalNotes(event.target.value);
+            handleChangeTitle(event);
+          }}
+          type="text"
+          placeholder="What was your question? (required)"
+        />
+        <textarea
+          maxLength={500}
+          value={journalNotes.note}
+          onChange={(event) => {
+            setJournalNotes({ ...journalNotes, note: event.target.value });
           }}
           name=""
           id=""
-          placeholder="notes"
+          placeholder="notes (optional)"
         ></textarea>
       </div>
     </div>

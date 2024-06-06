@@ -17,6 +17,16 @@
   width: 100%;
   height: 100%;
   display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+}
+
+#journal-modal input {
+  height: 25px;
+}
+
+#journal-modal input.invalid {
+  border: 2px solid red;
 }
 
 #journal-modal textarea {
