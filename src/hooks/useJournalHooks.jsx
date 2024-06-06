@@ -3,7 +3,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useState } from "react";
 
 export function useJournalHooks() {
-  const { lines } = useContext(GlobalContext);
+  const { lines, hexagram, transformedHexagram } = useContext(GlobalContext);
   const [journalNotes, setJournalNotes] = useState("");
   const [maximize, setMaximize] = useState(false);
 
@@ -30,10 +30,29 @@ export function useJournalHooks() {
     localStorage.setItem("journalEntries", JSON.stringify(entries));
   }
 
+  function buildSearchString() {
+    // figure out if hexagram.number and transformedHexagram.number are the same or not
+    const hexagramsAreEqual = hexagram.number === transformedHexagram.number;
+    let searchString;
+    // search string looks like ?search=hexagram.number=>transformedHexagram.number
+    if (hexagramsAreEqual) {
+      searchString = `?search=${hexagram.number}`;
+    } else {
+      searchString = `?search=${hexagram.number}=>${transformedHexagram.number}`;
+    }
+    return searchString;
+  }
+
   function createEntry() {
+    // get current time and date
+    const date = new Date();
+    const dateTimeAsUnix = date.getTime();
+
     const entry = {
+      time: dateTimeAsUnix,
       notes: journalNotes,
       lines,
+      link: buildSearchString(),
     };
     return entry;
   }

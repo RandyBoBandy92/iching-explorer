@@ -4,6 +4,12 @@ html {
   scroll-snap-align: center;
 }
 
+/* hide all scrollbars */
+
+html *::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   max-width: 900px;
   margin: 0 auto;

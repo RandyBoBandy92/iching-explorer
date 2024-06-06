@@ -31,7 +31,6 @@ const ModeSelect = ({ mode, setMode }) => {
       });
     }
   }, [selectedIndex]);
-  debugger;
 
   return (
     <div className="mode-select-container">
