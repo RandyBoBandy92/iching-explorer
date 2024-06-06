@@ -10,7 +10,8 @@ export function useJournalHooks() {
   const [journalEntries, setJournalEntries] = useState(loadJournalEntries());
 
   function loadJournalEntries() {
-    JSON.parse(localStorage.getItem("journalEntries")) || [];
+    const entries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+    return entries;
   }
 
   const { showJournalModal, setShowJournalModal } = useContext(GlobalContext);
@@ -53,6 +54,8 @@ export function useJournalHooks() {
       notes: journalNotes,
       lines,
       link: buildSearchString(),
+      hexagram,
+      transformedHexagram,
     };
     return entry;
   }
