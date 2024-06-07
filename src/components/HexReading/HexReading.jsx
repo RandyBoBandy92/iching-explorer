@@ -11,11 +11,10 @@ import {
 import { useRef } from "react";
 
 function HexReading({ primaryHexText, transformedHexText, show, type }) {
-  // putting a comment here because two functions side by side makes me autism
-
   const hexText = type === "primary" ? primaryHexText : transformedHexText;
 
-  const { lines, transformedLines } = useContext(GlobalContext);
+  const { lines, transformedLines, showJournalModal, setReadingToShow } =
+    useContext(GlobalContext);
 
   const [options, setOptions] = useState({
     onlyChanging: false,
@@ -107,7 +106,9 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
       const isOpen = this.open;
       if (!isOpen) {
         // opening
-        this.scrollIntoView();
+        setTimeout(() => {
+          this.scrollIntoView();
+        }, 10);
       }
     }
     if (hexText) {
@@ -133,7 +134,7 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     }
     return (
       <>
-        <details id={heading} className={`sub-reading ${heading}`}>
+        <details id={heading} className={`sub-reading ${heading} `}>
           <summary>
             <h3>{heading}</h3>
           </summary>
@@ -365,7 +366,6 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
         }
       }
       const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}`;
-      console.log(lineKey);
       return (
         <>
           <details
@@ -451,66 +451,94 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
     setOptions({ ...options, showHideAll: !options.showHideAll });
   }
 
-  console.log(hexText);
   const isChanging =
     primaryHexText &&
     transformedHexText &&
-    primaryHexText.number !== transformedHexText.number;
+    primaryHexText?.number !== transformedHexText?.number;
 
   return (
-    <div className="reading-container">
-      <h1>
-        {!isChanging ? (
-          `Unchanging Hexagram ${primaryHexText.number}`
-        ) : (
-          <>
-            {primaryHexText.title}({primaryHexText.number}) =>{" "}
-            {transformedHexText.title}({transformedHexText.number})
-          </>
-        )}
-      </h1>
-      <details className={`hex-reading ${show ? "show" : "hide"}`}>
-        <summary>
-          <h2>
-            Hexgram {hexText.number} | {hexText.title}
-          </h2>
-          <button ref={showAllRef} onClick={handleToggleShowAll}>
-            Show/Hide All
-          </button>
-          <div className="options">
-            <label htmlFor="options-lines">Only show changing</label>
-            <input
-              type="checkbox"
-              name="options-lines"
-              id="options-lines"
-              onChange={() => {
-                setOptions({ ...options, onlyChanging: !options.onlyChanging });
-              }}
-              checked={options.onlyChanging}
-            />
+    <>
+      {show && (
+        <>
+          <div
+            className={`reading-container ${show ? "show" : "hide"} ${
+              showJournalModal ? "modal-showing" : ""
+            }`}
+          >
+            <h1>
+              {!isChanging ? (
+                `Unchanging Hexagram ${primaryHexText.number}`
+              ) : (
+                <>
+                  {primaryHexText.title}({primaryHexText.number}) ➡ ️
+                  {transformedHexText.title}({transformedHexText.number})
+                </>
+              )}
+            </h1>
+            {primaryHexText && transformedHexText && (
+              <>
+                <div className="reading-select">
+                  <button onClick={() => setReadingToShow("primary")}>
+                    Primary
+                  </button>
+                  <button onClick={() => setReadingToShow("transformed")}>
+                    Transformed
+                  </button>
+                </div>
+              </>
+            )}
+            <details className={`hex-reading ${show ? "show" : "hide"}`}>
+              <summary>
+                <h2>
+                  Hexgram {hexText.number} | {hexText.title}
+                </h2>
+                <button ref={showAllRef} onClick={handleToggleShowAll}>
+                  Show/Hide All
+                </button>
+                <div className="options">
+                  <label htmlFor="options-lines">Only show changing</label>
+                  <input
+                    type="checkbox"
+                    name="options-lines"
+                    id="options-lines"
+                    onChange={() => {
+                      setOptions({
+                        ...options,
+                        onlyChanging: !options.onlyChanging,
+                      });
+                    }}
+                    checked={options.onlyChanging}
+                  />
+                </div>
+              </summary>
+              <div className="other-titles">
+                <p>{hexText.other_titles}</p>
+              </div>
+              <div className="reading-content">
+                {renderCategory("Judgement", hexText.Judgment)}
+                {renderCategory("Image", hexText.Image)}
+                {renderCategory("Commentary", hexText.Commentary)}
+                {renderNotes(hexText.Notes)}
+                {renderLines()}
+              </div>
+            </details>
           </div>
-        </summary>
-        <div className="other-titles">
-          <p>{hexText.other_titles}</p>
-        </div>
-        <div className="reading-content">
-          {renderCategory("Judgement", hexText.Judgment)}
-          {renderCategory("Image", hexText.Image)}
-          {renderCategory("Commentary", hexText.Commentary)}
-          {renderNotes(hexText.Notes)}
-          {renderLines()}
-        </div>
-      </details>
-      <nav className="reading-nav">
+        </>
+      )}
+      <nav
+        className={`reading-nav ${
+          show ? "show-reading-nav" : "hide-reading-nav"
+        } `}
+      >
         <ul>
           <li>
-            <button data-id="Judgement">Judgment</button>
+            <button data-id="Judgement">Judgm.</button>
           </li>
           <li>
             <button data-id="Image">Image</button>
           </li>
           <li>
-            <button data-id="Commentary">Commentary</button>
+            <button data-id="Commentary">Comm.</button>
           </li>
           <li>
             <button data-id="Notes">Notes</button>
@@ -520,12 +548,13 @@ function HexReading({ primaryHexText, transformedHexText, show, type }) {
           </li>
         </ul>
       </nav>
-    </div>
+    </>
   );
 }
 
 HexReading.propTypes = {
-  hexText: PropTypes.object.isRequired,
+  primaryHexText: PropTypes.object,
+  transformedHexText: PropTypes.object,
   show: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(["primary", "transformed"]).isRequired,
 };

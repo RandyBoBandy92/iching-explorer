@@ -1,0 +1,85 @@
+.options-menu {
+  margin: 1rem;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.options-menu button {
+  margin-bottom: 2rem;
+}
+
+.options-menu-content {
+  position: absolute;
+  top: 2rem;
+  z-index: 10;
+  opacity: 0;
+  max-height: 0px;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 15px;
+  color: var(--button-text-color);
+  background-color: var(--primary-color);
+  border: 1px solid var(--input-border-color);
+
+  margin: 1rem;
+  display: block;
+  place-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  transition: max-height 1s, opacity 0.5s;
+}
+
+.options-menu-content.options-enabled {
+  opacity: 1;
+  max-height: 400px;
+}
+
+.option-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.option-buttons button {
+  background-color: var(--button-secondary-background-color);
+}
+
+/* BEGIN Select Hex Styles */
+
+.select-hex {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.select-hex h2 {
+  margin: 0;
+}
+
+.select-hex input {
+  width: 80px;
+}
+
+.select-hex .selector {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.select-hex .update-select {
+  font-size: 2rem;
+  background-color: var(--button-secondary-background-color);
+  padding: 5px 10px;
+  display: block;
+  margin-bottom: 0px;
+  margin: 0 auto;
+  height: fit-content;
+  align-self: flex-end;
+}
+
+/* END Select Hex Styles */

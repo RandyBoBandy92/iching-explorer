@@ -9,6 +9,14 @@ import {
   trigramStates,
 } from "../utilities/constants";
 import { getAllHexagramText } from "../utilities/ichingDataLoader";
+import { useFlipHexagram } from "../hooks/useFlipHexagram";
+import { useForceChangeHexagram } from "../hooks/useForceChangeHexagram";
+import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
+import { useCycleLine, useRandomLine } from "../hooks/useLineChangeHooks";
+import { useCheckTrigram } from "../hooks/useCheckTrigram";
+import { useCheckHexagram } from "../hooks/useCheckHexagram";
+import { useGetTransformedLines } from "../hooks/useGetTransformedLines";
+import { useDekorneText } from "../hooks/useDekorneText";
 
 const initialLines = {
   line6: { value: "none", changing: false },
@@ -28,258 +36,57 @@ const GlobalProvider = ({ children }) => {
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
   const [random, setRandom] = useState(false);
-  const [dekorneText, setDekorneText] = useState([]);
-  const [flipping, setFlipping] = useState({
-    oldHex: undefined,
-    flippingStatus: false,
-  });
-
-  const flipHexagram = (type = "primary") => {
-    const flippingHexagram =
-      type === "primary" ? hexagram : transformedHexagram;
-    const reversedUpperTrigram = trigramStates.find(
-      (trigram) => trigram.name === flippingHexagram.trigrams[0]
-    );
-    const reversedLowerTrigram = trigramStates.find(
-      (trigram) => trigram.name === flippingHexagram.trigrams[1]
-    );
-
-    reversedLowerTrigram.trigramLines.reverse();
-    reversedLowerTrigram.trigramLines.reverse();
-
-    // reversed lower used to find new upper
-    const newUpperTrigram = trigramStates.find((trigram) => {
-      return (
-        trigram.trigramLines[0] === reversedLowerTrigram.trigramLines[2] &&
-        trigram.trigramLines[1] === reversedLowerTrigram.trigramLines[1] &&
-        trigram.trigramLines[2] === reversedLowerTrigram.trigramLines[0]
-      );
-    });
-    const newLowerTrigram = trigramStates.find((trigram) => {
-      return (
-        trigram.trigramLines[0] === reversedUpperTrigram.trigramLines[2] &&
-        trigram.trigramLines[1] === reversedUpperTrigram.trigramLines[1] &&
-        trigram.trigramLines[2] === reversedUpperTrigram.trigramLines[0]
-      );
-    });
-
-    const newLines = {
-      line6: { value: newUpperTrigram.trigramLines[0], changing: false },
-      line5: { value: newUpperTrigram.trigramLines[1], changing: false },
-      line4: { value: newUpperTrigram.trigramLines[2], changing: false },
-      line3: { value: newLowerTrigram.trigramLines[0], changing: false },
-      line2: { value: newLowerTrigram.trigramLines[1], changing: false },
-      line1: { value: newLowerTrigram.trigramLines[2], changing: false },
-    };
-    // set all the new line values
-    setLines(newLines);
-    setFlipping({ oldHex: flippingHexagram.number, flippingStatus: true });
-  };
-
-  const forceChangeHexagram = (newHexagramNumber) => {
-    const newHexagram = hexagramStates.find(
-      (hexagram) => hexagram.number === newHexagramNumber
-    );
-    // get the corresponding trigrams
-    const newUpperTrigram = trigramStates.find(
-      (trigram) => trigram.name === newHexagram.trigrams[0]
-    );
-    const newLowerTrigram = trigramStates.find(
-      (trigram) => trigram.name === newHexagram.trigrams[1]
-    );
-    // get the corresponding lines
-    const newLines = {
-      line6: { value: newUpperTrigram.trigramLines[0], changing: false },
-      line5: { value: newUpperTrigram.trigramLines[1], changing: false },
-      line4: { value: newUpperTrigram.trigramLines[2], changing: false },
-      line3: { value: newLowerTrigram.trigramLines[0], changing: false },
-      line2: { value: newLowerTrigram.trigramLines[1], changing: false },
-      line1: { value: newLowerTrigram.trigramLines[2], changing: false },
-    };
-    // set all the new line values
-    setLines(newLines);
-  };
-
-  const findDesiredHexagram = (desiredHexagramNumber) => {
-    const newDesiredHexagram = hexagramStates.find(
-      (hexagram) => hexagram.number === desiredHexagramNumber
-    );
-
-    const newUpperTrigram = trigramStates.find(
-      (trigram) => trigram.name === newDesiredHexagram.trigrams[0]
-    );
-
-    const newLowerTrigram = trigramStates.find(
-      (trigram) => trigram.name === newDesiredHexagram.trigrams[1]
-    );
-
-    const desiredLines = {
-      line6: { value: newUpperTrigram.trigramLines[0], changing: false },
-      line5: { value: newUpperTrigram.trigramLines[1], changing: false },
-      line4: { value: newUpperTrigram.trigramLines[2], changing: false },
-      line3: { value: newLowerTrigram.trigramLines[0], changing: false },
-      line2: { value: newLowerTrigram.trigramLines[1], changing: false },
-      line1: { value: newLowerTrigram.trigramLines[2], changing: false },
-    };
-
-    const newLines = {
-      line6: {
-        ...lines.line6,
-        changing: lines.line6.value !== desiredLines.line6.value,
-      },
-      line5: {
-        ...lines.line5,
-        changing: lines.line5.value !== desiredLines.line5.value,
-      },
-      line4: {
-        ...lines.line4,
-        changing: lines.line4.value !== desiredLines.line4.value,
-      },
-      line3: {
-        ...lines.line3,
-        changing: lines.line3.value !== desiredLines.line3.value,
-      },
-      line2: {
-        ...lines.line2,
-        changing: lines.line2.value !== desiredLines.line2.value,
-      },
-      line1: {
-        ...lines.line1,
-        changing: lines.line1.value !== desiredLines.line1.value,
-      },
-    };
-
-    setLines(newLines);
-  };
-
-  const cycleLine = (lineNumber, lineData) => {
-    // find the index of the current line value from the lineStates array
-    const currentIndex = lineStates.findIndex(
-      (state) =>
-        state.value === lineData.value && state.changing === lineData.changing
-    );
-    // find the next index
-    const nextIndex = (currentIndex + 1) % lineStates.length;
-    // set the new line value
-    setLines({
-      ...lines,
-      [lineNumber]: lineStates[nextIndex],
-    });
-  };
-
-  const randomLine = (lineNumber, lineData) => {
-    const currentIndex = lineStates.findIndex(
-      (state) =>
-        state.value === lineData.value && state.changing === lineData.changing
-    );
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * lineStates.length);
-    } while (randomIndex === 0 || randomIndex === currentIndex);
-
-    setLines({
-      ...lines,
-      [lineNumber]: lineStates[randomIndex],
-    });
-  };
-
-  const checkTrigrams = (linesToCheck) => {
-    // grab lines 6,5,4 and 3,2,1
-    const { line6, line5, line4, line3, line2, line1 } = linesToCheck;
-    // use lines 6,5,4 to find the upper trigram
-    // use lines 3,2,1 to find the lower trigram
-    // find the trigram names
-    let upperTrigram = trigramStates.find(
-      (trigram) =>
-        trigram.trigramLines[0] === line6.value &&
-        trigram.trigramLines[1] === line5.value &&
-        trigram.trigramLines[2] === line4.value
-    );
-    let lowerTrigram = trigramStates.find(
-      (trigram) =>
-        trigram.trigramLines[0] === line3.value &&
-        trigram.trigramLines[1] === line2.value &&
-        trigram.trigramLines[2] === line1.value
-    );
-
-    if (!upperTrigram) {
-      upperTrigram = trigramStates[0];
-    }
-
-    if (!lowerTrigram) {
-      lowerTrigram = trigramStates[0];
-    }
-
-    // set the trigram names
-    return [upperTrigram, lowerTrigram];
-  };
-
-  const checkHexagram = (trigramsToCheck) => {
-    // find the hexagram number
-    let newHexagram = hexagramStates.find(
-      (hexagram) =>
-        hexagram.trigrams[0] === trigramsToCheck[0].name &&
-        hexagram.trigrams[1] === trigramsToCheck[1].name
-    );
-    if (!newHexagram) {
-      newHexagram = hexagramStates[0];
-    }
-    // set the hexagram number
-    return newHexagram;
-  };
-
-  const getTransformedLines = (primaryLines) => {
-    const transformedLines = {};
-    for (const lineNumber in primaryLines) {
-      const line = primaryLines[lineNumber];
-      const transformedLine = { ...line };
-      if (transformedLine.changing) {
-        transformedLine.value =
-          transformedLine.value === "yin" ? "yang" : "yin";
-        transformedLine.changing = false;
-      }
-      transformedLines[lineNumber] = transformedLine;
-    }
-    return transformedLines;
-  };
-
-  useEffect(() => {
-    const [upperTrigram, lowerTrigram] = checkTrigrams(lines);
-    setTrigrams([upperTrigram, lowerTrigram]);
-  }, [lines]);
-
-  useEffect(() => {
-    const newHexagram = checkHexagram(trigrams);
-    setHexagram(newHexagram);
-  }, [trigrams]);
-
-  useEffect(() => {
-    async function fetchDekorne() {
-      const data = await getAllHexagramText();
-      setDekorneText(data);
-    }
-    fetchDekorne();
-  }, []);
-
-  useEffect(() => {
-    if (flipping.flippingStatus) {
-      findDesiredHexagram(flipping.oldHex);
-      setFlipping({ oldHex: undefined, flippingStatus: false });
-    }
-  }, [flipping]);
-
-  console.log(hexagram);
-
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
+  const dekorneText = useDekorneText();
+  const checkTrigrams = useCheckTrigram(lines, setTrigrams);
+  const checkHexagram = useCheckHexagram(trigrams, setHexagram);
+  const forceChangeHexagram = useForceChangeHexagram(setLines);
+  const setDesiredHexagram = useSetDesiredHexagram(lines, setLines);
+  const cycleLine = useCycleLine(lines, setLines);
+  const randomLine = useRandomLine(lines, setLines);
+  const getTransformedLines = useGetTransformedLines();
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);
 
-  const primaryHexText = dekorneText[hexagram.number - 1];
-  const transformedHexText = dekorneText[transformedHexagram.number - 1];
+  const [primaryHexText, setPrimaryHexText] = useState(undefined);
+  const [transformedHexText, setTransformedHexText] = useState(undefined);
 
-  console.log(primaryHexText, transformedHexText);
+  const [readingMode, setReadingMode] = useState({
+    mode: "explore",
+    modes: ["reading", "explore"],
+  });
+
+  const [showJournalModal, setShowJournalModal] = useState(false);
+
+  const { flipHexagram } = useFlipHexagram(
+    hexagram,
+    transformedHexagram,
+    lines,
+    setLines
+  );
+
+  useEffect(() => {
+    const transformedLines = getTransformedLines(lines);
+    const transformedTrigrams = checkTrigrams(transformedLines);
+    const transformedHexagram = checkHexagram(transformedTrigrams);
+    setPrimaryHexText(dekorneText[hexagram.number - 1]);
+    setTransformedHexText(dekorneText[transformedHexagram.number - 1]);
+  }, [lines, hexagram, dekorneText]);
+
+  useEffect(() => {
+    switch (readingMode.mode) {
+      case "reading":
+        setRandom(true);
+        break;
+      case "explore":
+        setRandom(false);
+        break;
+      default:
+        break;
+    }
+  }, [readingMode]);
 
   // Provide the context value to the consumer components
   return (
@@ -300,7 +107,11 @@ const GlobalProvider = ({ children }) => {
         flipHexagram,
         random,
         setRandom,
-        findDesiredHexagram,
+        readingMode,
+        setReadingMode,
+        setDesiredHexagram,
+        showJournalModal,
+        setShowJournalModal,
       }}
     >
       {children}

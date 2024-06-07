@@ -1,0 +1,28 @@
+.journal-btn {
+  /* fixed to bottom right of viewport */
+  position: fixed;
+  bottom: 140px;
+  right: 10px;
+  /* make it a circle */
+  border-radius: 50%;
+  /* fixed width and height for perfect circle */
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  transition: all 0.3s;
+  opacity: 0;
+}
+
+.journal-btn svg {
+  /* make the icon white */
+  fill: white;
+  /* scale the icon */
+  width: 30px;
+  height: 30px;
+  margin-left: -5px;
+}
+
+.journal-btn-show {
+  opacity: 1;
+}

@@ -1,0 +1,133 @@
+#journal-modal {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  position: fixed;
+  bottom: 69px; /* nice */
+  left: 0px;
+  right: 0px;
+  height: 250px;
+  z-index: 10000;
+  border: 3px solid white;
+  display: grid;
+  place-items: center;
+  padding: 55px 0 0 0;
+}
+
+#journal-modal .modal-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+}
+
+#journal-modal input {
+  height: 25px;
+}
+
+#journal-modal input.invalid {
+  border: 2px solid red;
+}
+
+#journal-modal textarea {
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
+  width: 95%;
+  height: 92%;
+  padding: 10px;
+  resize: none;
+  border: unset;
+}
+
+/* text area focus remove any border or whatever */
+
+#journal-modal textarea:focus {
+  outline: none;
+}
+
+/* <button id="close-journal">X</button>
+        <button id="maximize-toggle">O</button> */
+
+/* put close in top right, maximize in top left with a little buffer for both */
+
+#journal-modal button {
+  position: absolute;
+  top: 5px;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  border: unset;
+  cursor: pointer;
+}
+
+#journal-modal button#close-journal {
+  right: 5px;
+}
+
+#journal-modal button#maximize-toggle {
+  left: 5px;
+}
+
+/* <button id="save-journal">💾</button> */
+/* this button needs to go in the top middle 50% translate -50% whatever */
+
+#journal-modal button#save-journal {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: var(--text-color);
+  border: unset;
+  cursor: pointer;
+}
+
+/* Handling maximize state, modal should take up entire screen */
+
+#journal-modal.maximize {
+  bottom: 0;
+  height: 100%;
+  top: 0;
+  padding: 0;
+}
+
+#journal-modal.maximize .modal-container {
+  height: 100%;
+}
+
+/* change the two buttons so they go to bottom corners */
+
+#journal-modal.maximize button {
+  top: unset;
+  bottom: 15px;
+}
+
+#journal-modal.maximize button#close-journal {
+  right: 5px;
+}
+
+#journal-modal.maximize button#maximize-toggle {
+  left: 5px;
+}
+
+#journal-modal.maximize textarea {
+  background-color: var(--input-background-color);
+  color: var(--input-text-color);
+  width: 95%;
+  height: 87%;
+  resize: none;
+  border: unset;
+}
+
+/* save button needs to go in the middle bottom same translate BS */
+
+#journal-modal.maximize button#save-journal {
+  position: absolute;
+  top: unset;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  color: var(--text-color);
+  border: unset;
+  cursor: pointer;
+}

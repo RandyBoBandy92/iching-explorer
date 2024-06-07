@@ -1,18 +1,34 @@
 .reading-container {
-  background-color: gray;
-  color: white;
-  padding: 2rem;
+  background-color: var(--card-background-color);
+  color: var(--text-color);
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-bottom: 5rem;
+  transition: padding-bottom 0.5s;
+  margin-top: 1rem;
+  border-radius: 15px;
+  border: 2px solid var(--input-border-color);
+}
+
+.reading-container.modal-showing {
+  padding-bottom: 21rem;
 }
 
 .reading-container h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
   min-height: 80px;
 }
 
+.reading-select {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
 .hex-reading {
-  background-color: gray;
-  color: white;
+  color: var(--text-color);
   text-align: center;
   min-height: 80vh;
   margin-bottom: 3rem;
@@ -20,6 +36,26 @@
 
 .hex-reading summary {
   cursor: pointer;
+  list-style-position: inside;
+}
+
+.reading-container .hex-reading > summary button,
+.reading-container .hex-reading > summary .options {
+  margin: 1rem auto;
+}
+
+/* make the default down arrow from summary larger, and positioned in the center */
+
+.hex-reading summary::marker {
+  font-size: 2rem;
+}
+
+.hex-reading details[open] summary::marker {
+  transform: rotate(90deg);
+}
+
+.hex-reading details details summary::marker {
+  font-size: 1.5rem;
 }
 
 .hex-reading > summary button {
@@ -34,6 +70,7 @@
 .hex-reading h5 {
   display: inline;
 }
+
 .hex-reading h2 {
   font-size: 2.5rem;
 }
@@ -46,7 +83,8 @@
   text-align: left;
 }
 
-.translation-option {
+.translation-option,
+.changing-line {
   margin: 0.5rem 2rem;
   margin-left: 2rem;
 }
@@ -59,14 +97,29 @@
 
 .reading-nav {
   position: fixed;
-  bottom: 0;
+  bottom: 69px;
   left: 0;
   right: 0;
+  transform: translate(0, 200px);
+  background-color: var(--background-color);
+  padding: 0.5rem;
+  border-top: 2px solid white;
+  transition: transform 0.5s;
+  transition-delay: 0.2s;
+}
+
+.hide-reading-nav {
+  transform: translate(0, 100px);
+}
+
+.show-reading-nav {
+  transform: translate(0, 0px);
 }
 
 .reading-nav ul {
   all: unset;
   display: flex;
+  gap: 5px;
   width: 100%;
 }
 
@@ -77,9 +130,10 @@
 
 .reading-nav button {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .changing-line-option {
   margin-bottom: 1rem;
+  margin-left: 1rem;
 }

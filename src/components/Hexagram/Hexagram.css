@@ -3,12 +3,19 @@
   gap: 0.4rem;
   place-items: center;
   transition: all 0.5s ease-in-out;
+  transition-delay: 1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hexagram.primary {
   z-index: 100;
   cursor: pointer;
-  transform: translate(-150%, -50%);
+}
+
+.hexagram.transformed {
+  z-index: 90;
+  cursor: unset;
 }
 
 .hexagram.primary,
@@ -16,12 +23,12 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  /* transform: translate(-50%, -50%); */
+  transform: translate(-50%, -50%);
 }
 
 .hexagram.transformed {
   opacity: 0;
-  transform: translate(-130%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .show-transform .hexagram.primary {
