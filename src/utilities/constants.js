@@ -57,7 +57,7 @@ const hexagramStates = [
   { number: 35, trigrams: ["Fire", "Earth"], unicode: "\u4DE2" },
   { number: 36, trigrams: ["Earth", "Fire"], unicode: "\u4DE3" },
   { number: 37, trigrams: ["Wind", "Fire"], unicode: "\u4DE4" },
-  { number: 38, trigrams: ["Fire", "Wind"], unicode: "\u4DE5" },
+  { number: 38, trigrams: ["Fire", "Lake"], unicode: "\u4DE5" },
   { number: 39, trigrams: ["Water", "Mountain"], unicode: "\u4DE6" },
   { number: 40, trigrams: ["Thunder", "Water"], unicode: "\u4DE7" },
   { number: 41, trigrams: ["Mountain", "Lake"], unicode: "\u4DE8" },
