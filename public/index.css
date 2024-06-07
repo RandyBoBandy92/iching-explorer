@@ -81,6 +81,13 @@ input {
   transition: border-color 0.3s;
 }
 
+/* add disabled for input */
+
+input:disabled {
+  background-color: var(--button-disabled-background-color);
+  color: var(--button-disabled-text-color);
+}
+
 input::placeholder {
   color: var(--input-placeholder-color);
 }

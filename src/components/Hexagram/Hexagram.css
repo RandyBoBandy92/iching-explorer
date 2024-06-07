@@ -4,6 +4,8 @@
   place-items: center;
   transition: all 0.5s ease-in-out;
   transition-delay: 1s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .hexagram.primary {

@@ -6,13 +6,60 @@ import { useEffect } from "react";
 
 function OptionsMenu() {
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
-  const { readingMode } = useContext(GlobalContext);
+
+  const {
+    hexagram,
+    forceChangeHexagram,
+    flipHexagram,
+    random,
+    setRandom,
+    setDesiredHexagram,
+    readingMode,
+    setReadingMode,
+    transformedHexagram,
+  } = useContext(GlobalContext);
+  const [selectHex, setSelectHex] = useState({
+    primary: hexagram.number,
+    transform: transformedHexagram.number,
+  });
+
+  function handleReset() {
+    forceChangeHexagram(0);
+  }
 
   useEffect(() => {
     if (readingMode.mode === "reading") {
       setShowOptionsMenu(false);
     }
   }, [readingMode]);
+
+  // use effect, whenever either the transformed or primary hex changes,
+  // update the selectHex state to match
+
+  useEffect(() => {
+    if (hexagram.number !== selectHex.primary) {
+      setSelectHex({ ...selectHex, primary: hexagram.number });
+    }
+
+    if (transformedHexagram.number !== selectHex.transform) {
+      setSelectHex({ ...selectHex, transform: transformedHexagram.number });
+    }
+  }, [hexagram, transformedHexagram]);
+
+  function handleUpdateSelectHex(event, type) {
+    const newHexNumber = event.target.value;
+    // if number is not between 1 and 64, prevent updating
+    if (newHexNumber < 0 || newHexNumber > 64) {
+      return;
+    }
+    if (type === "primary") {
+      setSelectHex({ ...selectHex, primary: newHexNumber });
+    } else if (type === "transform") {
+      setSelectHex({ ...selectHex, transform: newHexNumber });
+    }
+  }
+
+  const updateGearUnicode = "\u26EE";
 
   return (
     <div className="options-menu">
@@ -29,12 +76,53 @@ function OptionsMenu() {
         }`}
       >
         <h2>Options</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. A voluptates
-          dolor aspernatur! Ipsam maxime adipisci sint harum dolorem vero
-          voluptatum voluptates debitis beatae nihil, dolores eum mollitia ipsum
-          at voluptas!
-        </p>
+        <div className="option-buttons">
+          <button onClick={handleReset}>Reset</button>
+          {/* add increase hex and decrease hex buttons, called hex+ and hex- */}
+          <button onClick={() => forceChangeHexagram(hexagram.number + 1)}>
+            Hex+
+          </button>
+          <button onClick={() => forceChangeHexagram(hexagram.number - 1)}>
+            Hex-
+          </button>
+        </div>
+        <div className="select-hex">
+          <div className="selector select-primary">
+            <h2>Primary Hex</h2>
+            <button
+              onClick={() => forceChangeHexagram(+selectHex.primary)}
+              className="update-select"
+            >
+              {updateGearUnicode}
+            </button>
+            <input
+              type="number"
+              min="1"
+              max="64"
+              onChange={(e) => handleUpdateSelectHex(e, "primary")}
+              value={selectHex.primary}
+            />
+          </div>
+
+          <div className=" selector select-transform">
+            <h2>Transform Hex</h2>
+            <button
+              onClick={() => setDesiredHexagram(+selectHex.transform)}
+              className="update-select"
+            >
+              {updateGearUnicode}
+            </button>
+            <input
+              // disabled when primary hex number is 0
+              type="number"
+              min="1"
+              max="64"
+              disabled={selectHex.primary === 0}
+              value={selectHex.transform}
+              onChange={(e) => handleUpdateSelectHex(e, "transform")}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

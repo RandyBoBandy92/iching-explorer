@@ -3,7 +3,8 @@
   --background-color: #ffffff;
   --surface-color: #f1f1f1;
   --primary-color: #6200ea;
-  --secondary-color: #03dac6;
+  --secondary-color: #ff6f61;
+  --secondary-color: #00bfa5;
   --text-color: #000000;
   --text-secondary-color: #5f6368;
   --error-color: #b00020;
@@ -11,6 +12,7 @@
 
   /* Button Colors */
   --button-background-color: var(--primary-color);
+  --button-secondary-background-color: var(--secondary-color);
   --button-text-color: white;
   --button-hover-background-color: #3700b3;
   --button-hover-text-color: var(--text-color);
@@ -55,7 +57,7 @@
   --background-color: #121212;
   --surface-color: #1e1e1e;
   --primary-color: #bb86fc;
-  --secondary-color: #03dac6;
+  --secondary-color: #ffab91;
   --text-color: #ffffff;
   --text-secondary-color: #b3b3b3;
   --error-color: #cf6679;
@@ -63,6 +65,7 @@
 
   /* Button Colors */
   --button-background-color: var(--primary-color);
+  --button-secondary-background-color: var(--secondary-color);
   --button-text-color: var(--text-color);
   --button-hover-background-color: #3700b3;
   --button-hover-text-color: var(--text-color);

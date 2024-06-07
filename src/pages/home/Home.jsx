@@ -62,7 +62,7 @@ const Home = () => {
           handleSearch={handleSearch}
           changeHexRef={changeHexRef}
           desiredHexRef={desiredHexRef}
-       /> */}
+        /> */}
 
         <HexReading
           primaryHexText={primaryHexText}

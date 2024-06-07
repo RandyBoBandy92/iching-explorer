@@ -22,6 +22,12 @@
   border: 3px solid black;
   display: flex;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.line * {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .line.correct {
