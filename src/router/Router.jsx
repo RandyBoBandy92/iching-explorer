@@ -7,7 +7,7 @@ import JournalPage from "../pages/journal/JournalPage";
 
 const BrowserRouter = () => {
   return (
-    <Router basename="/iching-explorer">
+    <Router basename="/iching-explorer-public">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/journal" element={<JournalPage />} />

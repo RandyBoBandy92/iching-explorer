@@ -26,17 +26,7 @@ const Home = () => {
   const location = useLocation();
   console.log(location.search);
 
-  const {
-    handleSearch,
-    changeHexRef,
-    desiredHexRef,
-    newHexagramNumber,
-    setNewHexagramNumber,
-    desiredHexagramNumber,
-    setDesiredHexagramNumber,
-    readingToShow,
-    setReadingToShow,
-  } = useAppHooks({
+  const { readingToShow } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
   });
@@ -71,7 +61,6 @@ const Home = () => {
             (primaryHexText && readingToShow === "primary") ||
             (transformedHexText && readingToShow === "transformed")
           }
-          type={readingToShow}
         />
       </div>
     </>

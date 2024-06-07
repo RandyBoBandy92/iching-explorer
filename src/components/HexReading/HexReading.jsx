@@ -9,12 +9,24 @@ import {
   getLineCorrelate,
 } from "../../utilities/toolbelt";
 import { useRef } from "react";
+import { useAppHooks } from "../../hooks/useAppHooks";
 
-function HexReading({ primaryHexText, transformedHexText, show, type }) {
+function HexReading({ primaryHexText, transformedHexText, show }) {
+  const {
+    lines,
+    transformedLines,
+    showJournalModal,
+    forceChangeHexagram,
+    setDesiredHexagram,
+  } = useContext(GlobalContext);
+
+  const { setReadingToShow, readingToShow } = useAppHooks({
+    forceChangeHexagram,
+    setDesiredHexagram,
+  });
+
+  const type = readingToShow;
   const hexText = type === "primary" ? primaryHexText : transformedHexText;
-
-  const { lines, transformedLines, showJournalModal, setReadingToShow } =
-    useContext(GlobalContext);
 
   const [options, setOptions] = useState({
     onlyChanging: false,
