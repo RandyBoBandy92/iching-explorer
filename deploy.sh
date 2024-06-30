@@ -10,8 +10,6 @@ npm run build
 if [ $? -eq 0 ]; then
     echo "Build succeeded. Copying files..."
 
-    # Copy all files from the 'dist' folder to the 'iching-explorer-public' folder
-    cp -r dist/* ../iching-explorer-public/
 
     # Navigate to the iching-explorer-public directory
     cd ../iching-explorer-public
@@ -32,6 +30,9 @@ if [ $? -eq 0 ]; then
 
     # Remove existing files in the repository, except for the .git folder
     find . -path ./.git -prune -o -type f -exec rm -f {} +
+
+    # Copy all files from the 'dist' folder to the 'iching-explorer-public' folder
+    cp -r ../iching-explorer/dist/* .
 
     # Add changes to git
     git add .
