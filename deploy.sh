@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Navigate to the iching-explorer directory
+cd iching-explorer
 
 # Run the build process
 npm run build
@@ -14,6 +15,23 @@ if [ $? -eq 0 ]; then
 
     # Navigate to the iching-explorer-public directory
     cd ../iching-explorer-public
+
+    # Show files that will be deleted first, and add confirm prompt
+    echo "The following files will be deleted:"
+    # List all files in the repository, except for the .git folder
+    find . -path ./.git -prune -o -type f -print
+
+    read -p "Do you want to continue? (y/n) " -n 1 -r
+    echo # move to a new line
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        echo "Aborting script."
+        exit 1
+    fi
+
+    # Remove existing files in the repository, except for the .git folder
+    find . -path ./.git -prune -o -type f -exec rm -f {} +
 
     # Add changes to git
     git add .
@@ -29,3 +47,6 @@ else
     echo "Build failed. Aborting script."
     exit 1
 fi
+
+# Go back to the original directory
+cd ../iching-explorer
