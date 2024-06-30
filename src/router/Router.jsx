@@ -12,6 +12,7 @@ const BrowserRouter = () => {
         <Route path="/" element={<Home />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<Home />} />
       </Routes>
       <BottomNav />
     </Router>
