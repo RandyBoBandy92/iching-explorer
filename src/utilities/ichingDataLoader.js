@@ -1,18 +1,21 @@
 // need to load all 64 JSON files into uhh.. an array I guess.
 
 async function getAllHexagramText() {
-  const dekorneTexts = [];
+  const fetchPromises = [];
   for (let index = 1; index < 65; index++) {
-    try {
-      const hexData = await fetch(`./hexagramJSONS/hexagram${index}.json`);
-      const hexObj = await hexData.json();
-      hexObj.number = index;
-      dekorneTexts.push(hexObj);
-    } catch (error) {
-      console.log(error);
-    }
+    const fetchPromise = fetch(`./hexagramJSONS/hexagram${index}.json`)
+      .then((response) => response.json())
+      .then((hexObj) => ({ ...hexObj, number: index }))
+      .catch((error) => {
+        console.log(error);
+        return null; // Return null in case of an error
+      });
+    fetchPromises.push(fetchPromise);
   }
-  return dekorneTexts;
+
+  const dekorneTexts = await Promise.all(fetchPromises);
+  // Filter out any null responses due to fetch errors
+  return dekorneTexts.filter((text) => text !== null);
 }
 
 export { getAllHexagramText };
