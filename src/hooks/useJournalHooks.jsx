@@ -30,6 +30,7 @@ export function useJournalHooks() {
     const newEntry = createEntry();
     entries.push(newEntry);
     localStorage.setItem("journalEntries", JSON.stringify(entries));
+    setJournalNotes({ title: "", note: "" });
   }
 
   function buildSearchString() {
