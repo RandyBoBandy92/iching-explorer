@@ -1,13 +1,12 @@
-// src/App.js
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BottomNav from "../components/Nav/Nav";
 import Home from "../pages/home/Home";
 import Settings from "../pages/settings/Settings";
 import JournalPage from "../pages/journal/JournalPage";
 
-const BrowserRouter = () => {
+const App = () => {
   return (
-    <Router basename="/iching-explorer-public">
+    <Router basename="/iching-explorer-public/">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/journal" element={<JournalPage />} />
@@ -19,4 +18,4 @@ const BrowserRouter = () => {
   );
 };
 
-export default BrowserRouter;
+export default App;
