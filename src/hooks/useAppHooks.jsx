@@ -22,11 +22,6 @@ export function useAppHooks({ forceChangeHexagram, setDesiredHexagram }) {
   }, [loadingReading]);
 
   useEffect(() => {
-    const currentHref = window.location.href;
-    const searchParams = decodeURIComponent(currentHref.split("?search=")[1]);
-    if (searchParams) {
-      handleSearch(currentHref);
-    }
     const handleKeyDown = (e) => {
       // if key combo is shift + /, focus on the desired hex input
       if (e.key === "?" && e.shiftKey) {
@@ -45,8 +40,8 @@ export function useAppHooks({ forceChangeHexagram, setDesiredHexagram }) {
     };
   }, []);
 
-  function handleSearch(href) {
-    const searchParams = decodeURIComponent(href.split("?search=")[1]);
+  function handleSearch(urlSearchparams) {
+    const searchParams = urlSearchparams.get("search");
     if (!searchParams || searchParams === "undefined") return;
     const type = searchParams.includes("=>") ? "multi" : "single";
     if (type === "single") {

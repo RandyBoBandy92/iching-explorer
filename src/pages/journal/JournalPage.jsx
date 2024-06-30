@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
 import "./journalpage.css";
 
@@ -31,9 +32,9 @@ function JournalPage() {
           <summary>Notes</summary>
           <p>{entry.journalNotes.note}</p>
         </details>
-        <a href={`/${entry.link}`} className="journal-entry-link">
+        <Link to={`/${entry.link}`} className="journal-entry-link">
           View Reading
-        </a>
+        </Link>
       </div>
     );
   }

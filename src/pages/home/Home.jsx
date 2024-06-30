@@ -10,8 +10,10 @@ import JournalBtn from "../../components/JournalBtn/JournalBtn";
 import JournalModal from "../../components/Journal/Journal";
 import { useLocation } from "react-router-dom";
 import OptionsMenu from "../../components/OptionsMenu/OptionsMenu";
+import { useEffect } from "react";
 
 const Home = () => {
+  const location = useLocation();
   const {
     forceChangeHexagram,
     setDesiredHexagram,
@@ -23,13 +25,20 @@ const Home = () => {
     hexagram,
   } = useContext(GlobalContext);
 
-  const location = useLocation();
   console.log(location.search);
 
-  const { readingToShow } = useAppHooks({
+  const { readingToShow, handleSearch } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
   });
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    if (searchParams) {
+      handleSearch(searchParams);
+    }
+  }, []);
 
   const showTransformClass =
     hexagram.number && changingLinesExist ? "show-transform" : "";
