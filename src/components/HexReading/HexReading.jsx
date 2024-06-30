@@ -98,30 +98,16 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     });
 
     function handleNav(e) {
-      // open the primary details elem
-      document.querySelector("details.hex-reading").open = true;
+      debugger;
+      document.querySelector("details").open = true;
       const idToScroll = this.dataset.id;
       const scrollToElem = document.getElementById(idToScroll);
       let scrollDetailsElem;
       if (scrollToElem.localName !== "details") {
         scrollDetailsElem = scrollToElem.querySelector("details");
-        // get current open state
-        const isOpen = scrollDetailsElem.open;
-        // if open, close it
-        if (isOpen) {
-          scrollDetailsElem.open = false;
-        } else {
-          scrollDetailsElem.open = true;
-        }
+        scrollDetailsElem.open = true;
       } else {
-        // get current open state
-        const isOpen = scrollToElem.open;
-        // if open, close it
-        if (isOpen) {
-          scrollToElem.open = false;
-        } else {
-          scrollToElem.open = true;
-        }
+        scrollToElem.open = true;
       }
       scrollToElem.scrollIntoView();
     }
