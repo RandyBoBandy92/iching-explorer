@@ -3,6 +3,7 @@ import "./optionsmenu.css";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { useEffect } from "react";
+import { useAppHooks } from "../../hooks/useAppHooks";
 
 function OptionsMenu() {
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
@@ -23,7 +24,12 @@ function OptionsMenu() {
     transform: transformedHexagram.number,
   });
 
+  const { setReadingToShow } = useAppHooks({
+    forceChangeHexagram,
+    setDesiredHexagram,
+  });
   function handleReset() {
+    setReadingToShow("primary");
     forceChangeHexagram(0);
   }
 

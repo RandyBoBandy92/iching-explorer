@@ -42,6 +42,10 @@ const Home = () => {
 
   const showTransformClass =
     hexagram.number && changingLinesExist ? "show-transform" : "";
+
+  const show =
+    (primaryHexText && readingToShow === "primary") ||
+    (transformedHexText && readingToShow === "transformed");
   return (
     <>
       <JournalModal />
@@ -66,10 +70,7 @@ const Home = () => {
         <HexReading
           primaryHexText={primaryHexText}
           transformedHexText={transformedHexText}
-          show={
-            (primaryHexText && readingToShow === "primary") ||
-            (transformedHexText && readingToShow === "transformed")
-          }
+          show={show}
         />
       </div>
     </>

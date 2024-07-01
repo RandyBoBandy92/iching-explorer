@@ -471,7 +471,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
 
   return (
     <>
-      {show && (
+      {show && hexText && (
         <>
           <div
             className={`reading-container ${show ? "show" : "hide"} ${
@@ -569,6 +569,5 @@ HexReading.propTypes = {
   primaryHexText: PropTypes.object,
   transformedHexText: PropTypes.object,
   show: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf(["primary", "transformed"]).isRequired,
 };
 export default HexReading;
