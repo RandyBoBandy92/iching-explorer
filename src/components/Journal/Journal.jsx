@@ -23,6 +23,7 @@ const JournalModal = () => {
       const journalInput = document.getElementById("journal-title");
       journalInput.classList.add("invalid");
     }
+    handleCloseJournal();
   }
 
   function handleChangeTitle(event) {

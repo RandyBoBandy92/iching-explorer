@@ -32,8 +32,6 @@
 #journal-modal textarea {
   background-color: var(--input-background-color);
   color: var(--input-text-color);
-  width: 95%;
-  height: 92%;
   padding: 10px;
   resize: none;
   border: unset;
