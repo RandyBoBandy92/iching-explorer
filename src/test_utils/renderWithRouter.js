@@ -2,8 +2,10 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import PropTypes from 'prop-types';
+import { BrowserRouter } from 'react-router-dom';
+import { GlobalProvider } from '../context/GlobalContext';
 
-const renderWithRouterAndContext = (
+const renderWithMockRouterAndContext = (
   ui,
   {
     route = '/',
@@ -27,5 +29,18 @@ const renderWithRouterAndContext = (
   return render(<Providers>{ui}</Providers>);
 };
 
+const renderWithRouterAndContext = (ui, { route = '/' } = {}) => {
+  window.history.pushState({}, 'Test page', route);
+
+  return render(
+    <GlobalProvider>
+      <BrowserRouter>
+        {ui}
+      </BrowserRouter>
+    </GlobalProvider>
+  );
+};
+
+
 export * from '@testing-library/react';
-export { renderWithRouterAndContext };
+export { renderWithMockRouterAndContext, renderWithRouterAndContext };

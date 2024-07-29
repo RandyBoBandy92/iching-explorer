@@ -99,7 +99,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     });
 
     function handleNav(e) {
-      debugger;
       document.querySelector("details").open = true;
       const idToScroll = this.dataset.id;
       const scrollToElem = document.getElementById(idToScroll);

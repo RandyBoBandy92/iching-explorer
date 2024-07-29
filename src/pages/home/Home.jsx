@@ -25,8 +25,6 @@ const Home = () => {
     hexagram,
   } = useContext(GlobalContext);
 
-  console.log(location.search);
-
   const { readingToShow, handleSearch } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,

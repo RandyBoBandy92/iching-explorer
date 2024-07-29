@@ -1,5 +1,5 @@
 import React from "react";
-import { renderWithRouterAndContext } from "../test_utils/renderWithRouter";
+import { renderWithMockRouterAndContext } from "../test_utils/renderWithRouter";
 import Hexagram from "../components/Hexagram/Hexagram";
 import { GlobalContext } from "../context/GlobalContext";
 import { screen, fireEvent } from "@testing-library/react";
@@ -26,7 +26,7 @@ test("renders Hexagram component with primary type", () => {
     transformedHexagram: { number: 2 },
   };
 
-  renderWithRouterAndContext(<Hexagram type="primary" />, {
+  renderWithMockRouterAndContext(<Hexagram type="primary" />, {
     contexts: [{ provider: GlobalContext.Provider, value: globalContextValue }],
   });
 
@@ -55,7 +55,7 @@ test("renders Hexagram component with transformed type", () => {
     transformedHexagram: { number: 2 },
   };
 
-  renderWithRouterAndContext(<Hexagram type="transformed" />, {
+  renderWithMockRouterAndContext(<Hexagram type="transformed" />, {
     contexts: [{ provider: GlobalContext.Provider, value: globalContextValue }],
   });
 
@@ -86,7 +86,7 @@ test("calls cycleLine when line is clicked", () => {
     cycleLine: cycleLineMock,
   };
 
-  const { container } = renderWithRouterAndContext(
+  const { container } = renderWithMockRouterAndContext(
     <Hexagram type="primary" />,
     {
       contexts: [
