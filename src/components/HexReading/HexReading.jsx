@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import "./HexReading.css";
 import { useEffect } from "react";
@@ -568,6 +569,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
 HexReading.propTypes = {
   primaryHexText: PropTypes.object,
   transformedHexText: PropTypes.object,
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool,
 };
 export default HexReading;

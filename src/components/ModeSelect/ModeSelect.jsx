@@ -24,7 +24,10 @@ const ModeSelect = ({ mode, setMode }) => {
   };
 
   useEffect(() => {
-    if (optionRefs.current[selectedIndex]) {
+    if (
+      optionRefs.current[selectedIndex] &&
+      typeof optionRefs.current[selectedIndex].scrollIntoView === "function"
+    ) {
       optionRefs.current[selectedIndex].scrollIntoView({
         behavior: "smooth",
         block: "nearest",

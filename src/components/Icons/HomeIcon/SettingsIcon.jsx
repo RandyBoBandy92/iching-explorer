@@ -1,3 +1,4 @@
+import React from "react";
 // icon:settings-outline | Ionicons https://ionicons.com/ | Ionic Framework
 
 function IconSettingsOutline(props) {

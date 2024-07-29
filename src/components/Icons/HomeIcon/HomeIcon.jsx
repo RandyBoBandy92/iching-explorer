@@ -1,3 +1,4 @@
+import React from "react";
 // icon:bx-home | Boxicons https://boxicons.com/ | Atisa
 
 function IconBxHome(props) {

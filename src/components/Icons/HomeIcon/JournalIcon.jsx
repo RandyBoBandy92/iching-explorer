@@ -1,3 +1,4 @@
+import React from "react";
 // icon:notebook-edit-outline | Material Design Icons https://materialdesignicons.com/ | Austin Andrews
 
 function IconNotebookEditOutline(props) {

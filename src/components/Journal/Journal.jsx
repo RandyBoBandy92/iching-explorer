@@ -1,3 +1,4 @@
+import React from "react";
 import "./journal.css";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
 
