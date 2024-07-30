@@ -19,7 +19,7 @@ function useRenderCategory() {
             <h3>{heading}</h3>
           </summary>
           <div className="translations">
-            {text.map((textObj, index) => {
+            {text.map((textObj) => {
               const subDetailsKey = `${heading}-${textObj.translationText}-${textObj.author}`;
               return (
                 <details className={`translation-option`} key={subDetailsKey}>
@@ -270,7 +270,7 @@ function useRenderLines(hexText, lines, transformedLines, type, options) {
             </div>
 
             <div className="line-translations">
-              {translationLineText.map((translationLineText, index) => {
+              {translationLineText.map((translationLineText) => {
                 const changingLineOptionKey = `${lineNum}-${type}-${translationLineText.author}`;
                 return (
                   <details
@@ -286,7 +286,7 @@ function useRenderLines(hexText, lines, transformedLines, type, options) {
                     ) : (
                       <>
                         {translationLineText.translationText.map(
-                          (textChunk, index) => {
+                          (textChunk) => {
                             if (textChunk === "Siu") {
                               return null;
                             }

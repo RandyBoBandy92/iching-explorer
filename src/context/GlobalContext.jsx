@@ -1,14 +1,7 @@
 import React, { createContext, useState } from "react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import {
-  emptyHexagram,
-  emptyTrigram,
-  hexagramStates,
-  lineStates,
-  trigramStates,
-} from "../utilities/constants";
-import { getAllHexagramText } from "../utilities/ichingDataLoader";
+import { emptyHexagram, emptyTrigram } from "../utilities/constants";
 import { useFlipHexagram } from "../hooks/useFlipHexagram";
 import { useForceChangeHexagram } from "../hooks/useForceChangeHexagram";
 import { useSetDesiredHexagram } from "../hooks/useSetDesiredHexagram";
