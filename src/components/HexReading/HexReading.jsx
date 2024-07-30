@@ -1,16 +1,17 @@
+// src/components/HexReading/HexReading.js
 import React from "react";
 import PropTypes from "prop-types";
 import "./HexReading.css";
-import { useEffect } from "react";
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-import { useState } from "react";
-import {
-  getCorrectLineEnergy,
-  getLineCorrelate,
-} from "../../utilities/toolbelt";
-import { useRef } from "react";
 import { useAppHooks } from "../../hooks/useAppHooks";
+import {
+  useCombinedLineData,
+  useRenderCategory,
+  useRenderNotes,
+  useHandleNav,
+  useHandleDetailClick,
+} from "../../hooks/useHexReadingHooks";
 
 function HexReading({ primaryHexText, transformedHexText, show }) {
   const {
@@ -36,158 +37,16 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
 
   const showAllRef = useRef();
 
-  function getCombinedLineData() {
-    const combinedLinesData = [];
-    for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
-      const combinedLineData = {};
-
-      // Associate translation writings
-      combinedLineData.translations = hexText[`line_${lineNumber}`];
-
-      // add type
-      combinedLineData.type = type;
-
-      // associate line data
-      combinedLineData.data = lines[`line${lineNumber}`];
-      combinedLineData.transformedData = transformedLines[`line${lineNumber}`];
-      combinedLineData.lineNum = `line${lineNumber}`;
-
-      // Get energy reading
-      combinedLineData.lineEnergy = getCorrectLineEnergy(
-        combinedLineData.data.value,
-        combinedLineData.lineNum,
-        lines
-      );
-      combinedLineData.transformedlineEnergy = transformedLines
-        ? getCorrectLineEnergy(
-            combinedLineData.transformedData.value,
-            combinedLineData.lineNum,
-            transformedLines
-          )
-        : undefined;
-
-      // Get line correlation
-      combinedLineData.lineCorrelateMatch = getLineCorrelate(
-        combinedLineData.data,
-        combinedLineData.lineNum,
-        transformedLines
-      );
-      combinedLineData.transformedCorrelateMatch = transformedLines
-        ? getLineCorrelate(
-            combinedLineData.transformedData,
-            combinedLineData.lineNum,
-            transformedLines
-          )
-        : undefined;
-
-      combinedLinesData.push(combinedLineData);
-    }
-
-    return combinedLinesData;
-  }
-
-  useEffect(() => {
-    const allDetailsBtns = document.querySelectorAll(
-      "details h2, details h3, details h4"
-    );
-
-    const allDetails = document.querySelectorAll("details");
-
-    const allNavButtons = document.querySelectorAll(".reading-nav button");
-    allNavButtons.forEach((navBtn) => {
-      navBtn.addEventListener("click", handleNav);
-    });
-
-    function handleNav(e) {
-      document.querySelector("details").open = true;
-      const idToScroll = this.dataset.id;
-      const scrollToElem = document.getElementById(idToScroll);
-      let scrollDetailsElem;
-      if (scrollToElem.localName !== "details") {
-        scrollDetailsElem = scrollToElem.querySelector("details");
-        scrollDetailsElem.open = true;
-      } else {
-        scrollToElem.open = true;
-      }
-      scrollToElem.scrollIntoView();
-    }
-
-    function handleDetailClick(event) {
-      if (["h2", "h3", "h4"].includes(event.target.localName)) {
-        event.stopPropagation();
-      }
-      const isOpen = this.open;
-      if (!isOpen) {
-        // opening
-        setTimeout(() => {
-          this.scrollIntoView();
-        }, 10);
-      }
-    }
-    if (hexText) {
-      allDetails.forEach((detailElem) => {
-        detailElem.addEventListener("click", handleDetailClick);
-        detailElem.removeAttribute("open");
-      });
-    }
-    return () => {
-      allDetailsBtns.forEach((detailElem) => {
-        detailElem.removeEventListener("click", handleDetailClick);
-      });
-    };
-  }, [hexText]);
-
-  function renderCategory(heading, iChingSubCategory) {
-    const text = [];
-    for (const author in iChingSubCategory) {
-      if (Object.hasOwnProperty.call(iChingSubCategory, author)) {
-        const translationText = iChingSubCategory[author];
-        text.push({ author, translationText });
-      }
-    }
-    return (
-      <>
-        <details id={heading} className={`sub-reading ${heading} `}>
-          <summary>
-            <h3>{heading}</h3>
-          </summary>
-          <div className="translations">
-            {text.map((textObj, index) => (
-              <details
-                className={`translation-option`}
-                key={`${textObj.translationText}-${index}-${textObj.author}`}
-              >
-                <summary>
-                  <h4>{textObj.author}</h4>
-                </summary>
-                <p>{textObj.translationText}</p>
-              </details>
-            ))}
-          </div>
-        </details>
-      </>
-    );
-  }
-
-  function renderNotes(notes) {
-    const notesArray = notes.split("\n");
-    return (
-      <>
-        <div id="Notes" className="sub-reading other-notes">
-          <details className="sub-reading notes">
-            <summary>
-              <h3>Notes</h3>
-            </summary>
-            <div className="notes">
-              {notesArray.map((note, index) => (
-                <p key={`${note}-${index}`}>{note}</p>
-              ))}
-            </div>
-          </details>
-        </div>
-      </>
-    );
-  }
+  const getCombinedLineData = useCombinedLineData(
+    hexText,
+    lines,
+    transformedLines,
+    type
+  );
+  const renderCategory = useRenderCategory();
+  const renderNotes = useRenderNotes();
+  useHandleNav();
+  useHandleDetailClick(hexText);
 
   function renderLines() {
     const linesDataCombined = getCombinedLineData();
@@ -197,7 +56,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     );
 
     const lineHtml = linesDataCombined.map((lineDataCombined) => {
-      // pull data from line data combined
       const {
         lineNum,
         data,
@@ -209,11 +67,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
         transformedCorrelateMatch,
         type,
       } = lineDataCombined;
-
-      // determine auspiciousness of reading
-      // say that if the energy is good.. that's moderate
-      // if correlate is good, that's auspicious
-      // if both, very auspicious
 
       let auspiciousness;
 
@@ -255,7 +108,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
           auspiciousness = "Not good lol";
         }
       } else {
-        // transformed
         if (possibilities.transformed.best) {
           auspiciousness = "Very Highly Auspicious";
         } else if (possibilities.transformed.better) {
@@ -410,11 +262,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     if (!mainDetails.open) {
       mainDetails.open = true;
     }
-    // if (shouldShow) {
-    //   mainDetails.open = true;
-    // } else {
-    //   mainDetails.removeAttribute("open");
-    // }
     allSubDetails.forEach((detail) => {
       if (shouldShow) {
         detail.open = true;
