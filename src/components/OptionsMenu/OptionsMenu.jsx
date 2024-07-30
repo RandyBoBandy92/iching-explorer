@@ -42,14 +42,23 @@ function OptionsMenu() {
   // update the selectHex state to match
 
   useEffect(() => {
-    if (hexagram.number !== selectHex.primary) {
-      setSelectHex({ ...selectHex, primary: hexagram.number });
-    }
+    setSelectHex((prevSelectHex) => {
+      const updatedSelectHex = { ...prevSelectHex };
+      let changed = false;
 
-    if (transformedHexagram.number !== selectHex.transform) {
-      setSelectHex({ ...selectHex, transform: transformedHexagram.number });
-    }
-  }, [hexagram, transformedHexagram]);
+      if (hexagram.number !== prevSelectHex.primary) {
+        updatedSelectHex.primary = hexagram.number;
+        changed = true;
+      }
+
+      if (transformedHexagram.number !== prevSelectHex.transform) {
+        updatedSelectHex.transform = transformedHexagram.number;
+        changed = true;
+      }
+
+      return changed ? updatedSelectHex : prevSelectHex;
+    });
+  }, [hexagram.number, transformedHexagram.number]);
 
   function handleUpdateSelectHex(event, type) {
     const newHexNumber = event.target.value;

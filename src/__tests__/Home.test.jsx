@@ -14,11 +14,15 @@ afterEach(() => {
 });
 
 test("renders Home component with real context and router", () => {
-  renderWithRouterAndContext(<Home />, { route: "/" });
+  const { container } = renderWithRouterAndContext(<Home />, { route: "/" });
 
   // verify component mounts without error
   expect(console.error).not.toHaveBeenCalled();
   expect(console.warn).not.toHaveBeenCalled();
+
+  // verify a div with an id of 'home' exists on the page
+  const homeDiv = container.querySelector("#home");
+  expect(homeDiv).toBeInTheDocument();
 });
 
 test("Clicking each of the 6 lines, should yield hexagram 2", () => {
