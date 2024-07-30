@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { getCorrectLineEnergy, getLineCorrelate } from "../utilities/toolbelt";
 
-export function useCombinedLineData(hexText, lines, transformedLines, type) {
+function useCombinedLineData(hexText, lines, transformedLines, type) {
   return function getCombinedLineData() {
     const combinedLinesData = [];
     for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
@@ -47,8 +47,7 @@ export function useCombinedLineData(hexText, lines, transformedLines, type) {
     return combinedLinesData;
   };
 }
-
-export function useRenderCategory() {
+function useRenderCategory() {
   return function renderCategory(heading, iChingSubCategory) {
     const text = [];
     for (const author in iChingSubCategory) {
@@ -57,6 +56,7 @@ export function useRenderCategory() {
         text.push({ author, translationText });
       }
     }
+
     return (
       <>
         <details id={heading} className={`sub-reading ${heading} `}>
@@ -64,17 +64,17 @@ export function useRenderCategory() {
             <h3>{heading}</h3>
           </summary>
           <div className="translations">
-            {text.map((textObj, index) => (
-              <details
-                className={`translation-option`}
-                key={`${heading}-${textObj.translationText}-${index}-${textObj.author}`}
-              >
-                <summary>
-                  <h4>{textObj.author}</h4>
-                </summary>
-                <p>{textObj.translationText}</p>
-              </details>
-            ))}
+            {text.map((textObj, index) => {
+              const subDetailsKey = `${heading}-${textObj.translationText}-${index}-${textObj.author}`;
+              return (
+                <details className={`translation-option`} key={subDetailsKey}>
+                  <summary>
+                    <h4>{textObj.author}</h4>
+                  </summary>
+                  <p>{textObj.translationText}</p>
+                </details>
+              );
+            })}
           </div>
         </details>
       </>
@@ -82,7 +82,7 @@ export function useRenderCategory() {
   };
 }
 
-export function useRenderNotes() {
+function useRenderNotes() {
   return function renderNotes(notes) {
     const notesArray = notes.split("\n");
     return (
@@ -110,7 +110,7 @@ export function useRenderNotes() {
 // and the event listeners are cleaned up and readded, I do not foresee any negative side effects
 // from using Vanilla JS in this way. However I would be open to input on this.
 
-export function useHandleNav() {
+function useHandleNav() {
   useEffect(() => {
     const allNavButtons = document.querySelectorAll(".reading-nav button");
     allNavButtons.forEach((navBtn) => {
@@ -139,7 +139,7 @@ export function useHandleNav() {
   }, []);
 }
 
-export function useHandleDetailClick(hexText) {
+function useHandleDetailClick(hexText) {
   useEffect(() => {
     const allDetailsBtns = document.querySelectorAll(
       "details h2, details h3, details h4"
@@ -174,13 +174,7 @@ export function useHandleDetailClick(hexText) {
   }, [hexText]);
 }
 
-export function useRenderLines(
-  hexText,
-  lines,
-  transformedLines,
-  type,
-  options
-) {
+function useRenderLines(hexText, lines, transformedLines, type, options) {
   const getCombinedLineData = useCombinedLineData(
     hexText,
     lines,
@@ -188,6 +182,7 @@ export function useRenderLines(
     type
   );
 
+  const keys = [];
   return function renderLines() {
     const linesDataCombined = getCombinedLineData();
 
@@ -330,6 +325,7 @@ export function useRenderLines(
         }
       }
       const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}-${lineDataCombined.data.value}`;
+      keys.push(lineKey);
       return (
         <>
           <details
@@ -352,35 +348,41 @@ export function useRenderLines(
               </div>
 
               <div className="line-translations">
-                {translationLineText.map((translationLineText, index) => (
-                  <details
-                    key={`${lineNum}-${type}-${translationLineText.author}-${index}`}
-                    open
-                    className="changing-line-option "
-                  >
-                    <summary>
-                      <h4>{translationLineText.author}</h4>
-                    </summary>
-                    {!["Notes"].includes(translationLineText.author) ? (
-                      <p>{translationLineText.translationText}</p>
-                    ) : (
-                      <>
-                        {translationLineText.translationText.map(
-                          (textChunk, index) => {
-                            if (textChunk === "Siu") {
-                              return null;
+                {translationLineText.map((translationLineText, index) => {
+                  const changingLineOptionKey = `${lineNum}-${type}-${translationLineText.author}-${index}`;
+                  keys.push(changingLineOptionKey);
+                  return (
+                    <details
+                      key={changingLineOptionKey}
+                      open
+                      className="changing-line-option "
+                    >
+                      <summary>
+                        <h4>{translationLineText.author}</h4>
+                      </summary>
+                      {!["Notes"].includes(translationLineText.author) ? (
+                        <p>{translationLineText.translationText}</p>
+                      ) : (
+                        <>
+                          {translationLineText.translationText.map(
+                            (textChunk, index) => {
+                              if (textChunk === "Siu") {
+                                return null;
+                              }
+                              const chunkKey = `${lineNumInt}-${textChunk}`;
+                              keys.push(chunkKey);
+                              return (
+                                <p key={`${chunkKey}-${textChunk}`}>
+                                  {textChunk}
+                                </p>
+                              );
                             }
-                            return (
-                              <p key={`${lineNumInt}-${textChunk}`}>
-                                {textChunk}
-                              </p>
-                            );
-                          }
-                        )}
-                      </>
-                    )}
-                  </details>
-                ))}
+                          )}
+                        </>
+                      )}
+                    </details>
+                  );
+                })}
               </div>
             </div>
           </details>
@@ -389,8 +391,8 @@ export function useRenderLines(
     });
     return (
       <>
-        <div id="Lines" className="sub-reading changing-lines">
-          <details>
+        <div key="fart" id="Lines" className="sub-reading changing-lines">
+          <details key="primary-changing-lines-details">
             <summary>
               <h3>Changing Lines</h3>
             </summary>
@@ -401,3 +403,12 @@ export function useRenderLines(
     );
   };
 }
+
+export {
+  useCombinedLineData,
+  useRenderCategory,
+  useRenderNotes,
+  useHandleNav,
+  useHandleDetailClick,
+  useRenderLines,
+};

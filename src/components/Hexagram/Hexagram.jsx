@@ -13,12 +13,13 @@ function Hexagram({ type }) {
     const lineComponents = [];
     for (let lineNum in linesToRender) {
       const lineData = linesToRender[lineNum];
+      const key = `${lineNum}-${type}`;
       lineComponents.push(
         <Line
           lineData={lineData}
           lineNumber={lineNum}
           lines={linesToRender}
-          key={`${lineNum}-${type}`}
+          key={key}
           type={type}
         />
       );
