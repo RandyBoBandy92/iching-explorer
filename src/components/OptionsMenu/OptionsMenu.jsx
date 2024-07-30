@@ -116,6 +116,10 @@ function OptionsMenu() {
         }`}
       >
         <h2>Options</h2>
+        <p>
+          Press <code>/</code> to focus on Primary, <code>Shift + /</code> to
+          focus on Transform
+        </p>
         <div className="option-buttons">
           <button onClick={handleReset}>Reset</button>
           <button onClick={() => forceChangeHexagram(hexagram.number + 1)}>
