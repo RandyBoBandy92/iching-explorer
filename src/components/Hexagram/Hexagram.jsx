@@ -4,17 +4,19 @@ import Line from "../Line/Line";
 import "./Hexagram.css";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
+import { useMemo } from "react";
 
 function Hexagram({ type }) {
   const { lines, transformedLines, hexagram, transformedHexagram } =
     useContext(GlobalContext);
 
-  function renderLines(linesToRender) {
-    const lineComponents = [];
-    for (let lineNum in linesToRender) {
+  const linesToRender = type === "primary" ? lines : transformedLines;
+
+  const lineComponents = useMemo(() => {
+    return Object.keys(linesToRender).map((lineNum) => {
       const lineData = linesToRender[lineNum];
       const key = `${lineNum}-${type}`;
-      lineComponents.push(
+      return (
         <Line
           lineData={lineData}
           lineNumber={lineNum}
@@ -23,9 +25,8 @@ function Hexagram({ type }) {
           type={type}
         />
       );
-    }
-    return lineComponents;
-  }
+    });
+  }, [linesToRender, type]);
 
   return (
     <>
@@ -33,7 +34,7 @@ function Hexagram({ type }) {
         <h2>
           {type === "primary" ? hexagram.number : transformedHexagram.number}
         </h2>
-        {renderLines(type === "primary" ? lines : transformedLines)}
+        {lineComponents}
       </div>
     </>
   );
