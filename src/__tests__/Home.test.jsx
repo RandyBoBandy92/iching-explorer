@@ -1,7 +1,7 @@
 import React from "react";
 import { renderWithRouterAndContext } from "../test_utils/renderWithRouter";
 import Home from "../pages/home/Home"; // Adjust the import path as needed
-import { fireEvent, screen } from "../test_utils/renderWithRouter";
+import { screen, fireEvent } from "@testing-library/react";
 
 beforeEach(() => {
   jest.spyOn(console, "error").mockImplementation(() => {});
