@@ -1,52 +1,7 @@
 // src/hooks/useHexReadingHelpers.js
 import { useEffect } from "react";
-import { getCorrectLineEnergy, getLineCorrelate } from "../utilities/toolbelt";
+import { getCombinedLineData } from "../utilities/toolbelt";
 
-function useCombinedLineData(hexText, lines, transformedLines, type) {
-  return function getCombinedLineData() {
-    const combinedLinesData = [];
-    for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
-      const combinedLineData = {};
-
-      combinedLineData.translations = hexText[`line_${lineNumber}`];
-      combinedLineData.type = type;
-
-      combinedLineData.data = lines[`line${lineNumber}`];
-      combinedLineData.transformedData = transformedLines[`line${lineNumber}`];
-      combinedLineData.lineNum = `line${lineNumber}`;
-
-      combinedLineData.lineEnergy = getCorrectLineEnergy(
-        combinedLineData.data.value,
-        combinedLineData.lineNum,
-        lines
-      );
-      combinedLineData.transformedlineEnergy = transformedLines
-        ? getCorrectLineEnergy(
-            combinedLineData.transformedData.value,
-            combinedLineData.lineNum,
-            transformedLines
-          )
-        : undefined;
-
-      combinedLineData.lineCorrelateMatch = getLineCorrelate(
-        combinedLineData.data,
-        combinedLineData.lineNum,
-        transformedLines
-      );
-      combinedLineData.transformedCorrelateMatch = transformedLines
-        ? getLineCorrelate(
-            combinedLineData.transformedData,
-            combinedLineData.lineNum,
-            transformedLines
-          )
-        : undefined;
-
-      combinedLinesData.push(combinedLineData);
-    }
-
-    return combinedLinesData;
-  };
-}
 function useRenderCategory() {
   return function renderCategory(heading, iChingSubCategory) {
     const text = [];
@@ -65,7 +20,7 @@ function useRenderCategory() {
           </summary>
           <div className="translations">
             {text.map((textObj, index) => {
-              const subDetailsKey = `${heading}-${textObj.translationText}-${index}-${textObj.author}`;
+              const subDetailsKey = `${heading}-${textObj.translationText}-${textObj.author}`;
               return (
                 <details className={`translation-option`} key={subDetailsKey}>
                   <summary>
@@ -87,18 +42,19 @@ function useRenderNotes() {
     const notesArray = notes.split("\n");
     return (
       <>
-        <div id="Notes" className="sub-reading other-notes">
+        <section id="Notes" className="sub-reading other-notes">
           <details className="sub-reading notes">
             <summary>
               <h3>Notes</h3>
             </summary>
             <div className="notes">
-              {notesArray.map((note, index) => (
-                <p key={`${note}-${index}`}>{note}</p>
-              ))}
+              {notesArray.map((note, index) => {
+                const noteKey = `${note}`;
+                return <p key={noteKey + index}>{note}</p>;
+              })}
             </div>
           </details>
-        </div>
+        </section>
       </>
     );
   };
@@ -109,35 +65,6 @@ function useRenderNotes() {
 // Because changing a hexagram, or changing the reading type rerenders the entire component
 // and the event listeners are cleaned up and readded, I do not foresee any negative side effects
 // from using Vanilla JS in this way. However I would be open to input on this.
-
-function useHandleNav() {
-  useEffect(() => {
-    const allNavButtons = document.querySelectorAll(".reading-nav button");
-    allNavButtons.forEach((navBtn) => {
-      navBtn.addEventListener("click", handleNav);
-    });
-
-    function handleNav(e) {
-      document.querySelector("details").open = true;
-      const idToScroll = this.dataset.id;
-      const scrollToElem = document.getElementById(idToScroll);
-      let scrollDetailsElem;
-      if (scrollToElem.localName !== "details") {
-        scrollDetailsElem = scrollToElem.querySelector("details");
-        scrollDetailsElem.open = true;
-      } else {
-        scrollToElem.open = true;
-      }
-      scrollToElem.scrollIntoView();
-    }
-
-    return () => {
-      allNavButtons.forEach((navBtn) => {
-        navBtn.removeEventListener("click", handleNav);
-      });
-    };
-  }, []);
-}
 
 function useHandleDetailClick(hexText) {
   useEffect(() => {
@@ -175,16 +102,13 @@ function useHandleDetailClick(hexText) {
 }
 
 function useRenderLines(hexText, lines, transformedLines, type, options) {
-  const getCombinedLineData = useCombinedLineData(
-    hexText,
-    lines,
-    transformedLines,
-    type
-  );
-
-  const keys = [];
   return function renderLines() {
-    const linesDataCombined = getCombinedLineData();
+    const linesDataCombined = getCombinedLineData(
+      hexText,
+      lines,
+      transformedLines,
+      type
+    );
 
     const atLeastOneChangingLine = linesDataCombined.some(
       (lineData) => lineData.data.changing
@@ -325,90 +249,82 @@ function useRenderLines(hexText, lines, transformedLines, type, options) {
         }
       }
       const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}-${lineDataCombined.data.value}`;
-      keys.push(lineKey);
       return (
-        <>
-          <details
-            className={`changing-line ${lineNum} ${
-              showLineCondition ? "show" : "hide"
-            }`}
-            key={lineKey}
-          >
-            <summary>
-              <h4>Line {lineNumInt}</h4>
-            </summary>
-            <div className="changing-line-contents">
-              <div className="outcome">
-                <h4>Line Energy: {lineEnergy}</h4>
-                <h4>
-                  Line Correlate Match{" "}
-                  {lineCorrelateMatch ? "Correlated" : "Uncorrelated"}
-                </h4>
-                <h4>Expected Outcome: {auspiciousness}</h4>
-              </div>
-
-              <div className="line-translations">
-                {translationLineText.map((translationLineText, index) => {
-                  const changingLineOptionKey = `${lineNum}-${type}-${translationLineText.author}-${index}`;
-                  keys.push(changingLineOptionKey);
-                  return (
-                    <details
-                      key={changingLineOptionKey}
-                      open
-                      className="changing-line-option "
-                    >
-                      <summary>
-                        <h4>{translationLineText.author}</h4>
-                      </summary>
-                      {!["Notes"].includes(translationLineText.author) ? (
-                        <p>{translationLineText.translationText}</p>
-                      ) : (
-                        <>
-                          {translationLineText.translationText.map(
-                            (textChunk, index) => {
-                              if (textChunk === "Siu") {
-                                return null;
-                              }
-                              const chunkKey = `${lineNumInt}-${textChunk}`;
-                              keys.push(chunkKey);
-                              return (
-                                <p key={`${chunkKey}-${textChunk}`}>
-                                  {textChunk}
-                                </p>
-                              );
-                            }
-                          )}
-                        </>
-                      )}
-                    </details>
-                  );
-                })}
-              </div>
+        <details
+          className={`changing-line ${lineNum} ${
+            showLineCondition ? "show" : "hide"
+          }`}
+          key={lineKey}
+        >
+          <summary>
+            <h4>Line {lineNumInt}</h4>
+          </summary>
+          <div className="changing-line-contents">
+            <div className="outcome">
+              <h4>Line Energy: {lineEnergy}</h4>
+              <h4>
+                Line Correlate Match{" "}
+                {lineCorrelateMatch ? "Correlated" : "Uncorrelated"}
+              </h4>
+              <h4>Expected Outcome: {auspiciousness}</h4>
             </div>
-          </details>
-        </>
+
+            <div className="line-translations">
+              {translationLineText.map((translationLineText, index) => {
+                const changingLineOptionKey = `${lineNum}-${type}-${translationLineText.author}`;
+                return (
+                  <details
+                    key={changingLineOptionKey}
+                    open
+                    className="changing-line-option "
+                  >
+                    <summary>
+                      <h4>{translationLineText.author}</h4>
+                    </summary>
+                    {!["Notes"].includes(translationLineText.author) ? (
+                      <p>{translationLineText.translationText}</p>
+                    ) : (
+                      <>
+                        {translationLineText.translationText.map(
+                          (textChunk, index) => {
+                            if (textChunk === "Siu") {
+                              return null;
+                            }
+                            const chunkKey = `${lineNumInt}-${textChunk}`;
+                            return (
+                              <p key={`${chunkKey}-${textChunk}`}>
+                                {textChunk}
+                              </p>
+                            );
+                          }
+                        )}
+                      </>
+                    )}
+                  </details>
+                );
+              })}
+            </div>
+          </div>
+        </details>
       );
     });
+
     return (
-      <>
-        <div key="fart" id="Lines" className="sub-reading changing-lines">
-          <details key="primary-changing-lines-details">
-            <summary>
-              <h3>Changing Lines</h3>
-            </summary>
-            {lineHtml}
-          </details>
-        </div>
-      </>
+      <div id="Lines" className="sub-reading changing-lines">
+        <details key="primary-changing-lines-details">
+          <summary>
+            <h3>Changing Lines</h3>
+          </summary>
+          {lineHtml}
+        </details>
+      </div>
     );
   };
 }
 
 export {
-  useCombinedLineData,
   useRenderCategory,
   useRenderNotes,
-  useHandleNav,
   useHandleDetailClick,
   useRenderLines,
 };

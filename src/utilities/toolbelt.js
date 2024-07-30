@@ -88,4 +88,48 @@ function getCorrectLineEnergy(lineValue, lineNumber) {
   return isCorrect ? "correct" : "incorrect";
 }
 
-export { getTransformationSymbol, getCorrectLineEnergy, getLineCorrelate };
+function getCombinedLineData(hexText, lines, transformedLines, type) {
+    const combinedLinesData = [];
+    for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
+      const combinedLineData = {};
+
+      combinedLineData.translations = hexText[`line_${lineNumber}`];
+      combinedLineData.type = type;
+
+      combinedLineData.data = lines[`line${lineNumber}`];
+      combinedLineData.transformedData = transformedLines[`line${lineNumber}`];
+      combinedLineData.lineNum = `line${lineNumber}`;
+
+      combinedLineData.lineEnergy = getCorrectLineEnergy(
+        combinedLineData.data.value,
+        combinedLineData.lineNum,
+        lines
+      );
+      combinedLineData.transformedlineEnergy = transformedLines
+        ? getCorrectLineEnergy(
+            combinedLineData.transformedData.value,
+            combinedLineData.lineNum,
+            transformedLines
+          )
+        : undefined;
+
+      combinedLineData.lineCorrelateMatch = getLineCorrelate(
+        combinedLineData.data,
+        combinedLineData.lineNum,
+        transformedLines
+      );
+      combinedLineData.transformedCorrelateMatch = transformedLines
+        ? getLineCorrelate(
+            combinedLineData.transformedData,
+            combinedLineData.lineNum,
+            transformedLines
+          )
+        : undefined;
+
+      combinedLinesData.push(combinedLineData);
+    }
+
+    return combinedLinesData;
+  }
+
+export { getTransformationSymbol, getCorrectLineEnergy, getLineCorrelate, getCombinedLineData };

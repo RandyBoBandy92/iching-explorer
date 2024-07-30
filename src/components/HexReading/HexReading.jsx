@@ -7,10 +7,10 @@ import { useAppHooks } from "../../hooks/useAppHooks";
 import {
   useRenderCategory,
   useRenderNotes,
-  useHandleNav,
   useHandleDetailClick,
   useRenderLines,
 } from "../../hooks/useHexReadingHooks";
+import { useEffect } from "react";
 
 function HexReading({ primaryHexText, transformedHexText, show }) {
   const {
@@ -45,9 +45,34 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     type,
     options
   );
-  useHandleNav();
   useHandleDetailClick(hexText);
 
+  useEffect(() => {
+    const allNavButtons = document.querySelectorAll(".reading-nav button");
+    allNavButtons.forEach((navBtn) => {
+      navBtn.addEventListener("click", handleNav);
+    });
+
+    function handleNav(e) {
+      document.querySelector("details").open = true;
+      const idToScroll = this.dataset.id;
+      const scrollToElem = document.getElementById(idToScroll);
+      let scrollDetailsElem;
+      if (scrollToElem.localName !== "details") {
+        scrollDetailsElem = scrollToElem.querySelector("details");
+        scrollDetailsElem.open = true;
+      } else {
+        scrollToElem.open = true;
+      }
+      scrollToElem.scrollIntoView();
+    }
+
+    return () => {
+      allNavButtons.forEach((navBtn) => {
+        navBtn.removeEventListener("click", handleNav);
+      });
+    };
+  }, []);
   function handleToggleShowAll() {
     const mainDetails = hexReadingRef.current;
     const allSubDetails = mainDetails.querySelectorAll("details");
