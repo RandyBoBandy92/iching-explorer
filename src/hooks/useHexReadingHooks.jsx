@@ -67,7 +67,7 @@ export function useRenderCategory() {
             {text.map((textObj, index) => (
               <details
                 className={`translation-option`}
-                key={`${textObj.translationText}-${index}-${textObj.author}`}
+                key={`${heading}-${textObj.translationText}-${index}-${textObj.author}`}
               >
                 <summary>
                   <h4>{textObj.author}</h4>
@@ -329,7 +329,7 @@ export function useRenderLines(
           translationLineText.push({ author, translationText });
         }
       }
-      const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}`;
+      const lineKey = `${lineDataCombined.type}-${lineNumInt}-${lineNum}-${lineDataCombined.data.value}`;
       return (
         <>
           <details
@@ -366,9 +366,16 @@ export function useRenderLines(
                     ) : (
                       <>
                         {translationLineText.translationText.map(
-                          (textChunk) => (
-                            <p key={textChunk}>{textChunk}</p>
-                          )
+                          (textChunk, index) => {
+                            if (textChunk === "Siu") {
+                              return null;
+                            }
+                            return (
+                              <p key={`${lineNumInt}-${textChunk}`}>
+                                {textChunk}
+                              </p>
+                            );
+                          }
                         )}
                       </>
                     )}

@@ -18,7 +18,7 @@ function Hexagram({ type }) {
           lineData={lineData}
           lineNumber={lineNum}
           lines={linesToRender}
-          key={lineNum}
+          key={`${lineNum}-${type}`}
           type={type}
         />
       );
