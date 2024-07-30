@@ -11,6 +11,7 @@ import JournalModal from "../../components/Journal/Journal";
 import { useLocation } from "react-router-dom";
 import OptionsMenu from "../../components/OptionsMenu/OptionsMenu";
 import { useEffect } from "react";
+import { APP_NAME } from "../../utilities/constants";
 
 const Home = () => {
   const location = useLocation();
@@ -42,14 +43,20 @@ const Home = () => {
   useEffect(() => {
     const emptyHexagrams =
       hexagram.number === 0 && transformedHexagram.number === 0;
-    const hexOnly = hexagram.number > 0 && transformedHexagram.number === 0;
-    const bothHexagrams = hexagram.number > 0 && transformedHexagram.number > 0;
+    const hexOnly =
+      hexagram.number > 0 &&
+      transformedHexagram.number > 0 &&
+      hexagram.number === transformedHexagram.number;
+    const bothHexagrams =
+      hexagram.number > 0 &&
+      transformedHexagram.number > 0 &&
+      hexagram.number !== transformedHexagram.number;
     if (emptyHexagrams) {
-      document.title = "I Ching Explorer";
+      document.title = APP_NAME;
     } else if (hexOnly) {
-      document.title = `I Ching Explorer | ${hexagram.number}`;
+      document.title = `${APP_NAME} | ${hexagram.number}`;
     } else if (bothHexagrams) {
-      document.title = `I Ching Explorer | ${hexagram.number} -> ${transformedHexagram.number}`;
+      document.title = `${APP_NAME} | ${hexagram.number} -> ${transformedHexagram.number}`;
     }
   }, [hexagram, transformedHexagram]);
 

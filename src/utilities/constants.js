@@ -1,3 +1,5 @@
+const APP_NAME = "I Ching Explorer";
+
 const lineStates = [
   { value: "none", changing: false },
   { value: "yin", changing: false },
@@ -95,4 +97,5 @@ export {
   hexagramStates,
   emptyTrigram,
   emptyHexagram,
+  APP_NAME
 };

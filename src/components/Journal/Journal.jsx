@@ -17,12 +17,12 @@ const JournalModal = () => {
     // check if at least title is filled out
     if (journalNotes.title.length > 0) {
       saveJournalEntry();
+      handleCloseJournal();
     } else {
       // we will put a class on the input to show it's invalid
       const journalInput = document.getElementById("journal-title");
       journalInput.classList.add("invalid");
     }
-    handleCloseJournal();
   }
 
   function handleChangeTitle(event) {

@@ -1,6 +1,10 @@
 import React from "react";
+import { APP_NAME } from "../../utilities/constants";
 
 const PageNotFound = () => {
+  useEffect(() => {
+    document.title = `${APP_NAME} | 404`;
+  }, []);
   return (
     <div>
       <h1>404 - Page Not Found</h1>

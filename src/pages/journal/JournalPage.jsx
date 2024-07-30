@@ -1,9 +1,15 @@
 import { Link } from "react-router-dom";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
 import "./journalpage.css";
+import { useEffect } from "react";
+import { APP_NAME } from "../../utilities/constants";
 
 function JournalPage() {
   const { journalEntries } = useJournalHooks();
+
+  useEffect(() => {
+    document.title = `${APP_NAME} | Journal`;
+  }, []);
 
   function renderEntries(entry) {
     const unixToLocalTime = new Date(entry.time).toLocaleString();

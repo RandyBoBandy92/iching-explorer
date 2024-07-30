@@ -273,11 +273,15 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
         const primaryPossibilities = Object.keys(possibilities.primary);
         const transformedPossibilities = Object.keys(possibilities.transformed);
 
-        possibilityMatrix = `${primaryPossibilities.find(
+        const firstHexPossibility = primaryPossibilities.find(
           (key) => possibilities.primary[key]
-        )}-${transformedPossibilities.find(
+        );
+
+        const secondHexPossibility = transformedPossibilities.find(
           (key) => possibilities.transformed[key]
-        )}`;
+        );
+
+        possibilityMatrix = `${firstHexPossibility}-${secondHexPossibility}`;
 
         const matrixOutcomes = {
           "best-best":
