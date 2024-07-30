@@ -1,12 +1,10 @@
 // src/components/HexReading/HexReading.js
-import React from "react";
+import React, { useContext, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import "./HexReading.css";
-import { useContext, useState, useRef } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { useAppHooks } from "../../hooks/useAppHooks";
 import {
-  useCombinedLineData,
   useRenderCategory,
   useRenderNotes,
   useHandleNav,
@@ -36,7 +34,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     showHideAll: true,
   });
 
-  const showAllRef = useRef();
+  const hexReadingRef = useRef();
 
   const renderCategory = useRenderCategory();
   const renderNotes = useRenderNotes();
@@ -51,8 +49,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
   useHandleDetailClick(hexText);
 
   function handleToggleShowAll() {
-    const buttonElem = showAllRef.current;
-    const mainDetails = buttonElem.parentElement.parentElement;
+    const mainDetails = hexReadingRef.current;
     const allSubDetails = mainDetails.querySelectorAll("details");
     const shouldShow = options.showHideAll;
     if (!mainDetails.open) {
@@ -104,14 +101,15 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
                 </div>
               </>
             )}
-            <details className={`hex-reading ${show ? "show" : "hide"}`}>
+            <details
+              ref={hexReadingRef}
+              className={`hex-reading ${show ? "show" : "hide"}`}
+            >
               <summary>
                 <h2>
                   Hexgram {hexText.number} | {hexText.title}
                 </h2>
-                <button ref={showAllRef} onClick={handleToggleShowAll}>
-                  Show/Hide All
-                </button>
+                <button onClick={handleToggleShowAll}>Show/Hide All</button>
                 <div className="options">
                   <label htmlFor="options-lines">Only show changing</label>
                   <input
