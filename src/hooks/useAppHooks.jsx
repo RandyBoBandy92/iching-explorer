@@ -11,8 +11,7 @@ export function useAppHooks({ forceChangeHexagram, setDesiredHexagram }) {
   const [desiredHexagramNumber, setDesiredHexagramNumber] = useState(0);
   const [loadingReading, setLoadingReading] = useState();
   const [readingToShow, setReadingToShow] = useState("primary");
-  const changeHexRef = useRef();
-  const desiredHexRef = useRef();
+
   useEffect(() => {
     if (loadingReading) {
       setDesiredHexagram(loadingReading);
@@ -20,25 +19,6 @@ export function useAppHooks({ forceChangeHexagram, setDesiredHexagram }) {
       setLoadingReading();
     }
   }, [loadingReading]);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      // if key combo is shift + /, focus on the desired hex input
-      if (e.key === "?" && e.shiftKey) {
-        desiredHexRef.current.focus();
-      }
-
-      // if key down is '/' focus on the input
-      if (e.key === "/") {
-        changeHexRef.current.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   function handleSearch(urlSearchparams) {
     const searchParams = urlSearchparams.get("search");
@@ -60,8 +40,6 @@ export function useAppHooks({ forceChangeHexagram, setDesiredHexagram }) {
   }
 
   return {
-    changeHexRef,
-    desiredHexRef,
     handleSearch,
     newHexagramNumber,
     setNewHexagramNumber,

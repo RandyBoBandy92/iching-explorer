@@ -1,6 +1,8 @@
 import { hexagramStates, trigramStates } from "../utilities/constants";
 // useGlobalHooks.js
 export function useSetDesiredHexagram(lines, setLines) {
+  // This hook computes the difference between the current hexagram and the desired transformed hexagram
+  // It then sets the lines to the values necessary to move from one hexagram to another
   const setDesiredHexagram = (desiredHexagramNumber) => {
     const newDesiredHexagram = hexagramStates.find(
       (hexagram) => hexagram.number === desiredHexagramNumber

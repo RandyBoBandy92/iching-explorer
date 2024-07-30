@@ -52,6 +52,9 @@ const GlobalProvider = ({ children }) => {
   const cycleLine = useCycleLine(lines, setLines);
   const randomLine = useRandomLine(lines, setLines);
   const getTransformedLines = useGetTransformedLines();
+
+  // Transformed hexagram, and constituent lines/trigrams is derived from the initial set of lines
+  // considered wrapping these in optimization hooks, but performance is not an issue here
   const transformedLines = getTransformedLines(lines);
   const transformedTrigrams = checkTrigrams(transformedLines);
   const transformedHexagram = checkHexagram(transformedTrigrams);

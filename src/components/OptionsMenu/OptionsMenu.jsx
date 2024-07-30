@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { useEffect } from "react";
 import { useAppHooks } from "../../hooks/useAppHooks";
+import { useRef } from "react";
 
 function OptionsMenu() {
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
@@ -22,6 +23,9 @@ function OptionsMenu() {
     transform: transformedHexagram.number,
   });
 
+  const changeHexRef = useRef();
+  const desiredHexRef = useRef();
+
   const { setReadingToShow } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
@@ -37,6 +41,28 @@ function OptionsMenu() {
       setShowOptionsMenu(false);
     }
   }, [readingMode]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!showOptionsMenu) {
+        return;
+      }
+      // if key combo is shift + /, focus on the desired hex input
+      if (e.key === "?" && e.shiftKey) {
+        desiredHexRef.current.focus();
+      }
+
+      // if key down is '/' focus on the input
+      if (e.key === "/") {
+        changeHexRef.current.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   // use effect, whenever either the transformed or primary hex changes,
   // update the selectHex state to match
@@ -109,6 +135,7 @@ function OptionsMenu() {
               {updateGearUnicode}
             </button>
             <input
+              ref={changeHexRef}
               type="number"
               min="1"
               max="64"
@@ -126,6 +153,7 @@ function OptionsMenu() {
               {updateGearUnicode}
             </button>
             <input
+              ref={desiredHexRef}
               // disabled when primary hex number is 0
               type="number"
               min="1"
