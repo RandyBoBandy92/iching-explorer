@@ -16,8 +16,8 @@
 .mode-select-options {
   display: flex;
   position: relative;
-  border: 2px solid white;
-  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  border-radius: 15px;
   overflow: hidden;
   width: 100%;
 }
