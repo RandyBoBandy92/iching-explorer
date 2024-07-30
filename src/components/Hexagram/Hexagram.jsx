@@ -8,6 +8,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 function Hexagram({ type }) {
   const { lines, transformedLines, hexagram, transformedHexagram } =
     useContext(GlobalContext);
+
   function renderLines(linesToRender) {
     const lineComponents = [];
     for (let lineNum in linesToRender) {
@@ -31,7 +32,6 @@ function Hexagram({ type }) {
         <h2>
           {type === "primary" ? hexagram.number : transformedHexagram.number}
         </h2>
-        {/* Your component content goes here */}
         {renderLines(type === "primary" ? lines : transformedLines)}
       </div>
     </>

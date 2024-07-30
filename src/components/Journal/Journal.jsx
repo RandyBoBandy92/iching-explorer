@@ -3,8 +3,6 @@ import "./journal.css";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
 
 const JournalModal = () => {
-  // Your component code here
-
   const {
     maximize,
     showJournalModal,

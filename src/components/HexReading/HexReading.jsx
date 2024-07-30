@@ -243,31 +243,26 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
           bad: badTransformedEnergy && badTransformedCorrelation,
         },
       };
+
       if (type === "primary") {
         if (possibilities.primary.best) {
           auspiciousness = "Very Highly Auspicious";
-        }
-        if (possibilities.primary.better) {
+        } else if (possibilities.primary.better) {
           auspiciousness = "Highly Auspicious";
-        }
-        if (possibilities.primary.okay) {
+        } else if (possibilities.primary.okay) {
           auspiciousness = "Moderately Auspicious or Perhaps Bad idk";
-        }
-        if (possibilities.primary.bad) {
+        } else if (possibilities.primary.bad) {
           auspiciousness = "Not good lol";
         }
       } else {
         // transformed
         if (possibilities.transformed.best) {
           auspiciousness = "Very Highly Auspicious";
-        }
-        if (possibilities.transformed.better) {
+        } else if (possibilities.transformed.better) {
           auspiciousness = "Highly Auspicious";
-        }
-        if (possibilities.transformed.okay) {
+        } else if (possibilities.transformed.okay) {
           auspiciousness = "Moderately Auspicious or Perhaps Bad idk";
-        }
-        if (possibilities.transformed.bad) {
+        } else if (possibilities.transformed.bad) {
           auspiciousness = "Not good lol";
         }
       }
@@ -275,89 +270,50 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       let possibilityMatrix;
 
       if (type === "primary" && atLeastOneChangingLine) {
-        for (const key in possibilities.primary) {
-          if (Object.hasOwnProperty.call(possibilities.primary, key)) {
-            const outcome = possibilities.primary[key];
-            if (outcome) {
-              possibilityMatrix = key;
-            }
-          }
-        }
-        for (const key in possibilities.transformed) {
-          if (Object.hasOwnProperty.call(possibilities.transformed, key)) {
-            const outcome = possibilities.transformed[key];
-            if (outcome) {
-              possibilityMatrix += `-${key}`;
-            }
-          }
-        }
-        switch (possibilityMatrix) {
-          case "best-best":
-            auspiciousness =
-              "Things are in best possible scenario, and staying that way.";
-            break;
-          case "best-better":
-            auspiciousness =
-              "Things are in best possible scenario, and are moving to a lower level which is still better than most.";
-            break;
-          case "best-okay":
-            auspiciousness =
-              "Things are in best possible scenario, and moving to a lower level, which is okay.";
-            break;
-          case "best-bad":
-            auspiciousness =
-              "Things are in best possible scenario, and getting real bad RIP lmao.";
-            break;
-          case "better-best":
-            auspiciousness =
-              "Things are in a state of being better than most, and moving to best possible scenario.";
-            break;
-          case "better-better":
-            auspiciousness =
-              "Things are in a state of being better than most, and staying that way.";
-            break;
-          case "better-okay":
-            auspiciousness =
-              "Things are in a state of being better than most, and moving to a lower level, which is okay.";
-            break;
-          case "better-bad":
-            auspiciousness =
-              "Things are in a state of being better than most, and getting real bad RIP lmao.";
-            break;
-          case "okay-best":
-            auspiciousness =
-              "Things are in a state of being okay, and moving to best possible scenario.";
-            break;
-          case "okay-better":
-            auspiciousness =
-              "Things are in a state of being okay, and moving to being better than most.";
-            break;
-          case "okay-okay":
-            auspiciousness =
-              "Things are in a state of being okay, and staying that way.";
-            break;
-          case "okay-bad":
-            auspiciousness =
-              "Things are in a state of being okay, and getting real bad RIP lmao.";
-            break;
-          case "bad-best":
-            auspiciousness =
-              "Things are in a state of being real bad, but are about to become as best as they can be!.";
-            break;
-          case "bad-better":
-            auspiciousness =
-              "Things are in a state of being real bad, but are about to become better than most!.";
-            break;
-          case "bad-okay":
-            auspiciousness =
-              "Things are in a state of being real bad, but are about to become okay (meh).";
-            break;
-          case "bad-bad":
-            auspiciousness = "My brother in Christ you are down bad LMAO.";
-            break;
-          default:
-            break;
-        }
+        const primaryPossibilities = Object.keys(possibilities.primary);
+        const transformedPossibilities = Object.keys(possibilities.transformed);
+
+        possibilityMatrix = `${primaryPossibilities.find(
+          (key) => possibilities.primary[key]
+        )}-${transformedPossibilities.find(
+          (key) => possibilities.transformed[key]
+        )}`;
+
+        const matrixOutcomes = {
+          "best-best":
+            "Things are in the best possible scenario and staying that way.",
+          "best-better":
+            "Things are in the best possible scenario and are moving to a lower level which is still better than most.",
+          "best-okay":
+            "Things are in the best possible scenario and moving to a lower level, which is okay.",
+          "best-bad":
+            "Things are in the best possible scenario and getting real bad RIP lmao.",
+          "better-best":
+            "Things are in a state of being better than most and moving to the best possible scenario.",
+          "better-better":
+            "Things are in a state of being better than most and staying that way.",
+          "better-okay":
+            "Things are in a state of being better than most and moving to a lower level, which is okay.",
+          "better-bad":
+            "Things are in a state of being better than most and getting real bad RIP lmao.",
+          "okay-best":
+            "Things are in a state of being okay and moving to the best possible scenario.",
+          "okay-better":
+            "Things are in a state of being okay and moving to being better than most.",
+          "okay-okay":
+            "Things are in a state of being okay and staying that way.",
+          "okay-bad":
+            "Things are in a state of being okay and getting real bad RIP lmao.",
+          "bad-best":
+            "Things are in a state of being real bad but are about to become as best as they can be!",
+          "bad-better":
+            "Things are in a state of being real bad but are about to become better than most!",
+          "bad-okay":
+            "Things are in a state of being real bad but are about to become okay (meh).",
+          "bad-bad": "My brother in Christ, you are down bad LMAO.",
+        };
+
+        auspiciousness = matrixOutcomes[possibilityMatrix] || auspiciousness;
       }
 
       const lineNumInt = Number(lineNum.slice(-1));

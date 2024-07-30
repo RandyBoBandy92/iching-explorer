@@ -88,7 +88,6 @@ const GlobalProvider = ({ children }) => {
     }
   }, [readingMode]);
 
-  // Provide the context value to the consumer components
   return (
     <GlobalContext.Provider
       value={{
@@ -119,7 +118,6 @@ const GlobalProvider = ({ children }) => {
   );
 };
 
-// Define your propTypes
 GlobalProvider.propTypes = {
   children: PropTypes.node,
 };

@@ -23,6 +23,7 @@ const Home = () => {
     readingMode,
     setReadingMode,
     hexagram,
+    transformedHexagram,
   } = useContext(GlobalContext);
 
   const { readingToShow, handleSearch } = useAppHooks({
@@ -37,6 +38,22 @@ const Home = () => {
       handleSearch(searchParams);
     }
   }, []);
+
+  useEffect(() => {
+    const emptyHexagrams =
+      hexagram.number === 0 && transformedHexagram.number === 0;
+    const hexOnly = hexagram.number > 0 && transformedHexagram.number === 0;
+    const bothHexagrams = hexagram.number > 0 && transformedHexagram.number > 0;
+    if (emptyHexagrams) {
+      document.title = "I Ching Explorer";
+    } else if (hexOnly) {
+      document.title = `I Ching Explorer | ${hexagram.number}`;
+    } else if (bothHexagrams) {
+      document.title = `I Ching Explorer | ${hexagram.number} -> ${transformedHexagram.number}`;
+    }
+  }, [hexagram, transformedHexagram]);
+
+  console.log(hexagram, transformedHexagram);
 
   const showTransformClass =
     hexagram.number && changingLinesExist ? "show-transform" : "";
