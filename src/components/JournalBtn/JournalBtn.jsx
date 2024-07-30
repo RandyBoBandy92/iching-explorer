@@ -1,7 +1,6 @@
 import React from "react";
 import "./journalbtn.css";
 import IconNotebookEditOutline from "../Icons/HomeIcon/JournalIcon";
-import { useState } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 

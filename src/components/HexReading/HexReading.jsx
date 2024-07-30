@@ -37,53 +37,53 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
   const showAllRef = useRef();
 
   function getCombinedLineData() {
-    const tempLineText = [];
+    const combinedLinesData = [];
     for (let lineNumber = 1; lineNumber < 7; lineNumber++) {
-      const tempLineData = {};
+      const combinedLineData = {};
 
       // Associate translation writings
-      tempLineData.translations = hexText[`line_${lineNumber}`];
+      combinedLineData.translations = hexText[`line_${lineNumber}`];
 
       // add type
-      tempLineData.type = type;
+      combinedLineData.type = type;
 
       // associate line data
-      tempLineData.data = lines[`line${lineNumber}`];
-      tempLineData.transformedData = transformedLines[`line${lineNumber}`];
-      tempLineData.lineNum = `line${lineNumber}`;
+      combinedLineData.data = lines[`line${lineNumber}`];
+      combinedLineData.transformedData = transformedLines[`line${lineNumber}`];
+      combinedLineData.lineNum = `line${lineNumber}`;
 
       // Get energy reading
-      tempLineData.lineEnergy = getCorrectLineEnergy(
-        tempLineData.data.value,
-        tempLineData.lineNum,
+      combinedLineData.lineEnergy = getCorrectLineEnergy(
+        combinedLineData.data.value,
+        combinedLineData.lineNum,
         lines
       );
-      tempLineData.transformedlineEnergy = transformedLines
+      combinedLineData.transformedlineEnergy = transformedLines
         ? getCorrectLineEnergy(
-            tempLineData.transformedData.value,
-            tempLineData.lineNum,
+            combinedLineData.transformedData.value,
+            combinedLineData.lineNum,
             transformedLines
           )
         : undefined;
 
       // Get line correlation
-      tempLineData.lineCorrelateMatch = getLineCorrelate(
-        tempLineData.data,
-        tempLineData.lineNum,
+      combinedLineData.lineCorrelateMatch = getLineCorrelate(
+        combinedLineData.data,
+        combinedLineData.lineNum,
         transformedLines
       );
-      tempLineData.transformedCorrelateMatch = transformedLines
+      combinedLineData.transformedCorrelateMatch = transformedLines
         ? getLineCorrelate(
-            tempLineData.transformedData,
-            tempLineData.lineNum,
+            combinedLineData.transformedData,
+            combinedLineData.lineNum,
             transformedLines
           )
         : undefined;
 
-      tempLineText.push(tempLineData);
+      combinedLinesData.push(combinedLineData);
     }
 
-    return tempLineText;
+    return combinedLinesData;
   }
 
   useEffect(() => {
@@ -325,7 +325,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       const showLineCondition =
         (options.onlyChanging && (data.changing || transformedData.changing)) ||
         !options.onlyChanging;
-      const showLine = showLineCondition ? true : false;
 
       const translationLineText = [];
 
@@ -342,7 +341,9 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       return (
         <>
           <details
-            className={`changing-line ${lineNum} ${showLine ? "show" : "hide"}`}
+            className={`changing-line ${lineNum} ${
+              showLineCondition ? "show" : "hide"
+            }`}
             key={lineKey}
           >
             <summary>

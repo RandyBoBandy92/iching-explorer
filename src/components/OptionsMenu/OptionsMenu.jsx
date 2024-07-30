@@ -12,14 +12,11 @@ function OptionsMenu() {
   const {
     hexagram,
     forceChangeHexagram,
-    flipHexagram,
-    random,
-    setRandom,
     setDesiredHexagram,
     readingMode,
-    setReadingMode,
     transformedHexagram,
   } = useContext(GlobalContext);
+
   const [selectHex, setSelectHex] = useState({
     primary: hexagram.number,
     transform: transformedHexagram.number,
@@ -29,6 +26,7 @@ function OptionsMenu() {
     forceChangeHexagram,
     setDesiredHexagram,
   });
+
   function handleReset() {
     setReadingToShow("primary");
     forceChangeHexagram(0);
@@ -85,7 +83,6 @@ function OptionsMenu() {
         <h2>Options</h2>
         <div className="option-buttons">
           <button onClick={handleReset}>Reset</button>
-          {/* add increase hex and decrease hex buttons, called hex+ and hex- */}
           <button onClick={() => forceChangeHexagram(hexagram.number + 1)}>
             Hex+
           </button>

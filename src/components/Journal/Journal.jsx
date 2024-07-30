@@ -1,8 +1,13 @@
 import React from "react";
 import "./journal.css";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
+import { useState } from "react";
 
 const JournalModal = () => {
+  // The journal modal is a form that allows the user to save notes about their reading
+  // It will automatically capture the reading they obtained and allow them to add a title and notes
+  // Results are saved to local storage
+
   const {
     maximize,
     showJournalModal,
@@ -13,6 +18,8 @@ const JournalModal = () => {
     setJournalNotes,
   } = useJournalHooks();
 
+  const [formInvalid, setFormInvalid] = useState(false);
+
   function handleSaveJournalEntry() {
     // check if at least title is filled out
     if (journalNotes.title.length > 0) {
@@ -20,15 +27,13 @@ const JournalModal = () => {
       handleCloseJournal();
     } else {
       // we will put a class on the input to show it's invalid
-      const journalInput = document.getElementById("journal-title");
-      journalInput.classList.add("invalid");
+      setFormInvalid(true);
     }
   }
 
   function handleChangeTitle(event) {
     if (event.target.value.length > 0) {
-      const journalInput = document.getElementById("journal-title");
-      journalInput.classList.remove("invalid");
+      setFormInvalid(false);
     }
     setJournalNotes({ ...journalNotes, title: event.target.value });
   }
@@ -52,6 +57,7 @@ const JournalModal = () => {
         </button>
         <input
           id="journal-title"
+          className={formInvalid ? "invalid" : ""}
           value={journalNotes.title}
           maxLength={120}
           onChange={(event) => {

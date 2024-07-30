@@ -5,6 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
+      // Would love to have a better way to do this, but because there is a delay before the JS payload is loaded
+      // This 'hack' ensures that the theme is set prior to rendering any content to the DOM.
       (function () {
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) {

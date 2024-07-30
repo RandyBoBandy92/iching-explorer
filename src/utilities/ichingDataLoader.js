@@ -1,6 +1,5 @@
-// need to load all 64 JSON files into uhh.. an array I guess.
-
 async function getAllHexagramText() {
+  // Fetch all 64 hexagram JSON files in parallel to improve performance
   const fetchPromises = [];
   for (let index = 1; index < 65; index++) {
     const fetchPromise = fetch(`./hexagramJSONS/hexagram${index}.json`)

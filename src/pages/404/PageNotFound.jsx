@@ -1,5 +1,6 @@
 import React from "react";
 import { APP_NAME } from "../../utilities/constants";
+import { useEffect } from "react";
 
 const PageNotFound = () => {
   useEffect(() => {

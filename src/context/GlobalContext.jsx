@@ -32,13 +32,19 @@ const GlobalContext = createContext();
 
 // Create a provider component
 const GlobalProvider = ({ children }) => {
+  // A hexagram is made up of 6 lines, in groups of 3 called trigrams
+  // Each line can be either yin, yang, or a changing yin/yang
+  // There are 8 possible trigrams, and 64 possible hexagrams
+  // But because of the changing lines, there are 4096 possible hexagram readings
   const [hexagram, setHexagram] = useState(emptyHexagram);
   const [trigrams, setTrigrams] = useState([emptyTrigram, emptyTrigram]);
   const [lines, setLines] = useState(initialLines);
   const [random, setRandom] = useState(false);
   const changingLinesExist = Object.values(lines).some((line) => line.changing);
 
+  // Multiple translations of the I-Ching have been colated into a single text
   const dekorneText = useDekorneText();
+
   const checkTrigrams = useCheckTrigram(lines, setTrigrams);
   const checkHexagram = useCheckHexagram(trigrams, setHexagram);
   const forceChangeHexagram = useForceChangeHexagram(setLines);
@@ -54,6 +60,8 @@ const GlobalProvider = ({ children }) => {
   const [transformedHexText, setTransformedHexText] = useState(undefined);
 
   const [readingMode, setReadingMode] = useState({
+    // Explore mode allows the user to manually change lines
+    // Reading mode randomly generates a value for each line when clicked
     mode: "explore",
     modes: ["reading", "explore"],
   });

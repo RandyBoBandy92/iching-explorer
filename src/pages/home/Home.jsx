@@ -34,7 +34,6 @@ const Home = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-
     if (searchParams) {
       handleSearch(searchParams);
     }
@@ -60,8 +59,6 @@ const Home = () => {
     }
   }, [hexagram, transformedHexagram]);
 
-  console.log(hexagram, transformedHexagram);
-
   const showTransformClass =
     hexagram.number && changingLinesExist ? "show-transform" : "";
 
@@ -79,16 +76,6 @@ const Home = () => {
         </div>
         <ModeSelect mode={readingMode} setMode={setReadingMode} />
         <OptionsMenu />
-        {/* <DebugMenu
-          newHexagramNumber={newHexagramNumber}
-          setNewHexagramNumber={setNewHexagramNumber}
-          desiredHexagramNumber={desiredHexagramNumber}
-          setDesiredHexagramNumber={setDesiredHexagramNumber}
-          handleSearch={handleSearch}
-          changeHexRef={changeHexRef}
-          desiredHexRef={desiredHexRef}
-        /> */}
-
         <HexReading
           primaryHexText={primaryHexText}
           transformedHexText={transformedHexText}
