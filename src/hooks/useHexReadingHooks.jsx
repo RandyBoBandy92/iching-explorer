@@ -104,6 +104,12 @@ export function useRenderNotes() {
   };
 }
 
+// I have two functions here that have so many nested details elements
+// I ended up using Vanilla JS to simplify the process of opening, closing, and scrolling
+// Because changing a hexagram, or changing the reading type rerenders the entire component
+// and the event listeners are cleaned up and readded, I do not foresee any negative side effects
+// from using Vanilla JS in this way. However I would be open to input on this.
+
 export function useHandleNav() {
   useEffect(() => {
     const allNavButtons = document.querySelectorAll(".reading-nav button");
