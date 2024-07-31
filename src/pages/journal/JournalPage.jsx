@@ -47,10 +47,12 @@ function JournalPage() {
           <summary>Notes</summary>
           <p>{entry.journalNotes.note}</p>
         </details>
-        <Link to={`/${entry.link}`} className="journal-entry-link">
-          View Reading
-        </Link>
-        <button onClick={() => handleDeleteEntry(entry.id)}>Delete</button>
+        <div className="entry-buttons">
+          <Link to={`/${entry.link}`} className="journal-entry-link">
+            <button>View Reading</button>
+          </Link>
+          <button onClick={() => handleDeleteEntry(entry.id)}>Delete</button>
+        </div>
       </div>
     );
   }

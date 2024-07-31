@@ -14,7 +14,6 @@ const JournalModal = () => {
     maximize,
     showJournalModal,
     handleCloseJournal,
-    closeJournal,
     handleMaximize,
     saveJournalEntry,
     journalNotes,
