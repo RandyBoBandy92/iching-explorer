@@ -1,15 +1,11 @@
 #!/bin/bash
 
-# Navigate to the iching-explorer directory
-cd iching-explorer
-
 # Run the build process
 npm run build
 
 # Check if the build was successful
 if [ $? -eq 0 ]; then
     echo "Build succeeded. Copying files..."
-
 
     # Navigate to the iching-explorer-public directory
     cd ../iching-explorer-public
