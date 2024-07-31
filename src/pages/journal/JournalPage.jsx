@@ -5,11 +5,20 @@ import { useEffect } from "react";
 import { APP_NAME } from "../../utilities/constants";
 
 function JournalPage() {
-  const { journalEntries } = useJournalHooks();
+  const { journalEntries, deleteJournalEntry } = useJournalHooks();
 
   useEffect(() => {
     document.title = `${APP_NAME} | Journal`;
   }, []);
+
+  function handleDeleteEntry(uuid) {
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this entry?"
+    );
+    if (confirmDelete) {
+      deleteJournalEntry(uuid);
+    }
+  }
 
   function renderEntries(entry) {
     const unixToLocalTime = new Date(entry.time).toLocaleString();
@@ -41,6 +50,7 @@ function JournalPage() {
         <Link to={`/${entry.link}`} className="journal-entry-link">
           View Reading
         </Link>
+        <button onClick={() => handleDeleteEntry(entry.id)}>Delete</button>
       </div>
     );
   }

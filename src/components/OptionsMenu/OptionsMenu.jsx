@@ -6,6 +6,7 @@ import { GlobalContext } from "../../context/GlobalContext";
 import { useEffect } from "react";
 import { useAppHooks } from "../../hooks/useAppHooks";
 import { useRef } from "react";
+import { useJournalHooks } from "../../hooks/useJournalHooks";
 
 function OptionsMenu() {
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
@@ -17,6 +18,8 @@ function OptionsMenu() {
     readingMode,
     transformedHexagram,
   } = useContext(GlobalContext);
+
+  const { closeJournal, setJournalNotes } = useJournalHooks();
 
   const [selectHex, setSelectHex] = useState({
     primary: hexagram.number,
@@ -34,6 +37,8 @@ function OptionsMenu() {
   function handleReset() {
     setReadingToShow("primary");
     forceChangeHexagram(0);
+    setJournalNotes({ title: "", note: "" });
+    closeJournal();
   }
 
   useEffect(() => {

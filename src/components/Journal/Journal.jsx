@@ -2,6 +2,8 @@ import React from "react";
 import "./journal.css";
 import { useJournalHooks } from "../../hooks/useJournalHooks";
 import { useState } from "react";
+import { useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
 
 const JournalModal = () => {
   // The journal modal is a form that allows the user to save notes about their reading
@@ -12,22 +14,29 @@ const JournalModal = () => {
     maximize,
     showJournalModal,
     handleCloseJournal,
+    closeJournal,
     handleMaximize,
     saveJournalEntry,
     journalNotes,
     setJournalNotes,
   } = useJournalHooks();
 
+  const { hexagram } = useContext(GlobalContext);
+
   const [formInvalid, setFormInvalid] = useState(false);
 
   function handleSaveJournalEntry() {
-    // check if at least title is filled out
-    if (journalNotes.title.length > 0) {
-      saveJournalEntry();
-      handleCloseJournal();
+    if (hexagram.number > 0) {
+      // check if at least title is filled out
+      if (journalNotes.title.length > 0) {
+        saveJournalEntry();
+        handleCloseJournal();
+      } else {
+        // we will put a class on the input to show it's invalid
+        setFormInvalid(true);
+      }
     } else {
-      // we will put a class on the input to show it's invalid
-      setFormInvalid(true);
+      alert("You must have a complete reading to save a journal entry");
     }
   }
 

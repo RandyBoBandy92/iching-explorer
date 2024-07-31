@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useState } from "react";
+import { generateUUID } from "../utilities/toolbelt";
 
 export function useJournalHooks() {
   const { lines, hexagram, transformedHexagram } = useContext(GlobalContext);
@@ -21,6 +22,10 @@ export function useJournalHooks() {
     setShowJournalModal(!showJournalModal);
   }
 
+  function closeJournal() {
+    setShowJournalModal(false);
+  }
+
   function handleMaximize() {
     setMaximize(!maximize);
   }
@@ -31,6 +36,33 @@ export function useJournalHooks() {
     entries.push(newEntry);
     localStorage.setItem("journalEntries", JSON.stringify(entries));
     setJournalNotes({ title: "", note: "" });
+  }
+
+  function deleteJournalEntry(uuid) {
+    if (!uuid) {
+      // this is an old entry that lacks a uuid
+      // For backwards compatibility, check if all the entries have uuids
+      // if not, add them
+      const entries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+      const fixedEntries = entries.map((entry) => {
+        if (!entry.id) {
+          entry.id = generateUUID();
+        }
+        return entry;
+      });
+      localStorage.setItem("journalEntries", JSON.stringify(fixedEntries));
+      setJournalEntries(fixedEntries);
+      alert(
+        "You are using the older version of the journal entries. Your journal entries have been migrated to the new version. Please press Delete again."
+      );
+      return;
+    }
+
+    const entries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+
+    const updatedEntries = entries.filter((entry) => entry.id !== uuid);
+    localStorage.setItem("journalEntries", JSON.stringify(updatedEntries));
+    setJournalEntries(updatedEntries);
   }
 
   function buildSearchString() {
@@ -52,6 +84,7 @@ export function useJournalHooks() {
     const dateTimeAsUnix = date.getTime();
 
     const entry = {
+      id: generateUUID(),
       time: dateTimeAsUnix,
       journalNotes: journalNotes,
       lines,
@@ -73,5 +106,7 @@ export function useJournalHooks() {
     setShowJournalModal,
     journalEntries,
     setJournalEntries,
+    deleteJournalEntry,
+    closeJournal,
   };
 }
