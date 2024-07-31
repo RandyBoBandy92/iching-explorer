@@ -42,7 +42,7 @@ export function useJournalHooks() {
     if (!uuid) {
       // this is an old entry that lacks a uuid
       // For backwards compatibility, check if all the entries have uuids
-      // if not, add them
+      // if not, migrate the local storage DB to the new format
       const entries = JSON.parse(localStorage.getItem("journalEntries")) || [];
       const fixedEntries = entries.map((entry) => {
         if (!entry.id) {
