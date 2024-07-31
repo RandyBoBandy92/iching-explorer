@@ -4,7 +4,7 @@
 - Use `npm run test` to run Jest tests
 
 
-## Using the App
+## Using the App & General Explanation
 
 
 The app is an interactive tool based on the [I-Ching](https://en.wikipedia.org/wiki/I_Ching), an ancient Chinese divination tool.
@@ -32,3 +32,7 @@ Line 2 Yin and Line 5 Yang
 Line 3 Yang and Line 6 Yin
 
 When a line is in an incorrect energy, it will have a ❌ symbol appended. When in a correct energy it will have a ✅, and if it is both in the correct energy and correlation it will have a ⭐️. 
+
+There is a "Journal" button which when clicked, a Title and Description can be added to give context to the reading, when saved a history of readings can be viewed from the Journal Page.
+
+The "Options" menu can be accessed when in "Explore" mode, all 64 hexagrams can be cycled through, as well as automatically computing the changing lines necessary to move from one Hexagram to any other.
