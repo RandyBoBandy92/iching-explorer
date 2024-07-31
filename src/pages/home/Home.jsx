@@ -1,6 +1,5 @@
 import React from "react";
 import Hexagram from "../../components/Hexagram/Hexagram";
-import DebugMenu from "../../components/DebugMenu/DebugMenu";
 import HexReading from "../../components/HexReading/HexReading";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -32,6 +31,9 @@ const Home = () => {
     setDesiredHexagram,
   });
 
+  // I only intend for this to run once,
+  // which is why I have left the dependency array empty
+  // I do not change the location object after the initial render
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams) {

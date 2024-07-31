@@ -42,6 +42,8 @@ function OptionsMenu() {
     }
   }, [readingMode]);
 
+  // These event listeners are added once on mount
+  // so dependency array is left empty despite exhaustive eslint rules
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!showOptionsMenu) {

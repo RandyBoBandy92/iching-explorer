@@ -47,6 +47,8 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
   );
   useHandleDetailClick(hexText);
 
+  // See comments on useHexReadingHooks.js:useHandleDetailClick
+  // for my rational behind using vanilla JS in this context for the following 2 functions.
   useEffect(() => {
     const allNavButtons = document.querySelectorAll(".reading-nav button");
     allNavButtons.forEach((navBtn) => {
@@ -73,6 +75,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       });
     };
   }, []);
+
   function handleToggleShowAll() {
     const mainDetails = hexReadingRef.current;
     const allSubDetails = mainDetails.querySelectorAll("details");
@@ -100,7 +103,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       {show && hexText && (
         <>
           <div
-            className={`reading-container ${show ? "show" : "hide"} ${
+            className={`reading-container ${show ? "show fade-in" : "hide"} ${
               showJournalModal ? "modal-showing" : ""
             }`}
           >
@@ -120,7 +123,10 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
                   <button onClick={() => setReadingToShow("primary")}>
                     Primary
                   </button>
-                  <button onClick={() => setReadingToShow("transformed")}>
+                  <button
+                    disabled={!isChanging}
+                    onClick={() => setReadingToShow("transformed")}
+                  >
                     Transformed
                   </button>
                 </div>
@@ -152,6 +158,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
                 </div>
               </summary>
               <div className="other-titles">
+                <h4>Other Titles:</h4>
                 <p>{hexText.other_titles}</p>
               </div>
               <div className="reading-content">
@@ -172,13 +179,17 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
       >
         <ul>
           <li>
-            <button data-id="Judgement">Judgm.</button>
+            <button className="truncate" data-id="Judgement">
+              Judgment
+            </button>
           </li>
           <li>
             <button data-id="Image">Image</button>
           </li>
           <li>
-            <button data-id="Commentary">Comm.</button>
+            <button className="truncate" data-id="Commentary">
+              Commentary
+            </button>
           </li>
           <li>
             <button data-id="Notes">Notes</button>

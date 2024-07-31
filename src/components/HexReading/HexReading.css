@@ -11,6 +11,19 @@
   border: 2px solid var(--input-border-color);
 }
 
+.reading-container.fade-in {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .reading-container.modal-showing {
   padding-bottom: 21rem;
 }
@@ -18,7 +31,6 @@
 .reading-container h1 {
   font-size: 1.5rem;
   text-align: center;
-  min-height: 80px;
 }
 
 .reading-select {

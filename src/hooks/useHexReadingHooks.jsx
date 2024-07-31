@@ -60,18 +60,14 @@ function useRenderNotes() {
   };
 }
 
-// I have two functions here that have so many nested details elements
+// I have a handful of functions (others in HexReading.jsx) that have so many nested details elements
 // I ended up using Vanilla JS to simplify the process of opening, closing, and scrolling
-// Because changing a hexagram, or changing the reading type rerenders the entire component
+// Because changing a line or hexagram rerenders the entire component
 // and the event listeners are cleaned up and readded, I do not foresee any negative side effects
 // from using Vanilla JS in this way. However I would be open to input on this.
 
 function useHandleDetailClick(hexText) {
   useEffect(() => {
-    const allDetailsBtns = document.querySelectorAll(
-      "details h2, details h3, details h4"
-    );
-
     const allDetails = document.querySelectorAll("details");
 
     function handleDetailClick(event) {
@@ -94,8 +90,9 @@ function useHandleDetailClick(hexText) {
     }
 
     return () => {
-      allDetailsBtns.forEach((detailElem) => {
+      allDetails.forEach((detailElem) => {
         detailElem.removeEventListener("click", handleDetailClick);
+        detailElem.removeAttribute("open");
       });
     };
   }, [hexText]);

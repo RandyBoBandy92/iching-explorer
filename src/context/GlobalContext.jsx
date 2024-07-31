@@ -71,6 +71,11 @@ const GlobalProvider = ({ children }) => {
     setLines
   );
 
+  // The check functions are recomputed based on state changes
+  // Because checkTrigrams and checkHexagram are used to derive both the primary and transformed lines
+  // I have not included them in the useEffect dependency array
+  // This may not be a best practice, but it avoids a circular dependency
+  // I am open to criticism/suggestions on this point
   useEffect(() => {
     const transformedLines = getTransformedLines(lines);
     const transformedTrigrams = checkTrigrams(transformedLines);
