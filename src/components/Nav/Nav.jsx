@@ -32,7 +32,7 @@ const Nav = () => {
       {isDesktop ? (
         <nav className={`desktop-nav ${isCollapsed ? "collapsed" : ""}`}>
           <div className="nav-header">
-            <span className="company-name">I-Ching Explorer</span>
+            <h4 className="company-name">I-Ching Explorer</h4>
             <button className="collapse-btn" onClick={toggleCollapse}>
               {isCollapsed ? "≡" : "×"}
             </button>
