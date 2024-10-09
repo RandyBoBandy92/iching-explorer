@@ -115,9 +115,16 @@
   transform: translate(0, 200px);
   background-color: var(--background-color);
   padding: 0.5rem;
-  border-top: 2px solid white;
+  border-top: 2px solid var(--surface-color);
   transition: transform 0.5s;
   transition-delay: 0.2s;
+}
+
+@media (min-width: 768px) {
+  .reading-nav {
+    bottom: -1px;
+    left: 80px;
+  }
 }
 
 .hide-reading-nav {
