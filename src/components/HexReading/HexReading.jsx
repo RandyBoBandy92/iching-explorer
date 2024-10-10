@@ -21,6 +21,28 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     setDesiredHexagram,
   } = useContext(GlobalContext);
 
+  // going to make a use effect here that tracks the size of the viewport and stores it to state
+  const [viewportSize, setViewportSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      console.log(viewportSize);
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const { setReadingToShow, readingToShow } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
@@ -180,7 +202,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
         <ul>
           <li>
             <button className="truncate" data-id="Judgement">
-              Judgment
+              {viewportSize.width < 360 ? "Judg." : "Judgement"}
             </button>
           </li>
           <li>
@@ -188,7 +210,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
           </li>
           <li>
             <button className="truncate" data-id="Commentary">
-              Commentary
+              {viewportSize.width < 360 ? "Comm." : "Commentary"}
             </button>
           </li>
           <li>
