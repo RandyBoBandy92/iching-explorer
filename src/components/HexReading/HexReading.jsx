@@ -21,7 +21,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     setDesiredHexagram,
   } = useContext(GlobalContext);
 
-  // going to make a use effect here that tracks the size of the viewport and stores it to state
   const [viewportSize, setViewportSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
