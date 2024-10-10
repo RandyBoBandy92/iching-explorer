@@ -202,7 +202,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
         <ul>
           <li>
             <button className="truncate" data-id="Judgement">
-              {viewportSize.width < 360 ? "Judg." : "Judgement"}
+              {viewportSize.width < 400 ? "Judg." : "Judgement"}
             </button>
           </li>
           <li>
@@ -210,7 +210,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
           </li>
           <li>
             <button className="truncate" data-id="Commentary">
-              {viewportSize.width < 360 ? "Comm." : "Commentary"}
+              {viewportSize.width < 400 ? "Comm." : "Commentary"}
             </button>
           </li>
           <li>
