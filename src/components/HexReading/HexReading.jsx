@@ -28,7 +28,6 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
 
   useEffect(() => {
     const handleResize = () => {
-      console.log(viewportSize);
       setViewportSize({
         width: window.innerWidth,
         height: window.innerHeight,
@@ -119,6 +118,8 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
     transformedHexText &&
     primaryHexText?.number !== transformedHexText?.number;
 
+  const shouldTruncate = viewportSize.width < 900;
+
   return (
     <>
       {show && hexText && (
@@ -201,7 +202,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
         <ul>
           <li>
             <button className="truncate" data-id="Judgement">
-              {viewportSize.width < 900 ? "Judg." : "Judgement"}
+              {shouldTruncate ? "Judg." : "Judgement"}
             </button>
           </li>
           <li>
@@ -209,7 +210,7 @@ function HexReading({ primaryHexText, transformedHexText, show }) {
           </li>
           <li>
             <button className="truncate" data-id="Commentary">
-              {viewportSize.width < 900 ? "Comm." : "Commentary"}
+              {shouldTruncate ? "Comm." : "Commentary"}
             </button>
           </li>
           <li>
