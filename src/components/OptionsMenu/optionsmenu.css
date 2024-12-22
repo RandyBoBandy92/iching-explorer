@@ -6,7 +6,7 @@
 }
 
 .options-menu button {
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 }
 
 .options-menu-content {
@@ -39,6 +39,8 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .option-buttons button {

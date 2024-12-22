@@ -19,7 +19,8 @@ function OptionsMenu() {
     transformedHexagram,
   } = useContext(GlobalContext);
 
-  const { closeJournal, setJournalNotes } = useJournalHooks();
+  const { closeJournal, setJournalNotes, buildSearchString } =
+    useJournalHooks();
 
   const [selectHex, setSelectHex] = useState({
     primary: hexagram.number,
@@ -82,6 +83,16 @@ function OptionsMenu() {
     }
   }
 
+  function share() {
+    const searchString = buildSearchString();
+    // combine with location to get full URL
+    const shareURL = `${window.location.origin}${searchString}`;
+    // copy to clipboard
+    navigator.clipboard.writeText(shareURL);
+    // alert user
+    alert("Link copied to clipboard!");
+  }
+
   const updateGearUnicode = "\u26EE";
 
   return (
@@ -107,6 +118,7 @@ function OptionsMenu() {
           <button onClick={() => forceChangeHexagram(hexagram.number - 1)}>
             Hex-
           </button>
+          <button onClick={() => share()}>Share</button>
         </div>
         <div className="select-hex">
           <div className="selector select-primary">
