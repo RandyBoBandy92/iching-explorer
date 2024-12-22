@@ -107,6 +107,7 @@ export function useJournalHooks() {
     journalEntries,
     setJournalEntries,
     deleteJournalEntry,
+    buildSearchString,
     closeJournal,
   };
 }
