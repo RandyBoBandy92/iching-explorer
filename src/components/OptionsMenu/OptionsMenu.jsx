@@ -26,9 +26,6 @@ function OptionsMenu() {
     transform: transformedHexagram.number,
   });
 
-  const changeHexRef = useRef();
-  const desiredHexRef = useRef();
-
   const { setReadingToShow } = useAppHooks({
     forceChangeHexagram,
     setDesiredHexagram,
@@ -49,27 +46,6 @@ function OptionsMenu() {
 
   // These event listeners are added once on mount
   // so dependency array is left empty despite exhaustive eslint rules
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!showOptionsMenu) {
-        return;
-      }
-      // if key combo is shift + /, focus on the desired hex input
-      if (e.key === "?" && e.shiftKey) {
-        desiredHexRef.current.focus();
-      }
-
-      // if key down is '/' focus on the input
-      if (e.key === "/") {
-        changeHexRef.current.focus();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
 
   // use effect, whenever either the transformed or primary hex changes,
   // update the selectHex state to match
@@ -123,10 +99,6 @@ function OptionsMenu() {
         }`}
       >
         <h2>Options</h2>
-        <p>
-          Press <code>/</code> to focus on Primary, <code>Shift + /</code> to
-          focus on Transform
-        </p>
         <div className="option-buttons">
           <button onClick={handleReset}>Reset</button>
           <button onClick={() => forceChangeHexagram(hexagram.number + 1)}>
@@ -146,7 +118,6 @@ function OptionsMenu() {
               {updateGearUnicode}
             </button>
             <input
-              ref={changeHexRef}
               type="number"
               min="1"
               max="64"
@@ -164,7 +135,6 @@ function OptionsMenu() {
               {updateGearUnicode}
             </button>
             <input
-              ref={desiredHexRef}
               // disabled when primary hex number is 0
               type="number"
               min="1"
